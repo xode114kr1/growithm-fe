@@ -121,16 +121,11 @@ const RecommendContainer = styled.section`
 `;
 
 const RecommendTitle = styled.span`
-  font-size: 60px;
+  text-align: center;
+  font-size: 50px;
   font-weight: 400;
   color: #2d3436;
   margin-bottom: 30px;
-`;
-
-const RecommendSub = styled.span`
-  font-size: 18px;
-  color: #866e72;
-  margin-bottom: 80px;
 `;
 
 const RecommedButton = styled.button`
@@ -201,8 +196,10 @@ const HomePage = () => {
         </ExplainBox>
       </ExplainContainer>
       <RecommendContainer>
-        <RecommendTitle>지금 바로 시작하세요</RecommendTitle>
-        <RecommendSub>Growithm과 함께 성장해보세요.</RecommendSub>
+        <RecommendTitle>
+          Growithm으로 팀원들과 <br />
+          함께 성장해보세요.
+        </RecommendTitle>
         <RecommedButton>시작하기</RecommedButton>
       </RecommendContainer>
     </HomePageContainer>
