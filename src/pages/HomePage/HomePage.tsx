@@ -4,6 +4,9 @@ import studyImg from "../../assets/study_poster_img.png";
 import githubImg from "../../assets/github_poster_img.png";
 import formImg from "../../assets/form_poster_img.png";
 
+const { VITE_GITHUB_CLIENT_ID, VITE_GITHUB_REDIRECT_URI, VITE_GITHUB_SCOPE } = import.meta.env;
+const GITHUB_AUTH_URL = `https://github.com/login/oauth/authorize?client_id=${VITE_GITHUB_CLIENT_ID}&redirect_uri=${VITE_GITHUB_REDIRECT_URI}&response_type=code&scope=${VITE_GITHUB_SCOPE}`;
+
 interface ExplainBoxProps {
   direction: "left" | "right";
 }
@@ -122,7 +125,9 @@ const HomePage = () => {
             <br />
             동료 개발자들과 함께 성장하는 스터디 플랫폼
           </SubInfo>
-          <StartButton>시작하기</StartButton>
+          <StartButton onClick={() => (window.location.href = GITHUB_AUTH_URL)}>
+            시작하기
+          </StartButton>
         </BannerInfoContainer>
       </HomeBanner>
       <ExplainContainer>
