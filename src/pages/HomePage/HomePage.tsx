@@ -3,9 +3,7 @@ import banner from "../../assets/banner_image.png";
 import studyImg from "../../assets/study_poster_img.png";
 import githubImg from "../../assets/github_poster_img.png";
 import formImg from "../../assets/form_poster_img.png";
-
-const { VITE_GITHUB_CLIENT_ID, VITE_GITHUB_REDIRECT_URI, VITE_GITHUB_SCOPE } = import.meta.env;
-const GITHUB_AUTH_URL = `https://github.com/login/oauth/authorize?client_id=${VITE_GITHUB_CLIENT_ID}&redirect_uri=${VITE_GITHUB_REDIRECT_URI}&response_type=code&scope=${VITE_GITHUB_SCOPE}`;
+import { GITHUB_AUTH_URL } from "../../shared/api/auth";
 
 interface ExplainBoxProps {
   direction: "left" | "right";
