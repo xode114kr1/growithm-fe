@@ -1,13 +1,18 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import Header from "../shared/components/Header";
 import HomePage from "../pages/HomePage/HomePage";
 import Footer from "../shared/components/Footer";
 import CallbackPage from "../pages/CallbackPage/CallbackPage";
+import HeaderNav from "../shared/components/HeaderNav";
 
 const Layout = () => {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   return (
     <>
       <Header />
+      {!isHome && <HeaderNav />} {/* 여기서 조건 렌더링 */}
       <Outlet />
       <Footer />
     </>
