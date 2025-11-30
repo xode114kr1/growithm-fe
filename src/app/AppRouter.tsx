@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import Footer from "../shared/components/Footer";
 import CallbackPage from "../pages/CallbackPage/CallbackPage";
 import HeaderNav from "../shared/components/HeaderNav";
+import DashboardPage from "../pages/DashboardPage/DashboardPage";
 
 const Layout = () => {
   const location = useLocation();
@@ -25,6 +26,7 @@ const AppRouter = () => {
       <Route path="/callback" element={<CallbackPage />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
       </Route>
     </Routes>
   );
