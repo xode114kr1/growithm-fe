@@ -3,6 +3,7 @@ import banner from "../../assets/banner_image.png";
 import studyImg from "../../assets/study_poster_img.png";
 import githubImg from "../../assets/github_poster_img.png";
 import formImg from "../../assets/form_poster_img.png";
+import { GITHUB_AUTH_URL } from "../../shared/api/auth";
 
 interface ExplainBoxProps {
   direction: "left" | "right";
@@ -122,7 +123,9 @@ const HomePage = () => {
             <br />
             동료 개발자들과 함께 성장하는 스터디 플랫폼
           </SubInfo>
-          <StartButton>시작하기</StartButton>
+          <StartButton onClick={() => (window.location.href = GITHUB_AUTH_URL)}>
+            시작하기
+          </StartButton>
         </BannerInfoContainer>
       </HomeBanner>
       <ExplainContainer>
