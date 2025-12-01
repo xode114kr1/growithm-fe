@@ -132,7 +132,7 @@ const Header = () => {
   return (
     <HeaderContanier>
       <StyledFaBars />
-      <Logo onClick={() => navigate("/")}>GROWITHM</Logo>
+      <Logo onClick={() => navigate("/dashboard")}>GROWITHM</Logo>
 
       {!isAuthenticated ? (
         <LoginButton onClick={() => (window.location.href = GITHUB_AUTH_URL)}>로그인</LoginButton>
