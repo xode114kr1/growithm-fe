@@ -1,12 +1,9 @@
-import axios from "axios";
-import { Cookies } from "react-cookie";
+import { apiClient } from "./index";
+import type { User } from "../../types/userType";
 
-const API_URL = import.meta.env.VITE_API_URL;
 const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
 const GITHUB_REDIRECT_URI = import.meta.env.VITE_GITHUB_REDIRECT_URI;
 const GITHUB_SCOPE = import.meta.env.VITE_GITHUB_SCOPE;
-
-// const cookies = new Cookies();
 
 export const GITHUB_AUTH_URL =
   `https://github.com/login/oauth/authorize` +
@@ -14,17 +11,18 @@ export const GITHUB_AUTH_URL =
   `&redirect_uri=${encodeURIComponent(GITHUB_REDIRECT_URI)}` +
   `&scope=${encodeURIComponent(GITHUB_SCOPE)}`;
 
-export async function login(code: string) {
+export async function login(code: string): Promise<{ user: User }> {
   if (!code) throw new Error("인가 코드가 없습니다.");
-  // Todo : 백엔드 주소 수정
-  const res = await axios.post(
-    `${API_URL}/auth/github/callback`,
+  const res = await apiClient.post<{ user: User }>(
+    "/auth/github/callback",
     { code },
     { withCredentials: true }
   );
 
-  // Todo : 토큰 오면 처리
-  //   cookies.set("accessToken", res.data.access_token, { path: "/" });
-  //   cookies.set("refreshToken", res.data.refresh_token, { path: "/" });
+  return res.data;
+}
+
+export async function fetchMe() {
+  const res = await apiClient.get("/auth/me");
   return res.data;
 }
