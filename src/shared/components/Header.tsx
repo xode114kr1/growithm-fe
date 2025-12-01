@@ -3,6 +3,8 @@ import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
 import { useAuthStore } from "../../stores/authStore";
 import { useEffect, useRef, useState } from "react";
+import { useLogoutMutation } from "../hooks/useAuth";
+import { GITHUB_AUTH_URL } from "../../shared/api/auth";
 
 interface ProfileProps {
   src?: string;
@@ -105,6 +107,7 @@ const ProfileItem = styled.ol`
 const Header = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const { mutate: logout } = useLogoutMutation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const user = useAuthStore((state) => state.user);
@@ -132,12 +135,19 @@ const Header = () => {
       <Logo onClick={() => navigate("/")}>GROWITHM</Logo>
 
       {!isAuthenticated ? (
-        <LoginButton>로그인</LoginButton>
+        <LoginButton onClick={() => (window.location.href = GITHUB_AUTH_URL)}>로그인</LoginButton>
       ) : (
         <Profile src={user?.avatarUrl} onClick={() => setIsDropdownOpen(true)} ref={dropdownRef}>
           {isDropdownOpen && (
             <ProfileDropdown>
-              <ProfileItem>Logout</ProfileItem>
+              <ProfileItem
+                onClick={async () => {
+                  setIsDropdownOpen(false);
+                  await logout();
+                }}
+              >
+                Logout
+              </ProfileItem>
             </ProfileDropdown>
           )}
         </Profile>
