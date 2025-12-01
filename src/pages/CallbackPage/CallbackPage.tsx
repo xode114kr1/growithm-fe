@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { login } from "../../shared/api/auth";
+import { useGithubLoginMatation } from "../../shared/hooks/useAuth";
 
 const CallbackPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { mutate: login, isPending } = useGithubLoginMatation();
 
   const url = new URLSearchParams(location.search);
   const code = url.get("code");
@@ -16,19 +17,20 @@ const CallbackPage = () => {
         navigate("/");
         return;
       }
-      try {
-        await login(code);
-        navigate("/main");
-      } catch (error: unknown) {
-        console.error("로그인 실페 : ", error);
-        navigate("/");
-      }
+      login(code, {
+        onSuccess: () => {
+          navigate("/");
+        },
+        onError: () => {
+          navigate("/");
+        },
+      });
     };
 
     handleLogin();
-  }, [code, navigate]);
+  }, [code, navigate, login]);
 
-  return <div>로그인 처리 중...</div>;
+  return <div>로그인 처리 중... {isPending && "..."}</div>;
 };
 
 export default CallbackPage;
