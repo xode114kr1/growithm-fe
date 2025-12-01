@@ -22,6 +22,11 @@ export async function login(code: string): Promise<{ user: User }> {
   return res.data;
 }
 
+export async function logout() {
+  const res = await apiClient.post("/user/logout");
+  return res.data;
+}
+
 export async function fetchMe() {
   const res = await apiClient.get("/auth/me");
   return res.data;
