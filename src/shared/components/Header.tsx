@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
 import { useAuthStore } from "../../stores/authStore";
+import { useEffect, useRef, useState } from "react";
 
 interface ProfileProps {
   src?: string;
@@ -79,18 +80,68 @@ const Profile = styled.div<ProfileProps>`
   }
 `;
 
+const ProfileDropdown = styled.ul`
+  padding: 0;
+  position: absolute;
+  top: 25px;
+  right: 5px;
+  background-color: white;
+  box-shadow: 1px 3px rgb(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid #e1e1e8;
+`;
+
+const ProfileItem = styled.ol`
+  padding: 2px 10px;
+  color: #2d3436;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #cacaca;
+  }
+`;
+
 const Header = () => {
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  console.log(user);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isDropdownOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
     <HeaderContanier>
       <StyledFaBars />
       <Logo onClick={() => navigate("/")}>GROWITHM</Logo>
 
-      {!isAuthenticated ? <LoginButton>로그인</LoginButton> : <Profile src={user?.avatarUrl} />}
+      {!isAuthenticated ? (
+        <LoginButton>로그인</LoginButton>
+      ) : (
+        <Profile src={user?.avatarUrl} onClick={() => setIsDropdownOpen(true)} ref={dropdownRef}>
+          {isDropdownOpen && (
+            <ProfileDropdown>
+              <ProfileItem>Logout</ProfileItem>
+            </ProfileDropdown>
+          )}
+        </Profile>
+      )}
     </HeaderContanier>
   );
 };
