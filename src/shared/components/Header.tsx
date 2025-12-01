@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
+import { useAuthStore } from "../../stores/authStore";
 
 interface ProfileProps {
   src?: string;
@@ -64,8 +65,8 @@ const Profile = styled.div<ProfileProps>`
   right: 40px;
   top: 50%;
   transform: translateY(-50%);
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-image: url(${(props) => props.src});
   background-size: cover;
@@ -79,18 +80,17 @@ const Profile = styled.div<ProfileProps>`
 `;
 
 const Header = () => {
-  const isLogin = true;
   const navigate = useNavigate();
 
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  console.log(user);
   return (
     <HeaderContanier>
       <StyledFaBars />
       <Logo onClick={() => navigate("/")}>GROWITHM</Logo>
-      {isLogin ? (
-        <LoginButton>로그인</LoginButton>
-      ) : (
-        <Profile src="https://cdn-icons-png.flaticon.com/512/11820/11820363.png" />
-      )}
+
+      {!isAuthenticated ? <LoginButton>로그인</LoginButton> : <Profile src={user?.avatarUrl} />}
     </HeaderContanier>
   );
 };
