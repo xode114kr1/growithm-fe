@@ -19,7 +19,7 @@ const CallbackPage = () => {
       }
       login(code, {
         onSuccess: () => {
-          navigate("/");
+          navigate("/dashboard");
         },
         onError: () => {
           navigate("/");
