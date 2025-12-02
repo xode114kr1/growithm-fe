@@ -9,8 +9,8 @@ const TIER_COLOR: Record<TierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
   gold: "#FFD700",
-  platinum: "#DDEBFF",
-  diamond: "#A0FFF0",
+  platinum: "#A0FFF0",
+  diamond: "#DDEBFF",
   ruby: "#FF4F7A",
 };
 
