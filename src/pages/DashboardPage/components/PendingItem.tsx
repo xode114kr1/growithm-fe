@@ -1,6 +1,5 @@
 import styled from "styled-components";
-
-type TierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
+import type { PendingProblem, TierType } from "../../../types/problem";
 
 interface PendingItemContainerProps {
   tier: TierType;
@@ -16,9 +15,11 @@ const TIER_COLOR: Record<TierType, string> = {
 };
 
 const PendingItemContainer = styled.div<PendingItemContainerProps>`
+  display: block;
   width: 100%;
   height: 40px;
   line-height: 40px;
+  flex-shrink: 0;
   border-left: 4px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
   padding: 0 10px;
   color: #2d3436;
@@ -36,13 +37,12 @@ const PendingItemContainer = styled.div<PendingItemContainerProps>`
   }
 `;
 
-const PendingItem = () => {
-  return (
-    <>
-      <PendingItemContainer tier={"platinum"}>백준 1046 - DFS</PendingItemContainer>
-      <PendingItemContainer tier={"gold"}>백준 34886 - 인버전 과제</PendingItemContainer>
-    </>
-  );
+interface PendingItemProps {
+  problem: PendingProblem;
+}
+
+const PendingItem = ({ problem }: PendingItemProps) => {
+  return <PendingItemContainer tier={problem.tier}>{problem.title}</PendingItemContainer>;
 };
 
 export default PendingItem;
