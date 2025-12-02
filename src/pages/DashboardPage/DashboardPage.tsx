@@ -119,12 +119,12 @@ const PendingListTitle = styled.div`
 const PendingListBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100% - 40px);
+  height: calc(100% - 45px);
   overflow: auto;
 `;
 
 const StudyContainerHeader = styled.header`
-  padding: 10px 0;
+  padding: 20px 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -138,6 +138,7 @@ const CreateStudyButton = styled.button`
   border-radius: 8px;
   height: 40px;
   font-size: 16px;
+  font-weight: 400;
   transition: 200ms ease-in;
 
   &:hover {
@@ -260,10 +261,7 @@ const DashboardPage = () => {
                 style={{ width: "100%", maxWidth: "500px", maxHeight: "80vh", aspectRatio: 1 }}
                 margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
               >
-                <Tooltip
-                  formatter={(value: number) => [`${value} solved`, "Solved"]}
-                  labelFormatter={(name: string) => name.toUpperCase()}
-                />
+                <Tooltip formatter={(_, __, props) => [props.payload.name]} />
 
                 <Pie
                   data={tierSolvedData}
@@ -295,6 +293,12 @@ const DashboardPage = () => {
         </StudyContainerHeader>
         <StudyContainer>
           <StudySlider {...settings}>
+            <StudyCard />
+            <StudyCard />
+            <StudyCard />
+            <StudyCard />
+            <StudyCard />
+            <StudyCard />
             <StudyCard />
             <StudyCard />
             <StudyCard />
