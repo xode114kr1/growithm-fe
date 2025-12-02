@@ -7,6 +7,7 @@ const StudyCardContainer = styled.div`
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   padding: 10px;
+  margin-right: 12px;
 `;
 
 const StudyImg = styled.img`
