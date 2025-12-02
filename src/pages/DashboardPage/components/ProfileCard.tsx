@@ -23,12 +23,13 @@ interface TierContainerProps {
 const ProfileCardContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
   align-items: center;
   background: #fff;
   width: 100%;
-  height: 80%;
+  /* height: 80%; */
   padding: 30px;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
 `;
@@ -41,13 +42,13 @@ const ProfileImg = styled.div<ProfileProps>`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin-top: 40px;
+  margin-top: 50px;
   margin-bottom: 10px;
 `;
 
 const ProfileName = styled.div`
   font-size: 23px;
-  font-weight: 400;
+  font-weight: 500;
   color: #2d3436;
 `;
 
@@ -77,7 +78,7 @@ const ProfileCard = () => {
       <ProfileImg src={user?.avatarUrl} />
       <ProfileName>{user?.name}</ProfileName>
       <ProfileEmail>{user && user.email}</ProfileEmail>
-      <TierContainer tier="gold">Gold Member</TierContainer>
+      <TierContainer tier="gold">Gold</TierContainer>
     </ProfileCardContainer>
   );
 };
