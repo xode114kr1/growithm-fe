@@ -1,6 +1,15 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGithubLoginMatation } from "../../shared/hooks/useAuth";
+import { TailSpin } from "react-loader-spinner";
+import styled from "styled-components";
+
+const CallbackContainer = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const CallbackPage = () => {
   const navigate = useNavigate();
@@ -30,7 +39,17 @@ const CallbackPage = () => {
     handleLogin();
   }, [code, navigate, login]);
 
-  return <div>로그인 처리 중... {isPending && "..."}</div>;
+  return (
+    <CallbackContainer>
+      <TailSpin
+        visible={isPending}
+        height={60}
+        width={60}
+        color="#6c5ce7"
+        ariaLabel="github-login-loading"
+      />
+    </CallbackContainer>
+  );
 };
 
 export default CallbackPage;
