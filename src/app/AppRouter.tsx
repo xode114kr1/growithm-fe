@@ -6,6 +6,7 @@ import CallbackPage from "../pages/CallbackPage/CallbackPage";
 import HeaderNav from "../shared/components/HeaderNav";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import ProtectedRoute from "./ProtectedRoute";
+import PendingPage from "../pages/PendingPage/PendingPage";
 
 const Layout = () => {
   const location = useLocation();
@@ -29,6 +30,7 @@ const AppRouter = () => {
         <Route index element={<HomePage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/pending" element={<PendingPage />} />
         </Route>
       </Route>
     </Routes>
