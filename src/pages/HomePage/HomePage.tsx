@@ -11,6 +11,7 @@ interface ExplainBoxProps {
 
 const HomePageContainer = styled.div`
   width: 100%;
+  background-color: #f8f9fa;
 `;
 
 const HomeBanner = styled.div`
@@ -46,12 +47,12 @@ const BannerInfoContainer = styled.div`
 `;
 
 const TitleInfo = styled.div`
-  font-size: 4rem;
+  font-size: 70px;
   color: #2d3436;
 `;
 
 const SubInfo = styled.div`
-  font-size: 1.2rem;
+  font-size: 17px;
   color: #866e72;
   padding-left: 10px;
 `;
@@ -76,7 +77,8 @@ const StartButton = styled.button`
 
 const ExplainContainer = styled.section`
   margin: 0 auto;
-  margin-top: 80px;
+  padding: 30px;
+  padding-top: 80px;
   width: 65%;
 `;
 
@@ -106,6 +108,39 @@ const ExplainTitle = styled.span`
 const ExplainSub = styled.span`
   font-size: 16px;
   color: #866e72;
+`;
+
+const RecommendContainer = styled.section`
+  width: 100%;
+  height: 600px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const RecommendTitle = styled.span`
+  text-align: center;
+  font-size: 50px;
+  font-weight: 400;
+  color: #2d3436;
+  margin-bottom: 30px;
+`;
+
+const RecommedButton = styled.button`
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: #6c5ce7;
+  font-size: 17px;
+  color: #f0f0f0;
+  transition: 300ms ease-in;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const HomePage = () => {
@@ -160,6 +195,15 @@ const HomePage = () => {
           </ExplainTextContainer>
         </ExplainBox>
       </ExplainContainer>
+      <RecommendContainer>
+        <RecommendTitle>
+          Growithm으로 팀원들과 <br />
+          함께 성장해보세요.
+        </RecommendTitle>
+        <RecommedButton onClick={() => (window.location.href = GITHUB_AUTH_URL)}>
+          시작하기
+        </RecommedButton>
+      </RecommendContainer>
     </HomePageContainer>
   );
 };
