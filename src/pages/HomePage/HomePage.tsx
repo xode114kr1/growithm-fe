@@ -200,7 +200,9 @@ const HomePage = () => {
           Growithm으로 팀원들과 <br />
           함께 성장해보세요.
         </RecommendTitle>
-        <RecommedButton>시작하기</RecommedButton>
+        <RecommedButton onClick={() => (window.location.href = GITHUB_AUTH_URL)}>
+          시작하기
+        </RecommedButton>
       </RecommendContainer>
     </HomePageContainer>
   );
