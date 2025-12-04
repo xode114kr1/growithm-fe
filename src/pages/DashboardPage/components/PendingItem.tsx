@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { PendingProblem, TierType } from "../../../types/problem";
+import type { PendingProblem, TierType } from "../../../types/problemType";
 
 interface PendingItemContainerProps {
   tier: TierType;
@@ -38,11 +38,12 @@ const PendingItemContainer = styled.div<PendingItemContainerProps>`
 `;
 
 interface PendingItemProps {
-  problem: PendingProblem;
+  pendingProblem: PendingProblem;
 }
 
-const PendingItem = ({ problem }: PendingItemProps) => {
-  return <PendingItemContainer tier={problem.tier}>{problem.title}</PendingItemContainer>;
+const PendingItem = ({ pendingProblem }: PendingItemProps) => {
+  const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as TierType;
+  return <PendingItemContainer tier={growithmTier}>{pendingProblem.title}</PendingItemContainer>;
 };
 
 export default PendingItem;

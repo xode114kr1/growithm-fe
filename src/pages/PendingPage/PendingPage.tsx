@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
+import { useGetPendingList } from "../../shared/hooks/useProblem";
 import PendingLargeItem from "./components/PendingLargeItem";
 
 const PendingPageContainer = styled.section`
@@ -53,6 +54,9 @@ const TextInput = styled.input`
 
 const PendingPage = () => {
   const [inputText, setInputText] = useState<string>("");
+
+  const { data: pendingList, isLoading, error } = useGetPendingList();
+
   return (
     <Wapper>
       <PendingPageContainer>
@@ -79,9 +83,9 @@ const PendingPage = () => {
             onChange={(e) => setInputText(e.target.value)}
           />
         </FilterContainer>
-        <PendingLargeItem />
-        <PendingLargeItem />
-        <PendingLargeItem />
+        {pendingList?.map((item) => (
+          <PendingLargeItem pendingProblem={item} />
+        ))}
       </PendingPageContainer>
     </Wapper>
   );

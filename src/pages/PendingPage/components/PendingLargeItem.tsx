@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { TierType } from "../../../types/problem";
+import type { PendingProblem, TierType } from "../../../types/problemType";
 
 interface PendingLargeItemContainerProps {
   tier: TierType;
@@ -26,7 +26,7 @@ const PendingLargeItemContainer = styled.div<PendingLargeItemContainerProps>`
   height: 150px;
   border-radius: 8px;
   padding: 0px 20px;
-  border-left: 3px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
+  border-left: 5px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
   background-color: #fff;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 10px;
@@ -87,13 +87,19 @@ const WriteButton = styled.button`
     opacity: 0.8;
   }
 `;
+interface PendingLargeItemProps {
+  pendingProblem: PendingProblem | undefined;
+}
 
-const PendingLargeItem = () => {
+const PendingLargeItem = ({ pendingProblem }: PendingLargeItemProps) => {
+  const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as TierType;
   return (
-    <PendingLargeItemContainer tier="bronze">
+    <PendingLargeItemContainer tier={growithmTier}>
       <ProblemTitle>
-        <span>백준 1234-DFS</span>
-        <TierInfo tier="gold">Gold VI</TierInfo>
+        <span>
+          {pendingProblem?.problemId} - {pendingProblem?.title}
+        </span>
+        <TierInfo tier={growithmTier}>{pendingProblem?.tier}</TierInfo>
       </ProblemTitle>
       <ProblemSub>이러이러한 문제입니다</ProblemSub>
       <ProblemInfo>
