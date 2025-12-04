@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import type { PendingProblem, TierType } from "../../../types/problemType";
+import { useNavigate } from "react-router-dom";
 
 interface PendingLargeItemContainerProps {
   tier: TierType;
@@ -88,13 +89,26 @@ const WriteButton = styled.button`
   }
 `;
 interface PendingLargeItemProps {
-  pendingProblem: PendingProblem | undefined;
+  pendingProblem: PendingProblem;
 }
 
 const PendingLargeItem = ({ pendingProblem }: PendingLargeItemProps) => {
+  const navigate = useNavigate();
+  const handleFromPending = (pending: PendingProblem) => {
+    navigate("/solved/form", {
+      state: {
+        mode: "fromPending",
+        pending,
+      },
+    });
+  };
+
   const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as TierType;
   return (
-    <PendingLargeItemContainer tier={growithmTier}>
+    <PendingLargeItemContainer
+      tier={growithmTier}
+      onClick={() => handleFromPending(pendingProblem)}
+    >
       <ProblemTitle>
         <span>
           {pendingProblem?.problemId} - {pendingProblem?.title}

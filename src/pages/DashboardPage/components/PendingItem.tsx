@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import type { PendingProblem, TierType } from "../../../types/problemType";
+import { useNavigate } from "react-router-dom";
 
 interface PendingItemContainerProps {
   tier: TierType;
@@ -42,8 +43,21 @@ interface PendingItemProps {
 }
 
 const PendingItem = ({ pendingProblem }: PendingItemProps) => {
+  const navigate = useNavigate();
+  const handleFromPending = (pending: PendingProblem) => {
+    navigate("/solved/form", {
+      state: {
+        mode: "fromPending",
+        pending,
+      },
+    });
+  };
   const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as TierType;
-  return <PendingItemContainer tier={growithmTier}>{pendingProblem.title}</PendingItemContainer>;
+  return (
+    <PendingItemContainer tier={growithmTier} onClick={() => handleFromPending(pendingProblem)}>
+      {pendingProblem.title}
+    </PendingItemContainer>
+  );
 };
 
 export default PendingItem;
