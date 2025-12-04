@@ -14,6 +14,10 @@ export interface PendingProblem {
   createdAt: string;
 }
 
+export interface SolvedProblem extends PendingProblem {
+  memo: string;
+}
+
 export interface GetPendingListResponse {
   message: string;
   data: PendingProblem[];
