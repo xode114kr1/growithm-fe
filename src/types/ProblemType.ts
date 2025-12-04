@@ -1,4 +1,7 @@
-export interface GetPendingListProps {
+export type TierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
+
+export interface PendingProblem {
+  _id: string;
   userId: string;
   tier: string;
   title: string;
@@ -9,4 +12,9 @@ export interface GetPendingListProps {
   description: string;
   code: string;
   createdAt: string;
+}
+
+export interface GetPendingListResponse {
+  message: string;
+  data: PendingProblem[];
 }

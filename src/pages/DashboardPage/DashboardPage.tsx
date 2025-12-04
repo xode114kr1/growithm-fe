@@ -3,9 +3,10 @@ import Wapper from "../../shared/styles/Wapper";
 import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
-import type { PendingProblem, TierType } from "../../types/problem";
+import type { PendingProblem, TierType } from "../../types/problemType";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import StudyCard from "./components/StudyCard";
+import { useGetPendingList } from "../../shared/hooks/useProblem";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -158,29 +159,6 @@ const StudySlider = styled(Slider)`
   }
 `;
 
-const mockPendingProblems: PendingProblem[] = [
-  { title: "백준 1000 - A+B", tier: "bronze" },
-  { title: "백준 1001 - A-B", tier: "bronze" },
-  { title: "백준 2557 - Hello World", tier: "bronze" },
-  { title: "백준 2438 - 별 찍기 1", tier: "bronze" },
-  { title: "백준 9498 - 시험 성적", tier: "silver" },
-  { title: "백준 1546 - 평균", tier: "silver" },
-  { title: "백준 1085 - 직사각형 탈출", tier: "silver" },
-  { title: "백준 2839 - 설탕 배달", tier: "silver" },
-  { title: "백준 1018 - 체스판 다시 칠하기", tier: "gold" },
-  { title: "백준 2751 - 수 정렬하기 2", tier: "gold" },
-  { title: "백준 2178 - 미로 탐색", tier: "gold" },
-  { title: "백준 9095 - 1, 2, 3 더하기", tier: "gold" },
-  { title: "백준 1931 - 회의실 배정", tier: "platinum" },
-  { title: "백준 1107 - 리모컨", tier: "platinum" },
-  { title: "백준 12865 - 평범한 배낭", tier: "platinum" },
-  { title: "백준 1504 - 특정한 최단 경로", tier: "diamond" },
-  { title: "백준 1202 - 보석 도둑", tier: "diamond" },
-  { title: "백준 2263 - 트리의 순회", tier: "diamond" },
-  { title: "백준 13549 - 숨바꼭질 3", tier: "ruby" },
-  { title: "백준 14003 - 가장 긴 증가하는 부분 수열 5", tier: "ruby" },
-];
-
 const TIER_COLOR: Record<TierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
@@ -200,6 +178,8 @@ const tierSolvedData: { name: TierType; value: number }[] = [
 ];
 
 const DashboardPage = () => {
+  const { data: pendingProblem, isLoading, error } = useGetPendingList();
+
   const settings = {
     dots: true,
     infinite: true,
@@ -281,8 +261,8 @@ const DashboardPage = () => {
           <PendingListContainer>
             <PendingListTitle>PendingList</PendingListTitle>
             <PendingListBox>
-              {mockPendingProblems?.map((problem) => (
-                <PendingItem problem={problem} />
+              {pendingProblem?.map((item) => (
+                <PendingItem pendingProblem={item} />
               ))}
             </PendingListBox>
           </PendingListContainer>
