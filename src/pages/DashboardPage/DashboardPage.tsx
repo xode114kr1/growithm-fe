@@ -262,7 +262,7 @@ const DashboardPage = () => {
             <PendingListTitle>PendingList</PendingListTitle>
             <PendingListBox>
               {pendingProblem?.map((item) => (
-                <PendingItem pendingProblem={item} />
+                <PendingItem pendingProblem={item} key={item._id} />
               ))}
             </PendingListBox>
           </PendingListContainer>
