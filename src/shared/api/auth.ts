@@ -11,9 +11,9 @@ export const GITHUB_AUTH_URL =
   `&redirect_uri=${encodeURIComponent(GITHUB_REDIRECT_URI)}` +
   `&scope=${encodeURIComponent(GITHUB_SCOPE)}`;
 
-export async function login(code: string): Promise<{ user: User }> {
+export async function login(code: string): Promise<{ data: User }> {
   if (!code) throw new Error("인가 코드가 없습니다.");
-  const res = await apiClient.post<{ user: User }>(
+  const res = await apiClient.post<{ data: User }>(
     "/auth/github/callback",
     { code },
     { withCredentials: true }
@@ -27,7 +27,7 @@ export async function logout() {
   return res.data;
 }
 
-export async function fetchMe() {
+export async function fetchMe(): Promise<{ data: User }> {
   const res = await apiClient.get("/auth/me");
   return res.data;
 }
