@@ -1,8 +1,9 @@
 import { useLocation } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import type { PendingProblem, SolvedProblem } from "../../types/problemType";
+import { createSolved } from "../../shared/api/problem";
 
 type FormMode = "fromPending" | "fromSolved";
 
@@ -16,9 +17,8 @@ const SolvedFormContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
-  margin: 0 10%;
-  padding: 60px 20px;
+  width: 100%;
+  padding: 60px 10%;
   min-height: 100vh;
   background-color: #fff;
 `;
@@ -172,6 +172,7 @@ const SolvedFormPage = () => {
               <Th>티어</Th>
               <Th>메모리</Th>
               <Th>처리 시간</Th>
+              <Th>날짜</Th>
             </tr>
           </thead>
           <tbody>
@@ -179,11 +180,12 @@ const SolvedFormPage = () => {
               <Td>{form?.tier}</Td>
               <Td>{form?.memory}</Td>
               <Td>{form?.time}</Td>
+              <Td>{form?.timestamp}</Td>
             </tr>
           </tbody>
           <Tfoot>
             <tr>
-              <td colSpan={3}>
+              <td colSpan={4}>
                 문제 링크 :{" "}
                 <a href={form?.link} target="_blank" rel="noopener noreferrer">
                   {form?.link}
@@ -211,7 +213,9 @@ const SolvedFormPage = () => {
           />
         </Section>
         <ButtonContanier>
-          <SaveButton>저장하기</SaveButton>
+          <SaveButton onClick={async () => await createSolved(form as SolvedProblem)}>
+            저장하기
+          </SaveButton>
         </ButtonContanier>
       </SolvedFormContainer>
     </Wapper>

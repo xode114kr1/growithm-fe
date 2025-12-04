@@ -3,6 +3,7 @@ export type TierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "
 export interface PendingProblem {
   _id: string;
   userId: string;
+  timestamp: string;
   tier: string;
   title: string;
   problemId: string;
@@ -11,7 +12,6 @@ export interface PendingProblem {
   time: string;
   description: string;
   code: string;
-  createdAt: string;
 }
 
 export interface SolvedProblem extends PendingProblem {
