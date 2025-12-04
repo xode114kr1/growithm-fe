@@ -7,6 +7,7 @@ import HeaderNav from "../shared/components/HeaderNav";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import ProtectedRoute from "./ProtectedRoute";
 import PendingPage from "../pages/PendingPage/PendingPage";
+import SolvedFormPage from "../pages/SolvedFormPage/SolvedFormPage";
 
 const Layout = () => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const AppRouter = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/pending" element={<PendingPage />} />
+          <Route path="/solved/form" element={<SolvedFormPage />} />
         </Route>
       </Route>
     </Routes>
