@@ -84,7 +84,7 @@ const PendingPage = () => {
           />
         </FilterContainer>
         {pendingList?.map((item) => (
-          <PendingLargeItem pendingProblem={item} />
+          <PendingLargeItem pendingProblem={item} key={item._id} />
         ))}
       </PendingPageContainer>
     </Wapper>
