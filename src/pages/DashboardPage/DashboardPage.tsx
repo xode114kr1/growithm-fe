@@ -3,7 +3,7 @@ import Wapper from "../../shared/styles/Wapper";
 import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
-import type { PendingProblem, TierType } from "../../types/problemType";
+import type { TierType } from "../../types/problemType";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetPendingList } from "../../shared/hooks/useProblem";
