@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProblemList } from "../api/problem";
-import type { PendingProblem } from "../../types/problemType";
+import type { Problem } from "../../types/problemType";
 
 export function useGetProblemList() {
-  return useQuery<PendingProblem[]>({
+  return useQuery<Problem[]>({
     queryKey: ["problem-list"],
     queryFn: async () => {
       const res = await getProblemList();

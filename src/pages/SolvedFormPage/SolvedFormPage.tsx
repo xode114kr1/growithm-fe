@@ -2,15 +2,14 @@ import { useLocation } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
 import styled from "styled-components";
-import type { PendingProblem, SolvedProblem } from "../../types/problemType";
+import type { Problem } from "../../types/problemType";
 import { createSolved } from "../../shared/api/problem";
 
 type FormMode = "fromPending" | "fromSolved";
 
 interface LocationState {
   mode?: FormMode;
-  pending?: PendingProblem;
-  solved?: SolvedProblem;
+  problem?: Problem;
 }
 
 const SolvedFormContainer = styled.section`
@@ -152,13 +151,13 @@ const SaveButton = styled.button`
 
 const SolvedFormPage = () => {
   const location = useLocation();
-  const { mode, pending, solved } = (location.state || {}) as LocationState;
+  const { mode, problem } = (location.state || {}) as LocationState;
 
-  const [form, setForm] = useState<SolvedProblem | undefined>(() => {
-    if (mode == "fromPending" && pending) {
-      return { ...pending, memo: "" };
-    } else if (mode == "fromSolved" && solved) {
-      return { ...solved };
+  const [form, setForm] = useState<Problem | undefined>(() => {
+    if (mode == "fromPending" && problem) {
+      return { ...problem, memo: "" };
+    } else if (mode == "fromSolved" && problem) {
+      return { ...problem };
     }
   });
 
@@ -213,7 +212,7 @@ const SolvedFormPage = () => {
           />
         </Section>
         <ButtonContanier>
-          <SaveButton onClick={async () => await createSolved(form as SolvedProblem)}>
+          <SaveButton onClick={async () => await createSolved(form as Problem)}>
             저장하기
           </SaveButton>
         </ButtonContanier>

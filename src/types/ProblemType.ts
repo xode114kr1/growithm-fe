@@ -1,6 +1,6 @@
 export type TierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
 
-export interface PendingProblem {
+export interface Problem {
   _id: string;
   userId: string;
   timestamp: string;
@@ -12,13 +12,10 @@ export interface PendingProblem {
   time: string;
   description: string;
   code: string;
-}
-
-export interface SolvedProblem extends PendingProblem {
-  memo: string;
+  memo?: string;
 }
 
 export interface GetPendingListResponse {
   message: string;
-  data: PendingProblem[];
+  data: Problem[];
 }

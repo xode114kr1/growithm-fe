@@ -6,7 +6,7 @@ import PendingItem from "./components/PendingItem";
 import type { TierType } from "../../types/problemType";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import StudyCard from "./components/StudyCard";
-import { useGetPendingList } from "../../shared/hooks/useProblem";
+import { useGetProblemList } from "../../shared/hooks/useProblem";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -178,7 +178,7 @@ const tierSolvedData: { name: TierType; value: number }[] = [
 ];
 
 const DashboardPage = () => {
-  const { data: pendingProblem, isLoading, error } = useGetPendingList();
+  const { data: pendingProblem, isLoading, error } = useGetProblemList();
 
   const settings = {
     dots: true,

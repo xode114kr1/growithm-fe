@@ -1,4 +1,4 @@
-import type { SolvedProblem } from "../../types/problemType";
+import type { Problem } from "../../types/problemType";
 import { apiClient } from "./index";
 
 export async function getProblemList() {
@@ -6,7 +6,7 @@ export async function getProblemList() {
   return res.data;
 }
 
-export async function createSolved(solvedProblem: SolvedProblem) {
+export async function createSolved(solvedProblem: Problem) {
   const res = await apiClient.post("/solved", { solvedProblem: solvedProblem });
   return res.data;
 }

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
-import { useGetPendingList } from "../../shared/hooks/useProblem";
+import { useGetProblemList } from "../../shared/hooks/useProblem";
 import PendingLargeItem from "./components/PendingLargeItem";
 
-const PendingPageContainer = styled.section`
+const ProblemListPageContainer = styled.section`
   width: 80%;
   height: 100%;
   margin: 0 10%;
@@ -52,14 +52,14 @@ const TextInput = styled.input`
   color: #2d3436;
 `;
 
-const PendingPage = () => {
+const ProblemListPage = () => {
   const [inputText, setInputText] = useState<string>("");
 
-  const { data: pendingList, isLoading, error } = useGetPendingList();
+  const { data: pendingList, isLoading, error } = useGetProblemList();
 
   return (
     <Wapper>
-      <PendingPageContainer>
+      <ProblemListPageContainer>
         <FilterContainer>
           <DropdownContainer>
             <DropdownMenu>
@@ -86,9 +86,9 @@ const PendingPage = () => {
         {pendingList?.map((item) => (
           <PendingLargeItem pendingProblem={item} key={item._id} />
         ))}
-      </PendingPageContainer>
+      </ProblemListPageContainer>
     </Wapper>
   );
 };
 
-export default PendingPage;
+export default ProblemListPage;

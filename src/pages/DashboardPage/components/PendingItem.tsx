@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { PendingProblem, TierType } from "../../../types/problemType";
+import type { Problem, TierType } from "../../../types/problemType";
 import { useNavigate } from "react-router-dom";
 
 interface PendingItemContainerProps {
@@ -39,16 +39,16 @@ const PendingItemContainer = styled.div<PendingItemContainerProps>`
 `;
 
 interface PendingItemProps {
-  pendingProblem: PendingProblem;
+  pendingProblem: Problem;
 }
 
 const PendingItem = ({ pendingProblem }: PendingItemProps) => {
   const navigate = useNavigate();
-  const handleFromPending = (pending: PendingProblem) => {
+  const handleFromPending = (problem: Problem) => {
     navigate("/solved/form", {
       state: {
         mode: "fromPending",
-        pending,
+        problem,
       },
     });
   };
