@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPendingList } from "../api/problem";
+import { getProblemList } from "../api/problem";
 import type { PendingProblem } from "../../types/problemType";
 
-export function useGetPendingList() {
+export function useGetProblemList() {
   return useQuery<PendingProblem[]>({
-    queryKey: ["pendingList"],
+    queryKey: ["problem-list"],
     queryFn: async () => {
-      const res = await getPendingList();
+      const res = await getProblemList();
       return res.data;
     },
     staleTime: 1000 * 60,
