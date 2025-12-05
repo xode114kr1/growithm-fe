@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
-import PendingLargeItem from "./components/PendingLargeItem";
+import ProblemItem from "./components/ProblemItem";
 
 const ProblemListPageContainer = styled.section`
   width: 80%;
@@ -55,7 +55,7 @@ const TextInput = styled.input`
 const ProblemListPage = () => {
   const [inputText, setInputText] = useState<string>("");
 
-  const { data: pendingList, isLoading, error } = useGetProblemList();
+  const { data: problemList, isLoading, error } = useGetProblemList();
 
   return (
     <Wapper>
@@ -83,8 +83,8 @@ const ProblemListPage = () => {
             onChange={(e) => setInputText(e.target.value)}
           />
         </FilterContainer>
-        {pendingList?.map((item) => (
-          <PendingLargeItem pendingProblem={item} key={item._id} />
+        {problemList?.map((item) => (
+          <ProblemItem problem={item} key={item._id} />
         ))}
       </ProblemListPageContainer>
     </Wapper>

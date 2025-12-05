@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import type { PendingProblem, TierType } from "../../../types/problemType";
+import type { Problem, TierType } from "../../../types/problemType";
 import { useNavigate } from "react-router-dom";
 
-interface PendingLargeItemContainerProps {
+interface ProblemItemContainerProps {
   tier: TierType;
 }
 
@@ -19,7 +19,7 @@ const TIER_COLOR: Record<TierType, string> = {
   ruby: "#FF4F7A",
 };
 
-const PendingLargeItemContainer = styled.div<PendingLargeItemContainerProps>`
+const ProblemItemContainer = styled.div<ProblemItemContainerProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,32 +88,29 @@ const WriteButton = styled.button`
     opacity: 0.8;
   }
 `;
-interface PendingLargeItemProps {
-  pendingProblem: PendingProblem;
+interface ProblemItemProps {
+  problem: Problem;
 }
 
-const PendingLargeItem = ({ pendingProblem }: PendingLargeItemProps) => {
+const ProblemItem = ({ problem }: ProblemItemProps) => {
   const navigate = useNavigate();
-  const handleFromPending = (pending: PendingProblem) => {
+  const handleFromPending = (problem: Problem) => {
     navigate("/solved/form", {
       state: {
         mode: "fromPending",
-        pending,
+        problem,
       },
     });
   };
 
-  const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as TierType;
+  const growithmTier = problem?.tier.split(" ")[0].toLowerCase() as TierType;
   return (
-    <PendingLargeItemContainer
-      tier={growithmTier}
-      onClick={() => handleFromPending(pendingProblem)}
-    >
+    <ProblemItemContainer tier={growithmTier} onClick={() => handleFromPending(problem)}>
       <ProblemTitle>
         <span>
-          {pendingProblem?.problemId} - {pendingProblem?.title}
+          {problem?.problemId} - {problem?.title}
         </span>
-        <TierInfo tier={growithmTier}>{pendingProblem?.tier}</TierInfo>
+        <TierInfo tier={growithmTier}>{problem?.tier}</TierInfo>
       </ProblemTitle>
       <ProblemSub>이러이러한 문제입니다</ProblemSub>
       <ProblemInfo>
@@ -122,8 +119,8 @@ const PendingLargeItem = ({ pendingProblem }: PendingLargeItemProps) => {
         </ProblemInfoText>
         <WriteButton>작성하기</WriteButton>
       </ProblemInfo>
-    </PendingLargeItemContainer>
+    </ProblemItemContainer>
   );
 };
 
-export default PendingLargeItem;
+export default ProblemItem;
