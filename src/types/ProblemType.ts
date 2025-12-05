@@ -15,7 +15,7 @@ export interface Problem {
   memo?: string;
 }
 
-export interface GetPendingListResponse {
+export interface GetProblemListResponse {
   message: string;
   data: Problem[];
 }
