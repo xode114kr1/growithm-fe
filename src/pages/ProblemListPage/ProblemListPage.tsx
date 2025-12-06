@@ -64,6 +64,10 @@ const ProblemListPage = () => {
     error,
   } = useGetProblemList({ title: inputText, platform, tier, state });
 
+  const platformCategory = Array.from(new Set(problemList?.map((item) => item.platform) ?? []));
+
+  const tierCategory = Array.from(new Set(problemList?.map((item) => item.tier) ?? []));
+
   return (
     <Wapper>
       <ProblemListPageContainer>
@@ -71,17 +75,19 @@ const ProblemListPage = () => {
           <DropdownContainer>
             <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
               <option value="">선택</option>
-              <option value="beakjoon">Beakjoon</option>
-              <option value="programmers">Programmers</option>
+              {platformCategory?.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
             </DropdownMenu>
             <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
               <option value="">선택</option>
-              <option value="bronze">Bronze</option>
-              <option value="silver">Silver</option>
-              <option value="gold">Gold</option>
-              <option value="platinum">Platinum</option>
-              <option value="diamond">Diamond</option>
-              <option value="ruby">Ruby</option>
+              {tierCategory?.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
             </DropdownMenu>
           </DropdownContainer>
           <TextInput
