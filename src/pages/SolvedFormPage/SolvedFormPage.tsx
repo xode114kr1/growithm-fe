@@ -3,11 +3,11 @@ import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
 import styled from "styled-components";
 import type { Problem } from "../../types/problemType";
-import { saveSolvedProblem } from "../../shared/api/problem";
 
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import { useSaveSolvedProblem } from "../../shared/hooks/useProblem";
 
 interface LocationState {
   problem?: Problem;
@@ -92,14 +92,13 @@ const ProblemBody = styled.div`
 
 const CodeBlock = styled.pre`
   width: 100%;
-  max-height: 400px;
   padding: 16px 20px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   background-color: #111827;
   color: #e5e7eb;
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.3;
   overflow: auto;
   font-family:
     "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
@@ -153,11 +152,27 @@ const SolvedFormPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { mutate: saveSolvedProblemMutation } = useSaveSolvedProblem();
+
   const { problem } = (location.state || {}) as LocationState;
   const problemId = problem?._id;
   const [memoInput, setMemoInput] = useState<string | undefined>(() => {
     return problem?.memo ? problem.memo : "";
   });
+
+  const handleSaveButtonClick = async () => {
+    saveSolvedProblemMutation(
+      { problemId, memo: memoInput },
+      {
+        onSuccess: () => {
+          navigate("/problem");
+        },
+        onError: (error) => {
+          console.error("문제 풀이 저장 실패 : ", error);
+        },
+      }
+    );
+  };
 
   return (
     <Wapper>
@@ -215,14 +230,7 @@ const SolvedFormPage = () => {
           />
         </Section>
         <ButtonContanier>
-          <SaveButton
-            onClick={async () => {
-              await saveSolvedProblem({ problemId, memo: memoInput });
-              navigate("/problem");
-            }}
-          >
-            저장하기
-          </SaveButton>
+          <SaveButton onClick={handleSaveButtonClick}>저장하기</SaveButton>
         </ButtonContanier>
       </SolvedFormContainer>
     </Wapper>
