@@ -1,8 +1,7 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import type { Problem } from "../../types/problemType";
 
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -20,12 +19,35 @@ const SolvedFormContainer = styled.section`
 `;
 
 const TitleText = styled.div`
+  display: flex;
+  justify-content: space-between;
   font-size: 40px;
   border-bottom: 1px solid #d1d5db;
   width: 100%;
   color: #111827;
   font-weight: 600;
   padding-bottom: 12px;
+`;
+
+const TitleButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: end;
+`;
+
+const TitleButton = styled.button`
+  background-color: #191d23;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  width: 70px;
+  height: 40px;
+  font-size: 16px;
+  transition: 200ms ease-in;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const InfoTable = styled.table`
@@ -148,12 +170,10 @@ const SolvedFormPage = () => {
   const { id: problemId } = useParams();
 
   const { mutate: saveSolvedProblemMutation } = useSaveSolvedProblem(problemId as string);
-
   const { data: problem } = useGetProblemById(problemId as string);
 
-  const [memoInput, setMemoInput] = useState<string | undefined>(() => {
-    return problem?.memo ? problem.memo : "";
-  });
+  const [memoInput, setMemoInput] = useState<string>("");
+  const MemoTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isEdit, setIsEdit] = useState<boolean>(() => {
     return problem?.state == "pending" ? true : false;
@@ -163,6 +183,9 @@ const SolvedFormPage = () => {
     saveSolvedProblemMutation(
       { problemId, memo: memoInput },
       {
+        onSuccess: () => {
+          setIsEdit(false);
+        },
         onError: (error) => {
           console.error("문제 풀이 저장 실패 : ", error);
         },
@@ -170,10 +193,35 @@ const SolvedFormPage = () => {
     );
   };
 
+  useEffect(() => {
+    if (isEdit) {
+      MemoTextareaRef.current?.focus();
+    }
+  }, [isEdit]);
+
   return (
     <Wapper>
       <SolvedFormContainer>
-        <TitleText>{problem?.title}</TitleText>
+        <TitleText>
+          <span>{problem?.title}</span>
+          <TitleButtonContainer>
+            {isEdit ? (
+              <SaveButton onClick={handleSaveButtonClick}>저장하기</SaveButton>
+            ) : (
+              <>
+                <TitleButton
+                  onClick={() => {
+                    setMemoInput(problem?.memo ?? "");
+                    setIsEdit(true);
+                  }}
+                >
+                  수정
+                </TitleButton>
+                <TitleButton>공유</TitleButton>
+              </>
+            )}
+          </TitleButtonContainer>
+        </TitleText>
         <InfoTable>
           <thead>
             <tr>
@@ -220,12 +268,14 @@ const SolvedFormPage = () => {
         <Section>
           <SectionTitle>풀이 메모</SectionTitle>
           <MemoTextarea
+            ref={MemoTextareaRef}
             placeholder="어떤 아이디어로 접근했는지, 실수했던 부분, 다시 풀 때 주의할 점 등을 자유롭게 적어보세요."
-            value={memoInput}
+            value={isEdit ? memoInput : (problem?.memo ?? "")}
             onChange={(e) => setMemoInput(e.target.value)}
+            disabled={!isEdit}
           />
         </Section>
-        <ButtonContanier>
+        <ButtonContanier style={{ display: isEdit ? "flex" : "none" }}>
           <SaveButton onClick={handleSaveButtonClick}>저장하기</SaveButton>
         </ButtonContanier>
       </SolvedFormContainer>
