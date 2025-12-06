@@ -180,7 +180,6 @@ const SolvedFormPage = () => {
           <Tfoot>
             <tr>
               <td colSpan={4}>
-                문제 링크 :{" "}
                 <a href={problem?.link} target="_blank" rel="noopener noreferrer">
                   {problem?.link}
                 </a>

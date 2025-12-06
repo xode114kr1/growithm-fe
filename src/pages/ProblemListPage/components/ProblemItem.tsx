@@ -77,6 +77,7 @@ const ProblemInfo = styled.div`
 const ProblemInfoText = styled.div`
   display: flex;
   align-items: center;
+  padding-left: 10px;
 `;
 
 const WriteButton = styled.button`
@@ -115,20 +116,19 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
   }
 
   return (
-    <ProblemItemContainer tier={growithmTier} onClick={() => handleFromPending(problem)}>
+    <ProblemItemContainer tier={growithmTier}>
       <ProblemTitle>
         <span>
-          {problem?.problemId} - {problem?.title}
+          [{problem?.platform}]-{problem?.problemId} - {problem?.title}
         </span>
         <TierInfo tier={growithmTier}>{problem?.tier}</TierInfo>
       </ProblemTitle>
       <ProblemSub>이러이러한 문제입니다</ProblemSub>
       <ProblemInfo>
-        <ProblemInfoText>
-          📅풀이 완료 : {problem?.timestamp}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;🕒소요시간 :{" "}
-          {problem?.time}
-        </ProblemInfoText>
-        <WriteButton>{problem?.state == "pending" ? "작성하기" : "수정하기"}</WriteButton>
+        <ProblemInfoText>풀이 완료 : {problem?.timestamp}</ProblemInfoText>
+        <WriteButton onClick={() => handleFromPending(problem)}>
+          {problem?.state == "pending" ? "작성하기" : "수정하기"}
+        </WriteButton>
       </ProblemInfo>
     </ProblemItemContainer>
   );
