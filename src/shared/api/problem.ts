@@ -1,4 +1,3 @@
-import type { Problem } from "../../types/problemType";
 import { apiClient } from "./index";
 
 export async function getProblemList() {
@@ -6,7 +5,13 @@ export async function getProblemList() {
   return res.data;
 }
 
-export async function createSolved(solvedProblem: Problem) {
-  const res = await apiClient.post("/solved", { solvedProblem: solvedProblem });
+interface createSolvedProps {
+  problemId?: string;
+  memo?: string;
+}
+
+export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) {
+  const res = await apiClient.patch(`/problem/solved/${problemId}`, { memo });
+  console.log(res.data);
   return res.data;
 }

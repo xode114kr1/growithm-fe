@@ -4,6 +4,7 @@ export interface Problem {
   _id: string;
   userId: string;
   timestamp: string;
+  state: "pending" | "solved";
   tier: string;
   title: string;
   problemId: string;
