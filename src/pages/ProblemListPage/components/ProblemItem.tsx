@@ -10,6 +10,10 @@ interface TierInfoProps {
   tier: BeakjoonTierType | ProgrammersTierType;
 }
 
+interface WriteButtonProps {
+  state: "pending" | "solved" | undefined;
+}
+
 const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
@@ -80,12 +84,12 @@ const ProblemInfoText = styled.div`
   padding-left: 10px;
 `;
 
-const WriteButton = styled.button`
+const WriteButton = styled.button<WriteButtonProps>`
   width: 130px;
   height: 40px;
   border: none;
   border-radius: 8px;
-  background-color: #6c5ce7;
+  background-color: ${({ state }) => (state == "pending" ? "#6c5ce7" : "#2d3436")};
   color: white;
   font-size: 16px;
   transition: 200ms ease-in;
@@ -119,8 +123,8 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
       <ProblemSub>이러이러한 문제입니다</ProblemSub>
       <ProblemInfo>
         <ProblemInfoText>풀이 완료 : {problem?.timestamp}</ProblemInfoText>
-        <WriteButton onClick={() => navigate(`/problem/${problem._id}`)}>
-          {problem?.state == "pending" ? "작성하기" : "수정하기"}
+        <WriteButton state={problem?.state} onClick={() => navigate(`/problem/${problem._id}`)}>
+          {problem?.state == "pending" ? "작성하기" : "상세보기"}
         </WriteButton>
       </ProblemInfo>
     </ProblemItemContainer>
