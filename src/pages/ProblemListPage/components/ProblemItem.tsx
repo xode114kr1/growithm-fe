@@ -97,7 +97,6 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
   const handleFromPending = (problem: Problem) => {
     navigate("/solved/form", {
       state: {
-        mode: "fromPending",
         problem,
       },
     });
@@ -117,7 +116,7 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
         <ProblemInfoText>
           📅풀이 완료 : 2024.12.01&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;🕒소요시간 : 45분
         </ProblemInfoText>
-        <WriteButton>작성하기</WriteButton>
+        <WriteButton>{problem?.state == "pending" ? "작성하기" : "수정하기"}</WriteButton>
       </ProblemInfo>
     </ProblemItemContainer>
   );

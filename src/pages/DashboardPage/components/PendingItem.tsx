@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import type { Problem, TierType } from "../../../types/problemType";
 import { useNavigate } from "react-router-dom";
+import type { Problem, TierType } from "../../../types/problemType";
 
 interface PendingItemContainerProps {
   tier: TierType;
@@ -47,7 +47,6 @@ const PendingItem = ({ pendingProblem }: PendingItemProps) => {
   const handleFromPending = (problem: Problem) => {
     navigate("/solved/form", {
       state: {
-        mode: "fromPending",
         problem,
       },
     });

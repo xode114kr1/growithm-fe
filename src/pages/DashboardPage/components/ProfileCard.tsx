@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useAuthStore } from "../../../stores/authStore";
-import type { TierType } from "../../../types/problem";
+import type { TierType } from "../../../types/problemType";
 
 const TIER_GRADIENT: Record<TierType, string> = {
   bronze: "linear-gradient(135deg, #CC8846, #9E6430)",

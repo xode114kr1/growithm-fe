@@ -1,14 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
 import styled from "styled-components";
 import type { Problem } from "../../types/problemType";
-import { createSolved } from "../../shared/api/problem";
-
-type FormMode = "fromPending" | "fromSolved";
+import { saveSolvedProblem } from "../../shared/api/problem";
 
 interface LocationState {
-  mode?: FormMode;
   problem?: Problem;
 }
 
@@ -151,20 +148,18 @@ const SaveButton = styled.button`
 
 const SolvedFormPage = () => {
   const location = useLocation();
-  const { mode, problem } = (location.state || {}) as LocationState;
+  const navigate = useNavigate();
 
-  const [form, setForm] = useState<Problem | undefined>(() => {
-    if (mode == "fromPending" && problem) {
-      return { ...problem, memo: "" };
-    } else if (mode == "fromSolved" && problem) {
-      return { ...problem };
-    }
+  const { problem } = (location.state || {}) as LocationState;
+  const problemId = problem?._id;
+  const [memoInput, setMemoInput] = useState<string | undefined>(() => {
+    return problem?.memo ? problem.memo : "";
   });
 
   return (
     <Wapper>
       <SolvedFormContainer>
-        <TitleText>{form?.title}</TitleText>
+        <TitleText>{problem?.title}</TitleText>
         <InfoTable>
           <thead>
             <tr>
@@ -176,18 +171,18 @@ const SolvedFormPage = () => {
           </thead>
           <tbody>
             <tr>
-              <Td>{form?.tier}</Td>
-              <Td>{form?.memory}</Td>
-              <Td>{form?.time}</Td>
-              <Td>{form?.timestamp}</Td>
+              <Td>{problem?.tier}</Td>
+              <Td>{problem?.memory}</Td>
+              <Td>{problem?.time}</Td>
+              <Td>{problem?.timestamp}</Td>
             </tr>
           </tbody>
           <Tfoot>
             <tr>
               <td colSpan={4}>
                 문제 링크 :{" "}
-                <a href={form?.link} target="_blank" rel="noopener noreferrer">
-                  {form?.link}
+                <a href={problem?.link} target="_blank" rel="noopener noreferrer">
+                  {problem?.link}
                 </a>
               </td>
             </tr>
@@ -196,23 +191,28 @@ const SolvedFormPage = () => {
 
         <Section>
           <SectionTitle>문제 내용</SectionTitle>
-          <ProblemBody>{form?.description}</ProblemBody>
+          <ProblemBody>{problem?.description}</ProblemBody>
         </Section>
 
         <Section>
           <SectionTitle>내 풀이 코드</SectionTitle>
-          <CodeBlock>{form?.code}</CodeBlock>
+          <CodeBlock>{problem?.code}</CodeBlock>
         </Section>
         <Section>
           <SectionTitle>풀이 메모</SectionTitle>
           <MemoTextarea
             placeholder="어떤 아이디어로 접근했는지, 실수했던 부분, 다시 풀 때 주의할 점 등을 자유롭게 적어보세요."
-            value={form?.memo ?? ""}
-            onChange={(e) => setForm((prev) => (prev ? { ...prev, memo: e.target.value } : prev))}
+            value={memoInput}
+            onChange={(e) => setMemoInput(e.target.value)}
           />
         </Section>
         <ButtonContanier>
-          <SaveButton onClick={async () => await createSolved(form as Problem)}>
+          <SaveButton
+            onClick={async () => {
+              await saveSolvedProblem({ problemId, memo: memoInput });
+              navigate("/problem");
+            }}
+          >
             저장하기
           </SaveButton>
         </ButtonContanier>
