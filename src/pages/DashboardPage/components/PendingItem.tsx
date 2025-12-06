@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import type { Problem, TierType } from "../../../types/problemType";
+import type { Problem, BeakjoonTierType } from "../../../types/problemType";
 
 interface PendingItemContainerProps {
-  tier: TierType;
+  tier: BeakjoonTierType;
 }
 
-const TIER_COLOR: Record<TierType, string> = {
+const TIER_COLOR: Record<BeakjoonTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
   gold: "#FFD700",
@@ -51,7 +51,7 @@ const PendingItem = ({ pendingProblem }: PendingItemProps) => {
       },
     });
   };
-  const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as TierType;
+  const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
   return (
     <PendingItemContainer tier={growithmTier} onClick={() => handleFromPending(pendingProblem)}>
       {pendingProblem.title}

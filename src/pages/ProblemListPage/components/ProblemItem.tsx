@@ -1,22 +1,27 @@
 import styled from "styled-components";
-import type { Problem, TierType } from "../../../types/problemType";
+import type { Problem, BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
 import { useNavigate } from "react-router-dom";
 
 interface ProblemItemContainerProps {
-  tier: TierType;
+  tier: BeakjoonTierType | ProgrammersTierType;
 }
 
 interface TierInfoProps {
-  tier: TierType;
+  tier: BeakjoonTierType | ProgrammersTierType;
 }
 
-const TIER_COLOR: Record<TierType, string> = {
+const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
   gold: "#FFD700",
   platinum: "#A0FFF0",
   diamond: "#DDEBFF",
   ruby: "#FF4F7A",
+
+  "level 1": "#CC8846",
+  "level 2": "#C0C0C0",
+  "level 3": "#FFD700",
+  "level 4": "#A0FFF0",
 };
 
 const ProblemItemContainer = styled.div<ProblemItemContainerProps>`
@@ -102,7 +107,13 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
     });
   };
 
-  const growithmTier = problem?.tier.split(" ")[0].toLowerCase() as TierType;
+  let growithmTier: BeakjoonTierType | ProgrammersTierType;
+  if (problem?.tier.split(" ")[0] == "level") {
+    growithmTier = problem?.tier as ProgrammersTierType;
+  } else {
+    growithmTier = problem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
+  }
+
   return (
     <ProblemItemContainer tier={growithmTier} onClick={() => handleFromPending(problem)}>
       <ProblemTitle>
@@ -114,7 +125,8 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
       <ProblemSub>이러이러한 문제입니다</ProblemSub>
       <ProblemInfo>
         <ProblemInfoText>
-          📅풀이 완료 : 2024.12.01&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;🕒소요시간 : 45분
+          📅풀이 완료 : {problem?.timestamp}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;🕒소요시간 :{" "}
+          {problem?.time}
         </ProblemInfoText>
         <WriteButton>{problem?.state == "pending" ? "작성하기" : "수정하기"}</WriteButton>
       </ProblemInfo>

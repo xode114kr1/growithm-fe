@@ -3,7 +3,7 @@ import Wapper from "../../shared/styles/Wapper";
 import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
-import type { TierType } from "../../types/problemType";
+import type { BeakjoonTierType } from "../../types/problemType";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
@@ -159,7 +159,7 @@ const StudySlider = styled(Slider)`
   }
 `;
 
-const TIER_COLOR: Record<TierType, string> = {
+const TIER_COLOR: Record<BeakjoonTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
   gold: "#FFD700",
@@ -168,7 +168,7 @@ const TIER_COLOR: Record<TierType, string> = {
   ruby: "#FF4F7A",
 };
 
-const tierSolvedData: { name: TierType; value: number }[] = [
+const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
   { name: "bronze", value: 20 },
   { name: "silver", value: 15 },
   { name: "gold", value: 8 },

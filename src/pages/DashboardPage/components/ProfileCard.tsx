@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useAuthStore } from "../../../stores/authStore";
-import type { TierType } from "../../../types/problemType";
+import type { BeakjoonTierType } from "../../../types/problemType";
 
-const TIER_GRADIENT: Record<TierType, string> = {
+const TIER_GRADIENT: Record<BeakjoonTierType, string> = {
   bronze: "linear-gradient(135deg, #CC8846, #9E6430)",
   silver: "linear-gradient(135deg, #D9D9D9, #A6A6A6)",
   gold: "linear-gradient(135deg, #FFE56E, #D9B300)",
@@ -16,7 +16,7 @@ interface ProfileProps {
 }
 
 interface TierContainerProps {
-  tier: TierType;
+  tier: BeakjoonTierType;
 }
 
 const ProfileCardContainer = styled.div`
