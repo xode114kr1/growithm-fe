@@ -178,7 +178,7 @@ const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
 ];
 
 const DashboardPage = () => {
-  const { data: pendingProblem, isLoading, error } = useGetProblemList();
+  const { data: pendingProblem, isLoading, error } = useGetProblemList({ state: "pending" });
 
   const settings = {
     dots: true,
