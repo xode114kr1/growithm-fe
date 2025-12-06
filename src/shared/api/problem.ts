@@ -1,9 +1,14 @@
 import type { ResponseData } from "../../types/commonType";
-import type { Problem } from "../../types/problemType";
+import type { getProblemListParams, Problem } from "../../types/problemType";
 import { apiClient } from "./index";
 
-export async function getProblemList(): Promise<ResponseData<Problem[]>> {
-  const res = await apiClient.get("/problem");
+export async function getProblemList({
+  title,
+  platform,
+  tier,
+  state,
+}: getProblemListParams): Promise<ResponseData<Problem[]>> {
+  const res = await apiClient.get("/problem", { params: { title, platform, tier, state } });
   return res.data;
 }
 

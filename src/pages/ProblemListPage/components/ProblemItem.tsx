@@ -10,6 +10,10 @@ interface TierInfoProps {
   tier: BeakjoonTierType | ProgrammersTierType;
 }
 
+interface WriteButtonProps {
+  state: "pending" | "solved" | undefined;
+}
+
 const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
@@ -62,7 +66,14 @@ const TierInfo = styled.div<TierInfoProps>`
 const ProblemSub = styled.div`
   font-size: 16px;
   color: #866e72;
+  padding-left: 5px;
   margin-bottom: 15px;
+  line-height: 20px;
+  height: 20px;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ProblemInfo = styled.div`
@@ -80,12 +91,12 @@ const ProblemInfoText = styled.div`
   padding-left: 10px;
 `;
 
-const WriteButton = styled.button`
+const WriteButton = styled.button<WriteButtonProps>`
   width: 130px;
   height: 40px;
   border: none;
   border-radius: 8px;
-  background-color: #6c5ce7;
+  background-color: ${({ state }) => (state == "pending" ? "#6c5ce7" : "#2d3436")};
   color: white;
   font-size: 16px;
   transition: 200ms ease-in;
@@ -99,6 +110,7 @@ interface ProblemItemProps {
 }
 
 const ProblemItem = ({ problem }: ProblemItemProps) => {
+  console.log(problem);
   const navigate = useNavigate();
 
   let growithmTier: BeakjoonTierType | ProgrammersTierType;
@@ -116,11 +128,15 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
         </span>
         <TierInfo tier={growithmTier}>{problem?.tier}</TierInfo>
       </ProblemTitle>
-      <ProblemSub>이러이러한 문제입니다</ProblemSub>
+      <ProblemSub>
+        {problem?.categories?.map((item) => (
+          <span>[{item}] </span>
+        ))}
+      </ProblemSub>
       <ProblemInfo>
         <ProblemInfoText>풀이 완료 : {problem?.timestamp}</ProblemInfoText>
-        <WriteButton onClick={() => navigate(`/problem/${problem._id}`)}>
-          {problem?.state == "pending" ? "작성하기" : "수정하기"}
+        <WriteButton state={problem?.state} onClick={() => navigate(`/problem/${problem._id}`)}>
+          {problem?.state == "pending" ? "작성하기" : "상세보기"}
         </WriteButton>
       </ProblemInfo>
     </ProblemItemContainer>

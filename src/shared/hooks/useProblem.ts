@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProblemById, getProblemList, saveSolvedProblem } from "../api/problem";
-import type { Problem } from "../../types/problemType";
+import type { getProblemListParams, Problem } from "../../types/problemType";
 
-export function useGetProblemList() {
+export function useGetProblemList({ title, platform, tier, state }: getProblemListParams) {
   return useQuery<Problem[]>({
-    queryKey: ["problem-list"],
+    queryKey: ["problem-list", title, platform, tier, state],
     queryFn: async () => {
-      const res = await getProblemList();
+      const res = await getProblemList({ title, platform, tier, state });
       return res.data;
     },
     staleTime: 1000 * 60,
