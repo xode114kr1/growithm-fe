@@ -175,9 +175,8 @@ const SolvedFormPage = () => {
   const [memoInput, setMemoInput] = useState<string>("");
   const MemoTextareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [isEdit, setIsEdit] = useState<boolean>(() => {
-    return problem?.state == "pending" ? true : false;
-  });
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const isFirstRender = useRef(true);
 
   const handleSaveButtonClick = async () => {
     saveSolvedProblemMutation(
@@ -194,10 +193,16 @@ const SolvedFormPage = () => {
   };
 
   useEffect(() => {
-    if (isEdit) {
-      MemoTextareaRef.current?.focus();
+    if (!problem) return;
+
+    if (problem.state === "pending") {
+      setIsEdit(true);
+    } else {
+      setIsEdit(false);
     }
-  }, [isEdit]);
+
+    setMemoInput(problem.memo ?? "");
+  }, [problem]);
 
   return (
     <Wapper>
@@ -213,6 +218,9 @@ const SolvedFormPage = () => {
                   onClick={() => {
                     setMemoInput(problem?.memo ?? "");
                     setIsEdit(true);
+                    requestAnimationFrame(() => {
+                      MemoTextareaRef.current?.focus();
+                    });
                   }}
                 >
                   수정
