@@ -5,6 +5,10 @@ import styled from "styled-components";
 import type { Problem } from "../../types/problemType";
 import { saveSolvedProblem } from "../../shared/api/problem";
 
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
+
 interface LocationState {
   problem?: Problem;
 }
@@ -84,7 +88,6 @@ const ProblemBody = styled.div`
   font-size: 14px;
   color: #374151;
   line-height: 1.6;
-  white-space: pre-wrap;
 `;
 
 const CodeBlock = styled.pre`
@@ -190,7 +193,13 @@ const SolvedFormPage = () => {
 
         <Section>
           <SectionTitle>문제 내용</SectionTitle>
-          <ProblemBody>{problem?.description}</ProblemBody>
+          <ProblemBody>
+            <div className="readme-body">
+              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                {problem?.description}
+              </ReactMarkdown>
+            </div>
+          </ProblemBody>
         </Section>
 
         <Section>
