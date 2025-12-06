@@ -44,16 +44,12 @@ interface PendingItemProps {
 
 const PendingItem = ({ pendingProblem }: PendingItemProps) => {
   const navigate = useNavigate();
-  const handleFromPending = (problem: Problem) => {
-    navigate("/solved/form", {
-      state: {
-        problem,
-      },
-    });
-  };
   const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
   return (
-    <PendingItemContainer tier={growithmTier} onClick={() => handleFromPending(pendingProblem)}>
+    <PendingItemContainer
+      tier={growithmTier}
+      onClick={() => navigate(`/problem/${pendingProblem?._id}`)}
+    >
       {pendingProblem.title}
     </PendingItemContainer>
   );

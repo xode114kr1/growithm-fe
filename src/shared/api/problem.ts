@@ -1,7 +1,8 @@
+import type { ResponseData } from "../../types/commonType";
 import type { Problem } from "../../types/problemType";
 import { apiClient } from "./index";
 
-export async function getProblemList() {
+export async function getProblemList(): Promise<ResponseData<Problem[]>> {
   const res = await apiClient.get("/problem");
   return res.data;
 }
@@ -17,7 +18,7 @@ export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) 
   return res.data;
 }
 
-export async function getProblemById(problemId: string): Promise<Problem> {
+export async function getProblemById(problemId: string): Promise<ResponseData<Problem>> {
   const res = await apiClient.get(`/problem/${problemId}`);
   return res.data;
 }

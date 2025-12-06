@@ -32,7 +32,7 @@ const AppRouter = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/problem" element={<ProblemListPage />} />
-          <Route path="/solved/form" element={<SolvedFormPage />} />
+          <Route path="/problem/:id" element={<SolvedFormPage />} />
         </Route>
       </Route>
     </Routes>

@@ -27,7 +27,10 @@ export function useSaveSolvedProblem(problemId: string) {
 export function useGetProblemById(problemId: string) {
   return useQuery<Problem>({
     queryKey: ["problem", problemId],
-    queryFn: () => getProblemById(problemId),
+    queryFn: async () => {
+      const res = await getProblemById(problemId);
+      return res.data;
+    },
     enabled: !!problemId,
   });
 }

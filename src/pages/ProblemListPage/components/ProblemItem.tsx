@@ -100,13 +100,6 @@ interface ProblemItemProps {
 
 const ProblemItem = ({ problem }: ProblemItemProps) => {
   const navigate = useNavigate();
-  const handleFromPending = (problem: Problem) => {
-    navigate("/solved/form", {
-      state: {
-        problem,
-      },
-    });
-  };
 
   let growithmTier: BeakjoonTierType | ProgrammersTierType;
   if (problem?.platform == "programmers") {
@@ -126,7 +119,7 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
       <ProblemSub>이러이러한 문제입니다</ProblemSub>
       <ProblemInfo>
         <ProblemInfoText>풀이 완료 : {problem?.timestamp}</ProblemInfoText>
-        <WriteButton onClick={() => handleFromPending(problem)}>
+        <WriteButton onClick={() => navigate(`/problem/${problem._id}`)}>
           {problem?.state == "pending" ? "작성하기" : "수정하기"}
         </WriteButton>
       </ProblemInfo>

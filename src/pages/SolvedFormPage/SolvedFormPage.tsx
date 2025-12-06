@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
 import styled from "styled-components";
@@ -7,11 +7,7 @@ import type { Problem } from "../../types/problemType";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { useSaveSolvedProblem } from "../../shared/hooks/useProblem";
-
-interface LocationState {
-  problem?: Problem;
-}
+import { useGetProblemById, useSaveSolvedProblem } from "../../shared/hooks/useProblem";
 
 const SolvedFormContainer = styled.section`
   display: flex;
@@ -149,24 +145,24 @@ const SaveButton = styled.button`
 `;
 
 const SolvedFormPage = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { id: problemId } = useParams();
 
-  const { mutate: saveSolvedProblemMutation } = useSaveSolvedProblem();
+  const { mutate: saveSolvedProblemMutation } = useSaveSolvedProblem(problemId as string);
 
-  const { problem } = (location.state || {}) as LocationState;
-  const problemId = problem?._id;
+  const { data: problem } = useGetProblemById(problemId as string);
+
   const [memoInput, setMemoInput] = useState<string | undefined>(() => {
     return problem?.memo ? problem.memo : "";
+  });
+
+  const [isEdit, setIsEdit] = useState<boolean>(() => {
+    return problem?.state == "pending" ? true : false;
   });
 
   const handleSaveButtonClick = async () => {
     saveSolvedProblemMutation(
       { problemId, memo: memoInput },
       {
-        onSuccess: () => {
-          navigate("/problem");
-        },
         onError: (error) => {
           console.error("문제 풀이 저장 실패 : ", error);
         },
