@@ -12,6 +12,7 @@ export interface Problem {
   _id: string;
   userId: string;
   timestamp: string;
+  categories?: string[];
   state: "pending" | "solved";
   platform: string;
   tier: string;

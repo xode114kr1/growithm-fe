@@ -66,7 +66,14 @@ const TierInfo = styled.div<TierInfoProps>`
 const ProblemSub = styled.div`
   font-size: 16px;
   color: #866e72;
+  padding-left: 5px;
   margin-bottom: 15px;
+  line-height: 20px;
+  height: 20px;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ProblemInfo = styled.div`
@@ -103,6 +110,7 @@ interface ProblemItemProps {
 }
 
 const ProblemItem = ({ problem }: ProblemItemProps) => {
+  console.log(problem);
   const navigate = useNavigate();
 
   let growithmTier: BeakjoonTierType | ProgrammersTierType;
@@ -120,7 +128,11 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
         </span>
         <TierInfo tier={growithmTier}>{problem?.tier}</TierInfo>
       </ProblemTitle>
-      <ProblemSub>이러이러한 문제입니다</ProblemSub>
+      <ProblemSub>
+        {problem?.categories?.map((item) => (
+          <span>[{item}] </span>
+        ))}
+      </ProblemSub>
       <ProblemInfo>
         <ProblemInfoText>풀이 완료 : {problem?.timestamp}</ProblemInfoText>
         <WriteButton state={problem?.state} onClick={() => navigate(`/problem/${problem._id}`)}>

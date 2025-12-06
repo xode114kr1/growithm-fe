@@ -2,11 +2,10 @@ import { useParams } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-
+import { useGetProblemById, useSaveSolvedProblem } from "../../shared/hooks/useProblem";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { useGetProblemById, useSaveSolvedProblem } from "../../shared/hooks/useProblem";
 
 const SolvedFormContainer = styled.section`
   display: flex;
@@ -176,7 +175,6 @@ const SolvedFormPage = () => {
   const MemoTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const isFirstRender = useRef(true);
 
   const handleSaveButtonClick = async () => {
     saveSolvedProblemMutation(
