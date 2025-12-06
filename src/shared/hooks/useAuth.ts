@@ -9,7 +9,7 @@ export function useGithubLoginMatation() {
   const setUser = useAuthStore((s) => s.setUser);
 
   return useMutation({
-    mutationFn: (code: string) => login(code),
+    mutationFn: login,
     onSuccess: (res) => {
       setUser(res.data);
       queryClient.setQueryData(["me"], res.data);
