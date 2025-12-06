@@ -109,7 +109,7 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
   };
 
   let growithmTier: BeakjoonTierType | ProgrammersTierType;
-  if (problem?.tier.split(" ")[0] == "level") {
+  if (problem?.platform == "programmers") {
     growithmTier = problem?.tier as ProgrammersTierType;
   } else {
     growithmTier = problem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
@@ -119,7 +119,7 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
     <ProblemItemContainer tier={growithmTier}>
       <ProblemTitle>
         <span>
-          [{problem?.platform}]-{problem?.problemId} - {problem?.title}
+          [{problem?.platform}] {problem?.problemId} - {problem?.title}
         </span>
         <TierInfo tier={growithmTier}>{problem?.tier}</TierInfo>
       </ProblemTitle>
