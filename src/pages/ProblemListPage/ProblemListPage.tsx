@@ -54,21 +54,28 @@ const TextInput = styled.input`
 
 const ProblemListPage = () => {
   const [inputText, setInputText] = useState<string>("");
+  const [platform, setPlatform] = useState<string>("");
+  const [tier, setTier] = useState<string>("");
+  const [state, setState] = useState<string>("");
 
-  const { data: problemList, isLoading, error } = useGetProblemList();
+  const {
+    data: problemList,
+    isLoading,
+    error,
+  } = useGetProblemList({ title: inputText, platform, tier, state });
 
   return (
     <Wapper>
       <ProblemListPageContainer>
         <FilterContainer>
           <DropdownContainer>
-            <DropdownMenu>
-              <option value="선택">선택</option>
+            <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
+              <option value="">선택</option>
               <option value="beakjoon">Beakjoon</option>
               <option value="programmers">Programmers</option>
             </DropdownMenu>
-            <DropdownMenu>
-              <option value="선택">선택</option>
+            <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
+              <option value="">선택</option>
               <option value="bronze">Bronze</option>
               <option value="silver">Silver</option>
               <option value="gold">Gold</option>
