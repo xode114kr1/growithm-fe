@@ -1,24 +1,30 @@
 import styled from "styled-components";
-import type { PendingProblem, TierType } from "../../../types/problemType";
+import type { Problem, BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
+import { useNavigate } from "react-router-dom";
 
-interface PendingLargeItemContainerProps {
-  tier: TierType;
+interface ProblemItemContainerProps {
+  tier: BeakjoonTierType | ProgrammersTierType;
 }
 
 interface TierInfoProps {
-  tier: TierType;
+  tier: BeakjoonTierType | ProgrammersTierType;
 }
 
-const TIER_COLOR: Record<TierType, string> = {
+const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
   gold: "#FFD700",
   platinum: "#A0FFF0",
   diamond: "#DDEBFF",
   ruby: "#FF4F7A",
+
+  "level 1": "#CC8846",
+  "level 2": "#C0C0C0",
+  "level 3": "#FFD700",
+  "level 4": "#A0FFF0",
 };
 
-const PendingLargeItemContainer = styled.div<PendingLargeItemContainerProps>`
+const ProblemItemContainer = styled.div<ProblemItemContainerProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,6 +77,7 @@ const ProblemInfo = styled.div`
 const ProblemInfoText = styled.div`
   display: flex;
   align-items: center;
+  padding-left: 10px;
 `;
 
 const WriteButton = styled.button`
@@ -87,29 +94,37 @@ const WriteButton = styled.button`
     opacity: 0.8;
   }
 `;
-interface PendingLargeItemProps {
-  pendingProblem: PendingProblem | undefined;
+interface ProblemItemProps {
+  problem: Problem;
 }
 
-const PendingLargeItem = ({ pendingProblem }: PendingLargeItemProps) => {
-  const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as TierType;
+const ProblemItem = ({ problem }: ProblemItemProps) => {
+  const navigate = useNavigate();
+
+  let growithmTier: BeakjoonTierType | ProgrammersTierType;
+  if (problem?.platform == "programmers") {
+    growithmTier = problem?.tier as ProgrammersTierType;
+  } else {
+    growithmTier = problem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
+  }
+
   return (
-    <PendingLargeItemContainer tier={growithmTier}>
+    <ProblemItemContainer tier={growithmTier}>
       <ProblemTitle>
         <span>
-          {pendingProblem?.problemId} - {pendingProblem?.title}
+          [{problem?.platform}] {problem?.problemId} - {problem?.title}
         </span>
-        <TierInfo tier={growithmTier}>{pendingProblem?.tier}</TierInfo>
+        <TierInfo tier={growithmTier}>{problem?.tier}</TierInfo>
       </ProblemTitle>
       <ProblemSub>이러이러한 문제입니다</ProblemSub>
       <ProblemInfo>
-        <ProblemInfoText>
-          📅풀이 완료 : 2024.12.01&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;🕒소요시간 : 45분
-        </ProblemInfoText>
-        <WriteButton>작성하기</WriteButton>
+        <ProblemInfoText>풀이 완료 : {problem?.timestamp}</ProblemInfoText>
+        <WriteButton onClick={() => navigate(`/problem/${problem._id}`)}>
+          {problem?.state == "pending" ? "작성하기" : "수정하기"}
+        </WriteButton>
       </ProblemInfo>
-    </PendingLargeItemContainer>
+    </ProblemItemContainer>
   );
 };
 
-export default PendingLargeItem;
+export default ProblemItem;

@@ -1,15 +1,36 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPendingList } from "../api/problem";
-import type { PendingProblem } from "../../types/problemType";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getProblemById, getProblemList, saveSolvedProblem } from "../api/problem";
+import type { Problem } from "../../types/problemType";
 
-export function useGetPendingList() {
-  return useQuery<PendingProblem[]>({
-    queryKey: ["pendingList"],
+export function useGetProblemList() {
+  return useQuery<Problem[]>({
+    queryKey: ["problem-list"],
     queryFn: async () => {
-      const res = await getPendingList();
+      const res = await getProblemList();
       return res.data;
     },
     staleTime: 1000 * 60,
     gcTime: 1000 * 60 * 5,
+  });
+}
+
+export function useSaveSolvedProblem(problemId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: saveSolvedProblem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
+    },
+  });
+}
+
+export function useGetProblemById(problemId: string) {
+  return useQuery<Problem>({
+    queryKey: ["problem", problemId],
+    queryFn: async () => {
+      const res = await getProblemById(problemId);
+      return res.data;
+    },
+    enabled: !!problemId,
   });
 }

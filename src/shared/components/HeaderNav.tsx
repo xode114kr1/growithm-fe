@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 interface HeaderNavContainerProps {
-  hide: boolean;
+  $hide: boolean;
 }
 
 const HeaderNavContainer = styled.nav<HeaderNavContainerProps>`
@@ -11,8 +11,8 @@ const HeaderNavContainer = styled.nav<HeaderNavContainerProps>`
   margin-top: 65px;
   left: 50%;
   transform: translateX(-50%);
-  opacity: ${({ hide }) => (hide ? 0 : 1)};
-  pointer-events: ${({ hide }) => (hide ? "none" : "auto")};
+  opacity: ${({ $hide }) => ($hide ? 0 : 1)};
+  pointer-events: ${({ $hide }) => ($hide ? "none" : "auto")};
   gap: 20px;
   z-index: 1;
   transition: opacity 0.2s ease-in-out;
@@ -58,9 +58,9 @@ const HeaderNav = () => {
   }, []);
 
   return (
-    <HeaderNavContainer hide={hide}>
+    <HeaderNavContainer $hide={hide}>
       <NavItem to="/dashboard">Home</NavItem>
-      <NavItem to="/pending">Pending</NavItem>
+      <NavItem to="/problem">Problem</NavItem>
       <NavItem to="/friend">Friend</NavItem>
     </HeaderNavContainer>
   );

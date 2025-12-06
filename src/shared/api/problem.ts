@@ -1,7 +1,24 @@
-import type { GetPendingListResponse } from "../../types/problemType";
+import type { ResponseData } from "../../types/commonType";
+import type { Problem } from "../../types/problemType";
 import { apiClient } from "./index";
 
-export async function getPendingList(): Promise<GetPendingListResponse> {
-  const res = await apiClient.get("/pending");
+export async function getProblemList(): Promise<ResponseData<Problem[]>> {
+  const res = await apiClient.get("/problem");
+  return res.data;
+}
+
+interface createSolvedProps {
+  problemId?: string;
+  memo?: string;
+}
+
+export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) {
+  const res = await apiClient.patch(`/problem/solved/${problemId}`, { memo });
+  console.log(res.data);
+  return res.data;
+}
+
+export async function getProblemById(problemId: string): Promise<ResponseData<Problem>> {
+  const res = await apiClient.get(`/problem/${problemId}`);
   return res.data;
 }

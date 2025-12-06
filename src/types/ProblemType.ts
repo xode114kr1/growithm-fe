@@ -1,8 +1,12 @@
-export type TierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
+export type BeakjoonTierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
+export type ProgrammersTierType = "level 1" | "level 2" | "level 3" | "level 4";
 
-export interface PendingProblem {
+export interface Problem {
   _id: string;
   userId: string;
+  timestamp: string;
+  state: "pending" | "solved";
+  platform: string;
   tier: string;
   title: string;
   problemId: string;
@@ -11,10 +15,10 @@ export interface PendingProblem {
   time: string;
   description: string;
   code: string;
-  createdAt: string;
+  memo?: string;
 }
 
-export interface GetPendingListResponse {
+export interface GetProblemListResponse {
   message: string;
-  data: PendingProblem[];
+  data: Problem[];
 }
