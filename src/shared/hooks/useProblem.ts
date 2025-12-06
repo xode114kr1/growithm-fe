@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProblemList, saveSolvedProblem } from "../api/problem";
+import { getProblemById, getProblemList, saveSolvedProblem } from "../api/problem";
 import type { Problem } from "../../types/problemType";
 
 export function useGetProblemList() {
@@ -14,12 +14,20 @@ export function useGetProblemList() {
   });
 }
 
-export function useSaveSolvedProblem() {
+export function useSaveSolvedProblem(problemId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: saveSolvedProblem,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["problem-list"] });
+      queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
     },
+  });
+}
+
+export function useGetProblemById(problemId: string) {
+  return useQuery<Problem>({
+    queryKey: ["problem", problemId],
+    queryFn: () => getProblemById(problemId),
+    enabled: !!problemId,
   });
 }
