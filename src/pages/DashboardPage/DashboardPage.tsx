@@ -7,6 +7,7 @@ import type { BeakjoonTierType } from "../../types/problemType";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
+import { useNavigate } from "react-router-dom";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -178,6 +179,7 @@ const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
 ];
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
   const { data: pendingProblem, isLoading, error } = useGetProblemList({ state: "pending" });
 
   const settings = {
@@ -217,7 +219,9 @@ const DashboardPage = () => {
         <UserInfoContainer>
           <ProfileContainer>
             <ProfileCard />
-            <MenualButton>Growithm이 처음이신가요?</MenualButton>
+            <MenualButton onClick={() => navigate("/dashboard/menual")}>
+              Growithm이 처음이신가요?
+            </MenualButton>
           </ProfileContainer>
           <DashboardInfoContainer>
             <DashboardInfoBox>
