@@ -8,6 +8,7 @@ import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import ProtectedRoute from "./ProtectedRoute";
 import ProblemListPage from "../pages/ProblemListPage/ProblemListPage";
 import SolvedFormPage from "../pages/SolvedFormPage/SolvedFormPage";
+import MenualPage from "../pages/MenualPage/MenualPage";
 
 const Layout = () => {
   const location = useLocation();
@@ -30,7 +31,10 @@ const AppRouter = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard">
+            <Route index element={<DashboardPage />} />
+            <Route path="menual" element={<MenualPage />} />
+          </Route>
           <Route path="/problem" element={<ProblemListPage />} />
           <Route path="/problem/:id" element={<SolvedFormPage />} />
         </Route>
