@@ -5,6 +5,7 @@ import { useAuthStore } from "../../stores/authStore";
 import { useEffect, useRef, useState } from "react";
 import { useLogoutMutation } from "../hooks/useAuth";
 import { GITHUB_AUTH_URL } from "../../shared/api/auth";
+import { useSideNavStore } from "../../stores/sideNavStore";
 
 interface ProfileProps {
   src?: string;
@@ -111,6 +112,7 @@ const Header = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const user = useAuthStore((state) => state.user);
+  const { setOpenSideNav } = useSideNavStore();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
@@ -131,7 +133,7 @@ const Header = () => {
 
   return (
     <HeaderContanier>
-      <StyledFaBars />
+      <StyledFaBars onClick={setOpenSideNav} />
       <Logo onClick={() => navigate("/dashboard")}>GROWITHM</Logo>
 
       {!isAuthenticated ? (

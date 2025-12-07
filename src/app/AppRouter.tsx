@@ -9,6 +9,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import ProblemListPage from "../pages/ProblemListPage/ProblemListPage";
 import SolvedFormPage from "../pages/SolvedFormPage/SolvedFormPage";
 import MenualPage from "../pages/MenualPage/MenualPage";
+import SideNav from "../shared/components/SideNav";
 
 const Layout = () => {
   const location = useLocation();
@@ -17,6 +18,7 @@ const Layout = () => {
   return (
     <>
       <Header />
+      <SideNav />
       {!isHome && <HeaderNav />} {/* 여기서 조건 렌더링 */}
       <Outlet />
       <Footer />
