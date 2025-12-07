@@ -51,7 +51,7 @@ const ProfileName = styled.div`
   color: #2d3436;
 `;
 
-const ProfileEmail = styled.div`
+const ProfileRepo = styled.div`
   flex: 1;
   font-size: 16px;
   color: #866e72;
@@ -76,7 +76,7 @@ const ProfileCard = () => {
     <ProfileCardContainer>
       <ProfileImg src={user?.avatarUrl} />
       <ProfileName>{user?.name}</ProfileName>
-      <ProfileEmail>{user && user.email}</ProfileEmail>
+      <ProfileRepo>{user?.repo}</ProfileRepo>
       <TierContainer tier="gold">Gold</TierContainer>
     </ProfileCardContainer>
   );

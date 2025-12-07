@@ -179,7 +179,7 @@ const ProblemListPage = () => {
     error,
   } = useGetProblemList({ title: inputText, platform, tier, state: queryState });
 
-  const platformCategory = Array.from(new Set(problemList?.map((item) => item.platform) ?? []));
+  const platformCategory = ["beakjoon", "programmers"];
   const tierCategory = Array.from(new Set(problemList?.map((item) => item.tier) ?? []));
 
   return (
