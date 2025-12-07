@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import createRepoImg from "../../assets/create_repo_img.png";
 import beakjoonHubImg from "../../assets/beakjoon_hub_img.png";
+import { useChainingWebhook } from "../../shared/hooks/useGithub";
+import { useNavigate } from "react-router-dom";
 
 const MenualPageContainer = styled.section`
   width: 80%;
@@ -136,7 +138,7 @@ const ImageLabel = styled.div`
   color: #64748b;
 `;
 
-const Form = styled.form`
+const FormContainer = styled.div`
   margin-top: 16px;
   display: flex;
   flex-direction: column;
@@ -206,8 +208,22 @@ const HelperText = styled.p`
 `;
 
 const MenualPage = () => {
+  const navigate = useNavigate();
   const [githubId, setGithubId] = useState("");
   const [repo, setRepo] = useState("");
+
+  const { mutate: chainingWebhook } = useChainingWebhook();
+
+  const handleSubmit = () => {
+    chainingWebhook(
+      { owner: githubId, repo },
+      {
+        onSuccess: () => {
+          navigate("/dashboard");
+        },
+      }
+    );
+  };
 
   return (
     <Wapper>
@@ -301,7 +317,7 @@ const MenualPage = () => {
           </StepLeft>
 
           <StepRight>
-            <Form>
+            <FormContainer>
               <div>
                 <FieldLabel htmlFor="gitgub-id">깃허브 ID</FieldLabel>
                 <TextInput
@@ -326,8 +342,8 @@ const MenualPage = () => {
                 <HelperText>백준 허브가 연동되어 있는 Repository의 주소를 입력합니다.</HelperText>
               </div>
 
-              <SubmitButton type="submit">Repo 등록하기</SubmitButton>
-            </Form>
+              <SubmitButton onClick={handleSubmit}>Repo 등록하기</SubmitButton>
+            </FormContainer>
           </StepRight>
         </StepCard>
       </MenualPageContainer>
