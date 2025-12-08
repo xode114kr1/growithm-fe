@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
+import { useSendFriendRequestMutation } from "../../shared/hooks/useFriendRequest";
 
 const FriendPageContainer = styled.section`
   width: 80%;
@@ -243,12 +244,27 @@ const EmptyState = styled.div`
 `;
 
 const FriendPage = () => {
-  const [state, setState] = useState<"all" | "wait">("all");
+  const [friendName, setFriendName] = useState<string>("");
+  const [state, setState] = useState<"all" | "wait" | "send">("all");
+
+  const { mutate: sendFriendRequest } = useSendFriendRequestMutation();
+
   const dummyFriends = [
     { id: 1, name: "yuki0", solved: 320, tier: "Gold 3" },
     { id: 2, name: "baekcoder", solved: 210, tier: "Silver 1" },
     { id: 3, name: "algomaster", solved: 580, tier: "Platinum 5" },
   ];
+
+  const handleAddFriendButton = async () => {
+    sendFriendRequest(
+      { friendName },
+      {
+        onSuccess: () => {
+          setFriendName("");
+        },
+      }
+    );
+  };
 
   return (
     <Wapper>
@@ -259,9 +275,13 @@ const FriendPage = () => {
             <AddFriendRow>
               <SearchBox>
                 <SearchIcon>🔍</SearchIcon>
-                <input placeholder="닉네임 또는 백준 ID로 친구 검색" />
+                <input
+                  placeholder="닉네임 또는 백준 ID로 친구 검색"
+                  value={friendName}
+                  onChange={(e) => setFriendName(e.target.value)}
+                />
               </SearchBox>
-              <AddFriendButton type="button">추가</AddFriendButton>
+              <AddFriendButton onClick={handleAddFriendButton}>추가</AddFriendButton>
             </AddFriendRow>
           </AddFriendArea>
 
@@ -271,6 +291,9 @@ const FriendPage = () => {
             </ToggleButton>
             <ToggleButton $active={state == "wait"} onClick={() => setState("wait")}>
               요청 대기
+            </ToggleButton>
+            <ToggleButton $active={state == "send"} onClick={() => setState("send")}>
+              보낸 요청
             </ToggleButton>
           </RequestToggle>
         </TopRow>
