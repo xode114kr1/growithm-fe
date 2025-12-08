@@ -109,10 +109,10 @@ const RejectButton = styled.button`
 `;
 
 const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
-  const { data: receiveFriend } = useGetReceiveFriendRequests();
-  const { data: sendFriend } = useGetSendFriendRequests();
-  const friendRequests = state == "receive" ? sendFriend : receiveFriend;
-
+  const { data: receiveFriendRequest } = useGetReceiveFriendRequests();
+  const { data: sendFriendRequest } = useGetSendFriendRequests();
+  const friendRequests = state == "receive" ? receiveFriendRequest : sendFriendRequest;
+  console.log(receiveFriendRequest, sendFriendRequest);
   if (!(state == "receive") && !(state == "send")) {
     return null;
   }

@@ -184,7 +184,7 @@ const FriendPage = () => {
               내 친구
             </ToggleButton>
             <ToggleButton $active={state == "receive"} onClick={() => setState("receive")}>
-              요청 대기
+              수락 대기
             </ToggleButton>
             <ToggleButton $active={state == "send"} onClick={() => setState("send")}>
               보낸 요청
