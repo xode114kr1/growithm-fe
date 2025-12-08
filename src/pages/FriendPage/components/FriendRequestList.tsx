@@ -1,0 +1,138 @@
+import styled from "styled-components";
+import {
+  useGetReceiveFriendRequests,
+  useGetSendFriendRequests,
+} from "../../../shared/hooks/useFriendRequest";
+
+const FriendRequestListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const RequestCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+`;
+
+const Avatar = styled.div`
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f97316, #ec4899);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #f9fafb;
+`;
+
+const RequestInfo = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const RequestName = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+`;
+
+const Actions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const AcceptButton = styled.button`
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #4f46e5;
+  background: #4f46e5;
+  font-size: 11px;
+  font-weight: 500;
+  color: #f9fafb;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    transform 0.05s ease-in-out,
+    box-shadow 0.1s ease-in-out;
+
+  &:hover {
+    background: #4338ca;
+    border-color: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+`;
+
+const RejectButton = styled.button`
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 11px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    transform 0.05s ease-in-out;
+
+  &:hover {
+    background: #fee2e2;
+    border-color: #fecaca;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
+  const { data: receiveFriend } = useGetReceiveFriendRequests();
+  const { data: sendFriend } = useGetSendFriendRequests();
+  const friendRequests = state == "receive" ? sendFriend : receiveFriend;
+
+  if (!(state == "receive") && !(state == "send")) {
+    return null;
+  }
+
+  return (
+    <FriendRequestListContainer>
+      {friendRequests?.map((item) => (
+        <RequestCard key={item._id}>
+          <Avatar>{item?.to?.name.charAt(0).toUpperCase()}</Avatar>
+          <RequestInfo>
+            <RequestName>{item?.to?.name}</RequestName>
+          </RequestInfo>
+          <Actions>
+            <AcceptButton type="button">수락</AcceptButton>
+            <RejectButton type="button">삭제</RejectButton>
+          </Actions>
+        </RequestCard>
+      ))}
+    </FriendRequestListContainer>
+  );
+};
+
+export default FriendRequestList;

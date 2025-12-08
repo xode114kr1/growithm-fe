@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
 import { useSendFriendRequestMutation } from "../../shared/hooks/useFriendRequest";
+import FriendList from "./components/FriendList";
+import FriendRequestList from "./components/FriendRequestList";
 
 const FriendPageContainer = styled.section`
   width: 80%;
@@ -141,119 +143,11 @@ const Section = styled.section`
   gap: 10px;
 `;
 
-const SectionHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-`;
-
-const SectionSub = styled.span`
-  font-size: 12px;
-  color: #9ca3af;
-`;
-
-const FriendList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const FriendCard = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 10px 12px;
-  border-radius: 12px;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-`;
-
-const Avatar = styled.div`
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #a855f7, #6366f1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: #f9fafb;
-`;
-
-const FriendInfo = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-`;
-
-const FriendName = styled.div`
-  font-size: 14px;
-  font-weight: 600;
-  color: #111827;
-`;
-
-const FriendMeta = styled.div`
-  font-size: 11px;
-  color: #6b7280;
-`;
-
-const FriendAction = styled.button`
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  font-size: 11px;
-  font-weight: 500;
-  color: #4b5563;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background 0.15s ease-in-out,
-    border-color 0.15s ease-in-out,
-    transform 0.05s ease-in-out;
-
-  &:hover {
-    background: #eef2ff;
-    border-color: #c7d2fe;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
-const EmptyState = styled.div`
-  margin-top: 4px;
-  padding: 16px 14px;
-  border-radius: 12px;
-  border: 1px dashed #e5e7eb;
-  background-color: #f9fafb;
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.5;
-`;
-
 const FriendPage = () => {
   const [friendName, setFriendName] = useState<string>("");
-  const [state, setState] = useState<"all" | "wait" | "send">("all");
+  const [state, setState] = useState<"friend" | "send" | "receive">("friend");
 
   const { mutate: sendFriendRequest } = useSendFriendRequestMutation();
-
-  const dummyFriends = [
-    { id: 1, name: "yuki0", solved: 320, tier: "Gold 3" },
-    { id: 2, name: "baekcoder", solved: 210, tier: "Silver 1" },
-    { id: 3, name: "algomaster", solved: 580, tier: "Platinum 5" },
-  ];
 
   const handleAddFriendButton = async () => {
     sendFriendRequest(
@@ -276,7 +170,7 @@ const FriendPage = () => {
               <SearchBox>
                 <SearchIcon>🔍</SearchIcon>
                 <input
-                  placeholder="닉네임 또는 백준 ID로 친구 검색"
+                  placeholder="백준 ID로 친구 검색"
                   value={friendName}
                   onChange={(e) => setFriendName(e.target.value)}
                 />
@@ -286,10 +180,10 @@ const FriendPage = () => {
           </AddFriendArea>
 
           <RequestToggle>
-            <ToggleButton $active={state == "all"} onClick={() => setState("all")}>
+            <ToggleButton $active={state == "friend"} onClick={() => setState("friend")}>
               내 친구
             </ToggleButton>
-            <ToggleButton $active={state == "wait"} onClick={() => setState("wait")}>
+            <ToggleButton $active={state == "receive"} onClick={() => setState("receive")}>
               요청 대기
             </ToggleButton>
             <ToggleButton $active={state == "send"} onClick={() => setState("send")}>
@@ -299,33 +193,8 @@ const FriendPage = () => {
         </TopRow>
 
         <Section>
-          <SectionHeader>
-            <SectionTitle>내 친구</SectionTitle>
-            <SectionSub>{dummyFriends.length}명</SectionSub>
-          </SectionHeader>
-
-          {dummyFriends.length > 0 ? (
-            <FriendList>
-              {dummyFriends.map((friend) => (
-                <FriendCard key={friend.id}>
-                  <Avatar>{friend.name.charAt(0).toUpperCase()}</Avatar>
-                  <FriendInfo>
-                    <FriendName>{friend.name}</FriendName>
-                    <FriendMeta>
-                      푼 문제 {friend.solved}개 · 현재 티어 {friend.tier}
-                    </FriendMeta>
-                  </FriendInfo>
-                  <FriendAction type="button">상세 보기</FriendAction>
-                </FriendCard>
-              ))}
-            </FriendList>
-          ) : (
-            <EmptyState>
-              아직 등록된 친구가 없습니다.
-              <br />
-              상단의 &ldquo;친구 추가&rdquo; 버튼을 눌러 함께 공부할 친구를 추가해보세요.
-            </EmptyState>
-          )}
+          {state == "friend" && <FriendList />}
+          {state != "friend" && <FriendRequestList state={state} />}
         </Section>
       </FriendPageContainer>
     </Wapper>

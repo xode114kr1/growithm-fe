@@ -6,8 +6,13 @@ interface sendFriendRequestRequest {
   friendName: string;
 }
 
-export async function getWaitFriendRequests(): Promise<ResponseData<FriendRequests>> {
-  const res = await apiClient.get("/friend-request/wait");
+export async function getSendFriendRequests(): Promise<ResponseData<FriendRequests[]>> {
+  const res = await apiClient.get("/friend-request/send");
+  return res.data;
+}
+
+export async function getReceiveFriendRequests(): Promise<ResponseData<FriendRequests[]>> {
+  const res = await apiClient.get("/friend-request/receive");
   return res.data;
 }
 
