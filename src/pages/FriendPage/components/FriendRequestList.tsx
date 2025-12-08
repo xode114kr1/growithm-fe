@@ -126,7 +126,7 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
             <RequestName>{item?.to?.name}</RequestName>
           </RequestInfo>
           <Actions>
-            <AcceptButton type="button">수락</AcceptButton>
+            {state == "receive" && <AcceptButton type="button">수락</AcceptButton>}
             <RejectButton type="button">삭제</RejectButton>
           </Actions>
         </RequestCard>
