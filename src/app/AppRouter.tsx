@@ -10,6 +10,7 @@ import ProblemListPage from "../pages/ProblemListPage/ProblemListPage";
 import SolvedFormPage from "../pages/SolvedFormPage/SolvedFormPage";
 import MenualPage from "../pages/MenualPage/MenualPage";
 import SideNav from "../shared/components/SideNav";
+import FriendPage from "../pages/FriendPage/FriendPage";
 
 const Layout = () => {
   const location = useLocation();
@@ -39,6 +40,7 @@ const AppRouter = () => {
           </Route>
           <Route path="/problem" element={<ProblemListPage />} />
           <Route path="/problem/:id" element={<SolvedFormPage />} />
+          <Route path="/friend" element={<FriendPage />} />
         </Route>
       </Route>
     </Routes>

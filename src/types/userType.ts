@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  _id: string;
   githubId: string;
   repo?: string;
   name: string;
