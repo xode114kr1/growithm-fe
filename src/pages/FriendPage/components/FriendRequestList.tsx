@@ -117,6 +117,25 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
     return null;
   }
 
+  if (state == "receive") {
+    return (
+      <FriendRequestListContainer>
+        {friendRequests?.map((item) => (
+          <RequestCard key={item._id}>
+            <Avatar>{item?.from?.name.charAt(0).toUpperCase()}</Avatar>
+            <RequestInfo>
+              <RequestName>{item?.from?.name}</RequestName>
+            </RequestInfo>
+            <Actions>
+              <AcceptButton type="button">수락</AcceptButton>
+              <RejectButton type="button">삭제</RejectButton>
+            </Actions>
+          </RequestCard>
+        ))}
+      </FriendRequestListContainer>
+    );
+  }
+
   return (
     <FriendRequestListContainer>
       {friendRequests?.map((item) => (
@@ -126,7 +145,6 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
             <RequestName>{item?.to?.name}</RequestName>
           </RequestInfo>
           <Actions>
-            {state == "receive" && <AcceptButton type="button">수락</AcceptButton>}
             <RejectButton type="button">삭제</RejectButton>
           </Actions>
         </RequestCard>
