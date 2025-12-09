@@ -3,6 +3,7 @@ import {
   acceptFriendRequest,
   getReceiveFriendRequests,
   getSendFriendRequests,
+  rejectFriendRequest,
   sendFriendRequest,
 } from "../api/friendRequest";
 import type { FriendRequests } from "../../types/friendRequest";
@@ -44,6 +45,16 @@ export function useAcceptFriendRequestMutation() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["receive-friend"] });
       queryClient.invalidateQueries({ queryKey: ["friends"] });
+    },
+  });
+}
+
+export function useRejectFriendRequestMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: rejectFriendRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["receive-friend"] });
     },
   });
 }

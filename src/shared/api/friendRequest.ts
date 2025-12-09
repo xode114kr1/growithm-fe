@@ -6,13 +6,22 @@ interface acceptFriendRequestRequest {
   requestId: string;
 }
 
+interface rejectFriendRequestRequest {
+  requestId: string;
+}
+
 interface sendFriendRequestRequest {
   friendName: string;
 }
 
 export async function acceptFriendRequest({ requestId }: acceptFriendRequestRequest) {
   const res = await apiClient.post(`/friend-request/${requestId}/accept`);
-  console.log(res.data);
+  return res.data;
+}
+
+export async function rejectFriendRequest({ requestId }: rejectFriendRequestRequest) {
+  const res = await apiClient.delete(`/friend-request/${requestId}/reject`);
+  return res.data;
 }
 
 export async function getSendFriendRequests(): Promise<ResponseData<FriendRequests[]>> {
