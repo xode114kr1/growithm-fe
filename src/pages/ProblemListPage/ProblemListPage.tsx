@@ -6,20 +6,53 @@ import ProblemItem from "./components/ProblemItem";
 
 const ProblemListPageContainer = styled.section`
   width: 80%;
-  height: 100%;
-  margin: 0 10%;
-  padding: 60px 0;
+  margin: 0 auto;
+  padding: 40px 0 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   @media (max-width: 1024px) {
     width: 90%;
-    margin: 0 5%;
   }
 
   @media (max-width: 768px) {
     width: 100%;
-    margin: 0;
-    padding: 40px 16px;
+    padding: 32px 16px 48px;
   }
+`;
+
+const HeaderRow = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const PageTitle = styled.h1`
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+`;
+
+const PageSubtitle = styled.span`
+  font-size: 13px;
+  color: #9ca3af;
+`;
+
+const CountBadge = styled.span`
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #eef2ff;
+  color: #4f46e5;
+  font-weight: 500;
 `;
 
 const FilterContainer = styled.div`
@@ -30,11 +63,11 @@ const FilterContainer = styled.div`
 
   width: 100%;
   min-height: 60px;
-  padding: 10px 20px;
-  border-radius: 12px;
+  padding: 12px 18px;
+  border-radius: 16px;
   background: #ffffff;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
-  margin-bottom: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -62,20 +95,20 @@ const DropdownContainer = styled.div`
 `;
 
 const DropdownMenu = styled.select`
-  width: 150px;
-  height: 35px;
-  border-radius: 8px;
-  border: 1px solid #dfe6e9;
+  width: 160px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
   font-size: 14px;
   font-weight: 400;
-  color: #2d3436;
+  color: #111827;
   padding: 0 10px;
   background: #ffffff;
   outline: none;
 
   &:focus {
-    border-color: #0984e3;
-    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.15);
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
   }
 
   @media (max-width: 768px) {
@@ -109,7 +142,7 @@ const StateFilterGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #f5f6fa;
+  background: #f3f4ff;
   padding: 4px;
   border-radius: 999px;
 
@@ -124,26 +157,33 @@ const StateFilterButton = styled.button<{ $active?: boolean }>`
   padding: 6px 12px;
   font-size: 13px;
   cursor: pointer;
-  background: ${({ $active }) => ($active ? "#0984e3" : "transparent")};
-  color: ${({ $active }) => ($active ? "#ffffff" : "#2d3436")};
+  background: ${({ $active }) => ($active ? "#4f46e5" : "transparent")};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#111827")};
   font-weight: ${({ $active }) => ($active ? 600 : 400)};
   transition:
     background 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    box-shadow 0.12s ease-in-out,
+    transform 0.05s ease-in-out;
 
   &:hover {
-    background: ${({ $active }) => ($active ? "#0984e3" : "rgba(9, 132, 227, 0.08)")};
+    background: ${({ $active }) => ($active ? "#4338ca" : "rgba(79, 70, 229, 0.08)")};
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
   }
 `;
 
 const TextInput = styled.input`
   width: 260px;
-  height: 35px;
+  height: 36px;
   border-radius: 999px;
-  border: 1px solid #dfe6e9;
+  border: 1px solid #e5e7eb;
   font-size: 14px;
   padding: 0 14px;
-  color: #2d3436;
+  color: #111827;
   background: #ffffff;
   outline: none;
 
@@ -152,8 +192,8 @@ const TextInput = styled.input`
   }
 
   &:focus {
-    border-color: #0984e3;
-    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.15);
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
   }
 
   @media (max-width: 1024px) {
@@ -163,6 +203,22 @@ const TextInput = styled.input`
   @media (max-width: 768px) {
     width: 100%;
   }
+`;
+
+const ProblemListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const StatusMessage = styled.div`
+  padding: 18px 16px;
+  border-radius: 12px;
+  border: 1px dashed #e5e7eb;
+  background-color: #f9fafb;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
 `;
 
 const ProblemListPage = () => {
@@ -182,9 +238,19 @@ const ProblemListPage = () => {
   const platformCategory = ["beakjoon", "programmers"];
   const tierCategory = Array.from(new Set(problemList?.map((item) => item.tier) ?? []));
 
+  const problemCount = problemList?.length ?? 0;
+
   return (
     <Wapper>
       <ProblemListPageContainer>
+        <HeaderRow>
+          <div>
+            <PageTitle>문제 리스트</PageTitle>
+            <PageSubtitle>등록된 문제들을 필터링하고 검색해보세요.</PageSubtitle>
+          </div>
+          <CountBadge>{problemCount}개</CountBadge>
+        </HeaderRow>
+
         <FilterContainer>
           <DropdownContainer>
             <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
@@ -227,11 +293,17 @@ const ProblemListPage = () => {
           </RightFilterArea>
         </FilterContainer>
 
-        {isLoading && <div>불러오는 중...</div>}
-        {error && <div>문제를 불러오는 중 오류가 발생했습니다.</div>}
-        {problemList?.map((item) => (
-          <ProblemItem problem={item} key={item._id} />
-        ))}
+        <ProblemListWrapper>
+          {isLoading && <StatusMessage>문제 목록을 불러오는 중입니다...</StatusMessage>}
+          {error && <StatusMessage>문제를 불러오는 중 오류가 발생했습니다.</StatusMessage>}
+          {!isLoading && !error && problemCount === 0 && (
+            <StatusMessage>조건에 맞는 문제가 없습니다. 필터를 변경해보세요.</StatusMessage>
+          )}
+
+          {problemList?.map((item) => (
+            <ProblemItem problem={item} key={item._id} />
+          ))}
+        </ProblemListWrapper>
       </ProblemListPageContainer>
     </Wapper>
   );
