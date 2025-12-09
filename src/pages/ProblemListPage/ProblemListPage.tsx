@@ -18,41 +18,8 @@ const ProblemListPageContainer = styled.section`
 
   @media (max-width: 768px) {
     width: 100%;
-    padding: 32px 16px 48px;
+    padding: 40px 16px 48px;
   }
-`;
-
-const HeaderRow = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 12px;
-
-  @media (max-width: 640px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const PageTitle = styled.h1`
-  margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: #111827;
-`;
-
-const PageSubtitle = styled.span`
-  font-size: 13px;
-  color: #9ca3af;
-`;
-
-const CountBadge = styled.span`
-  font-size: 13px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background-color: #eef2ff;
-  color: #4f46e5;
-  font-weight: 500;
 `;
 
 const FilterContainer = styled.div`
@@ -69,7 +36,7 @@ const FilterContainer = styled.div`
   border: 1px solid #e5e7eb;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     align-items: stretch;
     padding: 12px 12px;
@@ -82,8 +49,9 @@ const DropdownContainer = styled.div`
   align-items: center;
   gap: 10px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: 100%;
+    align-items: stretch;
     justify-content: space-between;
   }
 
@@ -111,9 +79,9 @@ const DropdownMenu = styled.select`
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex: 1;
-    width: auto;
+    width: 100%;
   }
 
   @media (max-width: 480px) {
@@ -128,6 +96,7 @@ const RightFilterArea = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+
     justify-content: space-between;
   }
 
@@ -156,6 +125,7 @@ const StateFilterButton = styled.button<{ $active?: boolean }>`
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 13px;
+  min-width: 70px;
   cursor: pointer;
   background: ${({ $active }) => ($active ? "#4f46e5" : "transparent")};
   color: ${({ $active }) => ($active ? "#ffffff" : "#111827")};
@@ -177,7 +147,7 @@ const StateFilterButton = styled.button<{ $active?: boolean }>`
 `;
 
 const TextInput = styled.input`
-  width: 260px;
+  min-width: 200px;
   height: 36px;
   border-radius: 999px;
   border: 1px solid #e5e7eb;
@@ -197,7 +167,7 @@ const TextInput = styled.input`
   }
 
   @media (max-width: 1024px) {
-    width: 220px;
+    width: 100%;
   }
 
   @media (max-width: 768px) {
@@ -243,14 +213,6 @@ const ProblemListPage = () => {
   return (
     <Wapper>
       <ProblemListPageContainer>
-        <HeaderRow>
-          <div>
-            <PageTitle>문제 리스트</PageTitle>
-            <PageSubtitle>등록된 문제들을 필터링하고 검색해보세요.</PageSubtitle>
-          </div>
-          <CountBadge>{problemCount}개</CountBadge>
-        </HeaderRow>
-
         <FilterContainer>
           <DropdownContainer>
             <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>

@@ -18,18 +18,18 @@ const TIER_COLOR: Record<BeakjoonTierType, string> = {
 const PendingItemContainer = styled.div<PendingItemContainerProps>`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  padding: 8px 10px;
+  padding: 12px 14px;
   flex-shrink: 0;
 
-  border-left: 3px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
-  border-radius: 8px;
+  border-left: 4px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
+  border-radius: 12px;
   background-color: #ffffff;
 
   color: #111827;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
 
   white-space: nowrap;
   overflow: hidden;
@@ -38,13 +38,13 @@ const PendingItemContainer = styled.div<PendingItemContainerProps>`
 
   transition:
     background-color 0.15s ease-in-out,
-    box-shadow 0.12s ease-in-out,
+    box-shadow 0.15s ease-in-out,
     transform 0.05s ease-in-out;
 
   &:hover {
-    background-color: ${({ tier }) => (TIER_COLOR[tier] || TIER_COLOR.bronze) + "20"};
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
+    background-color: ${({ tier }) => (TIER_COLOR[tier] || TIER_COLOR.bronze) + "26"};
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(15, 23, 42, 0.12);
   }
 
   &:active {
@@ -54,8 +54,8 @@ const PendingItemContainer = styled.div<PendingItemContainerProps>`
 `;
 
 const TierDot = styled.span<PendingItemContainerProps>`
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   background-color: ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
   flex-shrink: 0;

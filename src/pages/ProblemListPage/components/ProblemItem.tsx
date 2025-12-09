@@ -31,28 +31,33 @@ const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
 const ProblemItemContainer = styled.div<ProblemItemContainerProps>`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 
   width: 100%;
-  padding: 20px 24px 18px;
+  padding: 14px 16px;
 
-  border-radius: 18px;
+  border-radius: 14px;
   border-left: 5px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
   background-color: #ffffff;
-  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
 `;
 
 const ProblemTitleRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const ProblemTitleText = styled.div`
   flex: 1;
   min-width: 0;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
   color: #111827;
 
@@ -64,16 +69,20 @@ const ProblemTitleText = styled.div`
 const TierInfo = styled.div<TierInfoProps>`
   flex-shrink: 0;
 
-  padding: 8px 12px;
-  min-width: 94px;
+  padding: 6px 10px;
+  min-width: 88px;
 
   text-align: center;
   background-color: ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
-  border-radius: 12px;
+  border-radius: 10px;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #ffffff;
+
+  @media (max-width: 640px) {
+    align-self: flex-start;
+  }
 `;
 
 const ProblemSub = styled.div`
@@ -81,7 +90,7 @@ const ProblemSub = styled.div`
   flex-wrap: wrap;
   gap: 6px;
 
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
@@ -90,22 +99,27 @@ const CategoryChip = styled.span`
   border-radius: 999px;
   background-color: #eef2ff;
   color: #4f46e5;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
 `;
 
 const ProblemInfo = styled.div`
   margin-top: 2px;
-  padding-top: 10px;
+  padding-top: 8px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 
-  font-size: 14px;
+  font-size: 15px;
   color: #6b7280;
   border-top: 1px solid #e5e7eb;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const ProblemInfoText = styled.div`
@@ -121,8 +135,8 @@ const ProblemInfoText = styled.div`
 const WriteButton = styled.button<WriteButtonProps>`
   flex-shrink: 0;
 
-  min-width: 130px;
-  padding: 10px 14px;
+  min-width: 120px;
+  padding: 8px 14px;
 
   border: none;
   border-radius: 999px;
