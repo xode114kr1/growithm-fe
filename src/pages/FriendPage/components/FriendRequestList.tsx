@@ -24,17 +24,19 @@ const RequestCard = styled.div`
   border: 1px solid #e5e7eb;
 `;
 
-const Avatar = styled.div`
+interface AvatarProps {
+  src?: string;
+}
+
+const Avatar = styled.img<AvatarProps>`
   width: 34px;
   height: 34px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #f97316, #ec4899);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: #f9fafb;
+  border-radius: 50%;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: 200ms ease-in;
 `;
 
 const RequestInfo = styled.div`
@@ -129,7 +131,7 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
       <FriendRequestListContainer>
         {friendRequests?.map((item) => (
           <RequestCard key={item._id}>
-            <Avatar>{item?.from?.name.charAt(0).toUpperCase()}</Avatar>
+            <Avatar src={item?.from?.avatarUrl} />
             <RequestInfo>
               <RequestName>{item?.from?.name}</RequestName>
             </RequestInfo>
@@ -157,7 +159,7 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
     <FriendRequestListContainer>
       {friendRequests?.map((item) => (
         <RequestCard key={item._id}>
-          <Avatar>{item?.to?.name.charAt(0).toUpperCase()}</Avatar>
+          <Avatar src={item?.to?.avatarUrl} />
           <RequestInfo>
             <RequestName>{item?.to?.name}</RequestName>
           </RequestInfo>
