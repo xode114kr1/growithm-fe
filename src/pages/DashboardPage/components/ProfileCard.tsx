@@ -55,6 +55,7 @@ const ProfileRepo = styled.div`
   flex: 1;
   font-size: 16px;
   color: #866e72;
+  margin-bottom: 15px;
 `;
 
 const TierContainer = styled.div<TierContainerProps>`

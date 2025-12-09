@@ -16,26 +16,57 @@ const TIER_COLOR: Record<BeakjoonTierType, string> = {
 };
 
 const PendingItemContainer = styled.div<PendingItemContainerProps>`
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
-  height: 40px;
-  line-height: 40px;
+  padding: 8px 10px;
   flex-shrink: 0;
-  border-left: 4px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
-  padding: 0 10px;
-  color: #2d3436;
-  font-size: 17px;
+
+  border-left: 3px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
+  border-radius: 8px;
+  background-color: #ffffff;
+
+  color: #111827;
+  font-size: 14px;
   font-weight: 500;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: 300ms ease-in;
   cursor: pointer;
 
+  transition:
+    background-color 0.15s ease-in-out,
+    box-shadow 0.12s ease-in-out,
+    transform 0.05s ease-in-out;
+
   &:hover {
-    background: ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
-    opacity: 0.8;
+    background-color: ${({ tier }) => (TIER_COLOR[tier] || TIER_COLOR.bronze) + "20"};
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
   }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+`;
+
+const TierDot = styled.span<PendingItemContainerProps>`
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
+  flex-shrink: 0;
+`;
+
+const PendingTitle = styled.span`
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 interface PendingItemProps {
@@ -45,12 +76,14 @@ interface PendingItemProps {
 const PendingItem = ({ pendingProblem }: PendingItemProps) => {
   const navigate = useNavigate();
   const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
+
   return (
     <PendingItemContainer
       tier={growithmTier}
       onClick={() => navigate(`/problem/${pendingProblem?._id}`)}
     >
-      {pendingProblem.title}
+      <TierDot tier={growithmTier} />
+      <PendingTitle>{pendingProblem.title}</PendingTitle>
     </PendingItemContainer>
   );
 };
