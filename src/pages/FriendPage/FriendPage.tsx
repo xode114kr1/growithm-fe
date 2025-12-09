@@ -22,24 +22,24 @@ const AddFriendArea = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 `;
 
 const AddFriendLabel = styled.div`
-  font-size: 13px;
-  font-weight: 500;
-  color: #4b5563;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
 `;
 
 const AddFriendRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 `;
 
 const RequestToggle = styled.div`
   display: inline-flex;
-  padding: 4px;
+  padding: 6px;
   border-radius: 999px;
   background-color: #e5e7eb;
 
@@ -51,14 +51,14 @@ const RequestToggle = styled.div`
 const ToggleButton = styled.button<{ $active?: boolean }>`
   border: none;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
 
   background-color: ${({ $active }) => ($active ? "#ffffff" : "transparent")};
   color: ${({ $active }) => ($active ? "#4f46e5" : "#4b5563")};
-  box-shadow: ${({ $active }) => ($active ? "0 2px 6px rgba(148, 163, 184, 0.4)" : "none")};
+  box-shadow: ${({ $active }) => ($active ? "0 2px 6px rgba(148,163,184,0.4)" : "none")};
 
   transition:
     background-color 0.15s ease-in-out,
@@ -69,7 +69,6 @@ const ToggleButton = styled.button<{ $active?: boolean }>`
   &:hover {
     transform: translateY(-1px);
   }
-
   &:active {
     transform: translateY(0);
   }
@@ -78,14 +77,14 @@ const ToggleButton = styled.button<{ $active?: boolean }>`
 const TopRow = styled.div`
   display: flex;
   align-items: flex-end;
-  gap: 16px;
+  gap: 20px;
 `;
 
 const SearchBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
+  gap: 10px;
+  padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid #e5e7eb;
   background-color: #ffffff;
@@ -94,27 +93,28 @@ const SearchBox = styled.div`
     border: none;
     outline: none;
     flex: 1;
-    font-size: 13px;
+    font-size: 15px; /* 13 → 15 */
     background: transparent;
     color: #111827;
 
     &::placeholder {
       color: #9ca3af;
+      font-size: 15px;
     }
   }
 `;
 
 const SearchIcon = styled.span`
-  font-size: 14px;
+  font-size: 16px;
   color: #9ca3af;
 `;
 
 const AddFriendButton = styled.button`
-  padding: 8px 14px;
+  padding: 10px 16px;
   border-radius: 999px;
   border: none;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
 
@@ -140,7 +140,7 @@ const AddFriendButton = styled.button`
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 `;
 
 const FriendPage = () => {

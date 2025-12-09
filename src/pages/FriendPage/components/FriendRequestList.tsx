@@ -10,18 +10,23 @@ import {
 const FriendRequestListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 `;
 
 const RequestCard = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+
+  @media (max-width: 480px) {
+    align-items: flex-start;
+  }
 `;
 
 interface AvatarProps {
@@ -29,14 +34,12 @@ interface AvatarProps {
 }
 
 const Avatar = styled.img<AvatarProps>`
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: 200ms ease-in;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  object-fit: cover;
+  background-color: #e5e7eb;
+  flex-shrink: 0;
 `;
 
 const RequestInfo = styled.div`
@@ -47,7 +50,7 @@ const RequestInfo = styled.div`
 `;
 
 const RequestName = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #111827;
 `;
@@ -55,15 +58,19 @@ const RequestName = styled.div`
 const Actions = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+
+  @media (max-width: 480px) {
+    margin-top: 4px;
+  }
 `;
 
 const AcceptButton = styled.button`
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid #4f46e5;
   background: #4f46e5;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   color: #f9fafb;
   cursor: pointer;
@@ -88,11 +95,11 @@ const AcceptButton = styled.button`
 `;
 
 const RejectButton = styled.button`
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid #e5e7eb;
   background: #f9fafb;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   color: #4b5563;
   cursor: pointer;
@@ -121,12 +128,14 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
   const { data: receiveFriendRequest } = useGetReceiveFriendRequests();
   const { data: sendFriendRequest } = useGetSendFriendRequests();
   const friendRequests = state == "receive" ? receiveFriendRequest : sendFriendRequest;
+
   console.log(receiveFriendRequest, sendFriendRequest);
-  if (!(state == "receive") && !(state == "send")) {
+
+  if (!(state === "receive") && !(state === "send")) {
     return null;
   }
 
-  if (state == "receive") {
+  if (state === "receive") {
     return (
       <FriendRequestListContainer>
         {friendRequests?.map((item) => (

@@ -4,18 +4,23 @@ import { useGetFriendList } from "../../../shared/hooks/useFriend";
 const FriendListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 `;
 
 const FriendCard = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+
+  @media (max-width: 480px) {
+    align-items: flex-start;
+  }
 `;
 
 interface AvatarProps {
@@ -23,40 +28,38 @@ interface AvatarProps {
 }
 
 const Avatar = styled.img<AvatarProps>`
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: 200ms ease-in;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  object-fit: cover;
+  background-color: #e5e7eb;
+  flex-shrink: 0;
 `;
 
 const FriendInfo = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 `;
 
 const FriendName = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #111827;
 `;
 
 const FriendMeta = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   color: #6b7280;
 `;
 
 const FriendAction = styled.button`
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid #e5e7eb;
   background: #f9fafb;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   color: #4b5563;
   cursor: pointer;
@@ -77,19 +80,31 @@ const FriendAction = styled.button`
   }
 `;
 
+const EmptyState = styled.div`
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1px dashed #e5e7eb;
+  background-color: #f9fafb;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+`;
+
 const FriendList = () => {
   const { data: friendList } = useGetFriendList();
-  if (friendList?.length == 0) {
-    return <div>친구가 없습니다</div>;
+
+  if (!friendList || friendList.length === 0) {
+    return <EmptyState>아직 친구가 없습니다. 친구를 추가해보세요 👋</EmptyState>;
   }
+
   return (
     <FriendListContainer>
-      {friendList?.map((friend) => (
+      {friendList.map((friend) => (
         <FriendCard key={friend?._id}>
           <Avatar src={friend?.avatarUrl} />
           <FriendInfo>
             <FriendName>{friend?.name}</FriendName>
-            <FriendMeta>{/* 푼 문제 {friend.solved}개 · 현재 티어 {friend.tier} */}</FriendMeta>
+            <FriendMeta>푼 문제 10개 · 현재 티어 Gold</FriendMeta>
           </FriendInfo>
           <FriendAction type="button">상세 보기</FriendAction>
         </FriendCard>
