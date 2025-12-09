@@ -11,145 +11,280 @@ import { useNavigate } from "react-router-dom";
 
 const DashboardContainer = styled.section`
   width: 80%;
-  height: 100%;
-  margin: 0 10%;
-  padding: 60px 0;
+  margin: 0 auto;
+  padding: 40px 0 60px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 32px;
+
+  @media (max-width: 1024px) {
+    width: 90%;
+    padding: 40px 0 48px;
+  }
 `;
 
 const UserInfoContainer = styled.section`
-  display: flex;
-  width: 100%;
-  height: 450px;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) 2fr minmax(260px, 0.9fr);
+  grid-template-rows: auto;
+  grid-template-areas: "profile stats pending";
+  gap: 20px;
+  align-items: stretch;
+
+  @media (max-width: 1280px) {
+    grid-template-columns: minmax(260px, 1fr) 1.7fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "profile stats"
+      "pending pending";
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "profile"
+      "stats"
+      "pending";
+  }
 `;
 
 const ProfileContainer = styled.div`
+  grid-area: profile;
   display: flex;
   flex-direction: column;
-  width: clamp(250px, 20%, 350px);
-  height: 100%;
+  gap: 10px;
 `;
+
 const MenualButton = styled.button`
   width: 100%;
-  height: 50px;
-  margin-top: 10px;
+  height: 48px;
+  margin-top: 4px;
   border: none;
-  border-radius: 8px;
-  background: #6c5ce7;
-  color: #f0f0f0;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #f9fafb;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.25);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
-  transition: opacity 300ms ease-in;
+  transition:
+    transform 0.08s ease-in-out,
+    box-shadow 0.12s ease-in-out,
+    opacity 0.15s ease-in-out;
+
   &:hover {
-    opacity: 0.8;
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(79, 70, 229, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
   }
 `;
 
 const DashboardInfoContainer = styled.section`
-  flex: 1;
+  grid-area: stats;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, auto);
+  gap: 12px;
 
-  @media (max-width: 1440px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr 1fr;
   }
 `;
 
-const DashboardInfoBox = styled.div`
+const StatCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  border: 1px solid #e5e7eb;
+  gap: 4px;
 `;
 
-const DashboardInfoTitle = styled.h1`
-  margin-top: 0px;
-  font-size: 40px;
+const StatLabel = styled.div`
+  font-size: 14px;
   font-weight: 500;
-  color: #2d3436;
+  color: #6b7280;
 `;
 
-const DashboardInfoSub = styled.span`
-  font-size: 15px;
-  color: #866e72;
+const StatValue = styled.div`
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+`;
+
+const StatSubText = styled.div`
+  font-size: 13px;
+  color: #9ca3af;
 `;
 
 const ChartBox = styled.div`
-  grid-column: 3/5;
-  grid-row: 1/3;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  grid-column: 1 / 3;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  border: 1px solid #e5e7eb;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
 
   @media (max-width: 1440px) {
+    padding: 16px;
+  }
+
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
 
+const ChartHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+`;
+
+const ChartTitle = styled.div`
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+`;
+
+const ChartSubtitle = styled.div`
+  font-size: 13px;
+  color: #9ca3af;
+`;
+
+const ChartInner = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
 const PendingListContainer = styled.section`
-  width: clamp(250px, 20%, 350px);
-  height: 100%;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  grid-area: pending;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  /* max-height: 460px; */
+
+  @media (max-width: 1280px) {
+    max-height: 380px;
+  }
 `;
 
 const PendingListTitle = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  background-color: #fafafa;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  font-size: 18px;
+  padding: 10px 16px;
+  gap: 8px;
+  background-color: #f9fafb;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  font-size: 15px;
   font-weight: 600;
-  color: #6c5ce7;
+  color: #4f46e5;
+  border-bottom: 1px solid #e5e7eb;
+`;
+
+const PendingListTitleBadge = styled.span`
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #eef2ff;
+  color: #4f46e5;
 `;
 
 const PendingListBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100% - 45px);
-  overflow: auto;
+  padding: 8px 12px 12px;
+  height: 100%;
+  overflow-y: auto;
+  gap: 6px;
 `;
 
-const StudyContainerHeader = styled.header`
-  padding: 20px 0;
+const EmptyPending = styled.div`
+  padding: 20px 12px 24px;
+  font-size: 14px;
+  color: #9ca3af;
+  text-align: center;
+`;
+
+const StudySection = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const StudyHeader = styled.header`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
+const StudyTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const StudyTitleMain = styled.span`
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+`;
+
+const StudyTitleSub = styled.span`
+  font-size: 13px;
+  color: #9ca3af;
+`;
+
 const CreateStudyButton = styled.button`
-  background-color: #6c5ce7;
+  background: #4f46e5;
   border: none;
-  color: white;
-  border-radius: 8px;
-  height: 40px;
-  font-size: 16px;
-  font-weight: 400;
-  transition: 200ms ease-in;
+  color: #f9fafb;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s ease-in-out,
+    transform 0.05s ease-in-out,
+    box-shadow 0.12s ease-in-out;
 
   &:hover {
-    opacity: 0.8;
+    background: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
   }
 `;
 
 const StudyContainer = styled.section`
   width: 100%;
+  padding: 16px 10px 30px;
 `;
 
 const StudySlider = styled(Slider)`
@@ -157,6 +292,14 @@ const StudySlider = styled(Slider)`
     display: flex !important;
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .slick-slide {
+    padding: 0 6px;
+  }
+
+  .slick-dots li button:before {
+    font-size: 8px;
   }
 `;
 
@@ -180,15 +323,16 @@ const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { data: pendingProblem, isLoading, error } = useGetProblemList({ state: "pending" });
+  const { data: pendingProblem } = useGetProblemList({ state: "pending" });
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 400,
     slidesToShow: 5,
     slidesToScroll: 1,
     variableWidth: true,
+    arrows: false,
     responsive: [
       {
         breakpoint: 1280,
@@ -200,12 +344,19 @@ const DashboardPage = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           variableWidth: true,
         },
       },
       {
         breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          variableWidth: true,
+        },
+      },
+      {
+        breakpoint: 640,
         settings: {
           slidesToShow: 1,
           variableWidth: true,
@@ -213,6 +364,7 @@ const DashboardPage = () => {
       },
     ],
   };
+
   return (
     <Wapper>
       <DashboardContainer>
@@ -223,71 +375,100 @@ const DashboardPage = () => {
               Growithm이 처음이신가요?
             </MenualButton>
           </ProfileContainer>
-          <DashboardInfoContainer>
-            <DashboardInfoBox>
-              <DashboardInfoTitle>125</DashboardInfoTitle>
-              <DashboardInfoSub>Solved</DashboardInfoSub>
-            </DashboardInfoBox>
-            <DashboardInfoBox>
-              <DashboardInfoTitle>20</DashboardInfoTitle>
-              <DashboardInfoSub>Pending</DashboardInfoSub>
-            </DashboardInfoBox>
-            <DashboardInfoBox>
-              <DashboardInfoTitle>2</DashboardInfoTitle>
-              <DashboardInfoSub>Today</DashboardInfoSub>
-            </DashboardInfoBox>
-            <DashboardInfoBox>
-              <DashboardInfoTitle>15</DashboardInfoTitle>
-              <DashboardInfoSub>Streak</DashboardInfoSub>
-            </DashboardInfoBox>
-            <ChartBox>
-              <PieChart
-                style={{ width: "100%", maxWidth: "500px", maxHeight: "80vh", aspectRatio: 1 }}
-                margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-              >
-                <Tooltip formatter={(_, __, props) => [props.payload.name]} />
 
-                <Pie
-                  data={tierSolvedData}
-                  dataKey="value"
-                  nameKey="name"
-                  outerRadius="100%"
-                  label={(entry) => entry.value}
-                  labelLine={false}
+          <DashboardInfoContainer>
+            <StatCard>
+              <StatLabel>전체 풀이</StatLabel>
+              <StatValue>125</StatValue>
+              <StatSubText>백준 기준 누적 풀이 수</StatSubText>
+            </StatCard>
+            <StatCard>
+              <StatLabel>보류 문제</StatLabel>
+              <StatValue>20</StatValue>
+              <StatSubText>다시 풀어볼 문제</StatSubText>
+            </StatCard>
+            <StatCard>
+              <StatLabel>오늘 풀이</StatLabel>
+              <StatValue>2</StatValue>
+              <StatSubText>오늘 해결한 문제</StatSubText>
+            </StatCard>
+            <StatCard>
+              <StatLabel>연속 풀이</StatLabel>
+              <StatValue>15</StatValue>
+              <StatSubText>연속 풀이 일수</StatSubText>
+            </StatCard>
+
+            <ChartBox>
+              <ChartHeader>
+                <ChartTitle>티어별 풀이 분포</ChartTitle>
+                <ChartSubtitle>최근 풀이를 기준으로 한 티어 분포</ChartSubtitle>
+              </ChartHeader>
+              <ChartInner>
+                <PieChart
+                  style={{ width: "100%", maxWidth: "420px", aspectRatio: 1 }}
+                  margin={{ top: 16, right: 16, bottom: 16, left: 16 }}
                 >
-                  {tierSolvedData.map((entry) => (
-                    <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
-                  ))}
-                </Pie>
-              </PieChart>
+                  <Tooltip
+                    formatter={(value, _name, props) => [
+                      `${value} solved`,
+                      props?.payload?.name?.toUpperCase?.(),
+                    ]}
+                  />
+                  <Pie
+                    data={tierSolvedData}
+                    dataKey="value"
+                    nameKey="name"
+                    outerRadius="80%"
+                    label={(entry) => entry.value}
+                    labelLine={false}
+                  >
+                    {tierSolvedData.map((entry) => (
+                      <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ChartInner>
             </ChartBox>
           </DashboardInfoContainer>
+
           <PendingListContainer>
-            <PendingListTitle>PendingList</PendingListTitle>
+            <PendingListTitle>
+              보류 문제
+              <PendingListTitleBadge>{pendingProblem?.length ?? 0}개</PendingListTitleBadge>
+            </PendingListTitle>
             <PendingListBox>
-              {pendingProblem?.map((item) => (
-                <PendingItem pendingProblem={item} key={item._id} />
-              ))}
+              {pendingProblem && pendingProblem.length > 0 ? (
+                pendingProblem.map((item) => <PendingItem pendingProblem={item} key={item._id} />)
+              ) : (
+                <EmptyPending>보류 중인 문제가 없습니다. 새 문제를 추가해보세요 ✏️</EmptyPending>
+              )}
             </PendingListBox>
           </PendingListContainer>
         </UserInfoContainer>
-        <StudyContainerHeader>
-          <span style={{ fontSize: "20px", fontWeight: 500 }}>내 스터디</span>
-          <CreateStudyButton>스터디 생성</CreateStudyButton>
-        </StudyContainerHeader>
-        <StudyContainer>
-          <StudySlider {...settings}>
-            <StudyCard />
-            <StudyCard />
-            <StudyCard />
-            <StudyCard />
-            <StudyCard />
-            <StudyCard />
-            <StudyCard />
-            <StudyCard />
-            <StudyCard />
-          </StudySlider>
-        </StudyContainer>
+
+        <StudySection>
+          <StudyHeader>
+            <StudyTitle>
+              <StudyTitleMain>내 스터디</StudyTitleMain>
+              <StudyTitleSub>현재 참여 중인 스터디 목록입니다.</StudyTitleSub>
+            </StudyTitle>
+            <CreateStudyButton>스터디 생성</CreateStudyButton>
+          </StudyHeader>
+
+          <StudyContainer>
+            <StudySlider {...settings}>
+              <StudyCard />
+              <StudyCard />
+              <StudyCard />
+              <StudyCard />
+              <StudyCard />
+              <StudyCard />
+              <StudyCard />
+              <StudyCard />
+              <StudyCard />
+            </StudySlider>
+          </StudyContainer>
+        </StudySection>
       </DashboardContainer>
     </Wapper>
   );
