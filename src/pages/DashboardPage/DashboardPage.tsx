@@ -327,11 +327,12 @@ const DashboardPage = () => {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 400,
     slidesToShow: 5,
     slidesToScroll: 1,
     variableWidth: true,
+    arrows: false,
     responsive: [
       {
         breakpoint: 1280,
