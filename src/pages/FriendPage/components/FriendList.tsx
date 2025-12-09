@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useGetFriendList } from "../../../shared/hooks/useFriend";
 
 const FriendListContainer = styled.div`
   display: flex;
@@ -17,17 +18,19 @@ const FriendCard = styled.div`
   border: 1px solid #e5e7eb;
 `;
 
-const Avatar = styled.div`
+interface AvatarProps {
+  src?: string;
+}
+
+const Avatar = styled.img<AvatarProps>`
   width: 34px;
   height: 34px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #a855f7, #6366f1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: #f9fafb;
+  border-radius: 50%;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: 200ms ease-in;
 `;
 
 const FriendInfo = styled.div`
@@ -74,23 +77,19 @@ const FriendAction = styled.button`
   }
 `;
 
-const dummyFriends = [
-  { id: 1, name: "yuki0", solved: 320, tier: "Gold 3" },
-  { id: 2, name: "baekcoder", solved: 210, tier: "Silver 1" },
-  { id: 3, name: "algomaster", solved: 580, tier: "Platinum 5" },
-];
-
 const FriendList = () => {
+  const { data: friendList } = useGetFriendList();
+  if (friendList?.length == 0) {
+    return <div>친구가 없습니다</div>;
+  }
   return (
     <FriendListContainer>
-      {dummyFriends.map((friend) => (
-        <FriendCard key={friend.id}>
-          <Avatar>{friend.name.charAt(0).toUpperCase()}</Avatar>
+      {friendList?.map((friend) => (
+        <FriendCard key={friend?._id}>
+          <Avatar src={friend?.avatarUrl} />
           <FriendInfo>
-            <FriendName>{friend.name}</FriendName>
-            <FriendMeta>
-              푼 문제 {friend.solved}개 · 현재 티어 {friend.tier}
-            </FriendMeta>
+            <FriendName>{friend?.name}</FriendName>
+            <FriendMeta>{/* 푼 문제 {friend.solved}개 · 현재 티어 {friend.tier} */}</FriendMeta>
           </FriendInfo>
           <FriendAction type="button">상세 보기</FriendAction>
         </FriendCard>
