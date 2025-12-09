@@ -24,6 +24,11 @@ export async function rejectFriendRequest({ requestId }: rejectFriendRequestRequ
   return res.data;
 }
 
+export async function cancelFriendRequest({ requestId }: rejectFriendRequestRequest) {
+  const res = await apiClient.delete(`/friend-request/${requestId}/cancel`);
+  return res.data;
+}
+
 export async function getSendFriendRequests(): Promise<ResponseData<FriendRequests[]>> {
   const res = await apiClient.get("/friend-request/send");
   return res.data;
