@@ -2,8 +2,17 @@ import { apiClient } from ".";
 import type { ResponseData } from "../../types/commonType";
 import type { FriendRequests } from "../../types/friendRequest";
 
+interface acceptFriendRequestRequest {
+  requestId: string;
+}
+
 interface sendFriendRequestRequest {
   friendName: string;
+}
+
+export async function acceptFriendRequest({ requestId }: acceptFriendRequestRequest) {
+  const res = await apiClient.post(`/friend-request/${requestId}/accept`);
+  console.log(res.data);
 }
 
 export async function getSendFriendRequests(): Promise<ResponseData<FriendRequests[]>> {

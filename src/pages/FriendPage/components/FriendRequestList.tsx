@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {
+  useAcceptFriendRequestMutation,
   useGetReceiveFriendRequests,
   useGetSendFriendRequests,
 } from "../../../shared/hooks/useFriendRequest";
@@ -109,6 +110,8 @@ const RejectButton = styled.button`
 `;
 
 const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
+  const { mutate: acceptFriendRequest } = useAcceptFriendRequestMutation();
+
   const { data: receiveFriendRequest } = useGetReceiveFriendRequests();
   const { data: sendFriendRequest } = useGetSendFriendRequests();
   const friendRequests = state == "receive" ? receiveFriendRequest : sendFriendRequest;
@@ -127,7 +130,12 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
               <RequestName>{item?.from?.name}</RequestName>
             </RequestInfo>
             <Actions>
-              <AcceptButton type="button">수락</AcceptButton>
+              <AcceptButton
+                type="button"
+                onClick={() => acceptFriendRequest({ requestId: item?._id })}
+              >
+                수락
+              </AcceptButton>
               <RejectButton type="button">삭제</RejectButton>
             </Actions>
           </RequestCard>
