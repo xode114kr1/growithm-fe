@@ -3,6 +3,7 @@ import { useGetFriendList } from "../../../shared/hooks/useFriend";
 import { useState } from "react";
 import type { User } from "../../../types/userType";
 import { getUserByName } from "../../../shared/api/user";
+import { useCreateStudyMutation } from "../../../shared/hooks/useStudy";
 
 interface StudyCreateModalProps {
   onClose: () => void;
@@ -319,7 +320,10 @@ const PrimaryButton = styled.button`
 
 const StudyCreateModal = ({ onClose }: StudyCreateModalProps) => {
   const { data: friendList } = useGetFriendList();
+  const { mutate: createStudy } = useCreateStudyMutation();
 
+  const [titleInput, setTitleInput] = useState<string>("");
+  const [explanationInput, setExplanationInput] = useState<string>("");
   const [userNameInput, setUserNameInput] = useState<string>("");
   const [memberList, setMemberList] = useState<User[]>([]);
 
@@ -345,8 +349,24 @@ const StudyCreateModal = ({ onClose }: StudyCreateModalProps) => {
     setMemberList((prev) => [...prev, addedUser]);
   };
 
+  const handleCreateStudyButton = () => {
+    const membersId = memberList?.map((item) => item._id);
+
+    createStudy(
+      {
+        title: titleInput,
+        explanation: explanationInput,
+        members: membersId,
+      },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
+  };
   return (
-    <Backdrop onClick={onClose}>
+    <Backdrop>
       <ModalContainer
         onClick={(e) => {
           e.stopPropagation();
@@ -363,7 +383,11 @@ const StudyCreateModal = ({ onClose }: StudyCreateModalProps) => {
               <Label>스터디 제목</Label>
               <LabelSub>예: 알고리즘 실버~골드 스터디</LabelSub>
             </LabelRow>
-            <TextInput placeholder="스터디 이름을 입력하세요" />
+            <TextInput
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
+              placeholder="스터디 이름을 입력하세요"
+            />
           </FieldGroup>
 
           <FieldGroup>
@@ -371,7 +395,11 @@ const StudyCreateModal = ({ onClose }: StudyCreateModalProps) => {
               <Label>스터디 설명</Label>
               <LabelSub>간단한 목표나 진행 방식을 적어주세요</LabelSub>
             </LabelRow>
-            <TextArea placeholder="예: 매주 화/목 2문제, 디스코드로 코드 리뷰 진행" />
+            <TextArea
+              value={explanationInput}
+              onChange={(e) => setExplanationInput(e.target.value)}
+              placeholder="예: 매주 화/목 2문제, 디스코드로 코드 리뷰 진행"
+            />
           </FieldGroup>
 
           <FieldGroup>
@@ -419,8 +447,6 @@ const StudyCreateModal = ({ onClose }: StudyCreateModalProps) => {
                     ))}
                   </FriendList>
                 </UserRow>
-
-                <LabelSub>검색 결과는 여기 표시 (추후 기능 연결)</LabelSub>
               </MemberContent>
             </MemberBox>
           </FieldGroup>
@@ -428,7 +454,7 @@ const StudyCreateModal = ({ onClose }: StudyCreateModalProps) => {
 
         <ModalFooter>
           <CancelButton onClick={onClose}>취소</CancelButton>
-          <PrimaryButton>스터디 생성</PrimaryButton>
+          <PrimaryButton onClick={handleCreateStudyButton}>스터디 생성</PrimaryButton>
         </ModalFooter>
       </ModalContainer>
     </Backdrop>
