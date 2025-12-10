@@ -468,7 +468,7 @@ const DashboardPage = () => {
           </StudyContainer>
         </StudySection>
       </DashboardContainer>
-      <StudyCreateModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {isModalOpen && <StudyCreateModal onClose={() => setIsModalOpen(false)} />}
     </Wapper>
   );
 };

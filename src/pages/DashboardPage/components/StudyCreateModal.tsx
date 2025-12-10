@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { useGetFriendList } from "../../../shared/hooks/useFriend";
 import { useState } from "react";
 import type { User } from "../../../types/userType";
+import { getUserByName } from "../../../shared/api/user";
 
 interface StudyCreateModalProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
@@ -317,12 +317,13 @@ const PrimaryButton = styled.button`
   }
 `;
 
-const StudyCreateModal = ({ isOpen, onClose }: StudyCreateModalProps) => {
+const StudyCreateModal = ({ onClose }: StudyCreateModalProps) => {
   const { data: friendList } = useGetFriendList();
 
+  const [userNameInput, setUserNameInput] = useState<string>("");
   const [memberList, setMemberList] = useState<User[]>([]);
 
-  const handleAddMember = (id: string) => {
+  const handleAddMemberFromFriend = (id: string) => {
     const addedUser = friendList?.find((item) => item._id == id);
     if (!addedUser) return;
     const isExist = memberList?.some((item) => item._id === addedUser._id);
@@ -335,7 +336,14 @@ const StudyCreateModal = ({ isOpen, onClose }: StudyCreateModalProps) => {
     setMemberList(newMemberList);
   };
 
-  if (!isOpen) return null;
+  const handleAddMemberByname = async () => {
+    const res = await getUserByName({ name: userNameInput });
+    const addedUser = res.data;
+    if (!addedUser) return;
+    const isExist = memberList?.some((item) => item._id === addedUser._id);
+    if (isExist) return;
+    setMemberList((prev) => [...prev, addedUser]);
+  };
 
   return (
     <Backdrop onClick={onClose}>
@@ -375,8 +383,12 @@ const StudyCreateModal = ({ isOpen, onClose }: StudyCreateModalProps) => {
             <MemberBox>
               <MemberContent>
                 <SearchRow>
-                  <SmallInput placeholder="사용자 ID를 입력하세요" />
-                  <SmallButton>검색</SmallButton>
+                  <SmallInput
+                    value={userNameInput}
+                    onChange={(e) => setUserNameInput(e.target.value)}
+                    placeholder="사용자 이름을 입력하세요"
+                  />
+                  <SmallButton onClick={handleAddMemberByname}>검색</SmallButton>
                 </SearchRow>
 
                 <UserRow>
@@ -400,7 +412,9 @@ const StudyCreateModal = ({ isOpen, onClose }: StudyCreateModalProps) => {
                         <UserInfo>
                           <UserName>{friend?.name}</UserName>
                         </UserInfo>
-                        <AddButton onClick={() => handleAddMember(friend._id)}>추가</AddButton>
+                        <AddButton onClick={() => handleAddMemberFromFriend(friend._id)}>
+                          추가
+                        </AddButton>
                       </UserItem>
                     ))}
                   </FriendList>
