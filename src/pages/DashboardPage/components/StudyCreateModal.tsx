@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { useGetFriendList } from "../../../shared/hooks/useFriend";
+import { useState } from "react";
+import type { User } from "../../../types/userType";
 
 interface StudyCreateModalProps {
   isOpen: boolean;
@@ -174,6 +177,7 @@ const SmallButton = styled.button`
 const UserRow = styled.div`
   display: flex;
   max-height: 300px;
+  min-height: 150px;
   gap: 20px;
 
   @media (max-width: 640px) {
@@ -218,17 +222,16 @@ const UserItem = styled.div`
   }
 `;
 
-const Avatar = styled.div`
+interface AvatarProps {
+  src?: string;
+}
+
+const Avatar = styled.img<AvatarProps>`
   width: 28px;
   height: 28px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #a855f7, #6366f1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: #f9fafb;
+  object-fit: cover;
+  background-color: #e5e7eb;
   flex-shrink: 0;
 `;
 
@@ -244,12 +247,7 @@ const UserName = styled.div`
   color: #111827;
 `;
 
-const UserId = styled.div`
-  font-size: 11px;
-  color: #9ca3af;
-`;
-
-const DeleteButton = styled.button<{ selected?: boolean }>`
+const RemoveButton = styled.button<{ selected?: boolean }>`
   border-radius: 999px;
   border: none;
   padding: 4px 10px;
@@ -320,17 +318,22 @@ const PrimaryButton = styled.button`
 `;
 
 const StudyCreateModal = ({ isOpen, onClose }: StudyCreateModalProps) => {
-  const dummyMember = [
-    { id: "useruser", name: "유저김" },
-    { id: "kim_name", name: "김이름" },
-    { id: "gk677", name: "박혁준" },
-  ];
+  const { data: friendList } = useGetFriendList();
 
-  const dummyFriends = [
-    { id: "grow_yo01", name: "김유저" },
-    { id: "algo_cat", name: "알고캣" },
-    { id: "baekjoon_king", name: "백준킹" },
-  ];
+  const [memberList, setMemberList] = useState<User[]>([]);
+
+  const handleAddMember = (id: string) => {
+    const addedUser = friendList?.find((item) => item._id == id);
+    if (!addedUser) return;
+    const isExist = memberList?.some((item) => item._id === addedUser._id);
+    if (isExist) return;
+    setMemberList((prev) => [...prev, addedUser]);
+  };
+
+  const handleRemoveMember = (id: string) => {
+    const newMemberList = memberList?.filter((item) => item._id !== id);
+    setMemberList(newMemberList);
+  };
 
   if (!isOpen) return null;
 
@@ -378,26 +381,26 @@ const StudyCreateModal = ({ isOpen, onClose }: StudyCreateModalProps) => {
 
                 <UserRow>
                   <MemberList>
-                    {dummyMember.map((f) => (
-                      <UserItem key={f.id}>
-                        <Avatar>{f.name[0]}</Avatar>
+                    {memberList?.map((friend) => (
+                      <UserItem key={friend?._id}>
+                        <Avatar src={friend?.avatarUrl} />
                         <UserInfo>
-                          <UserName>{f.name}</UserName>
-                          <UserId>@{f.id}</UserId>
+                          <UserName>{friend?.name}</UserName>
                         </UserInfo>
-                        <DeleteButton>삭제</DeleteButton>
+                        <RemoveButton onClick={() => handleRemoveMember(friend._id)}>
+                          삭제
+                        </RemoveButton>
                       </UserItem>
                     ))}
                   </MemberList>
                   <FriendList>
-                    {dummyFriends.map((f) => (
-                      <UserItem key={f.id}>
-                        <Avatar>{f.name[0]}</Avatar>
+                    {friendList?.map((friend) => (
+                      <UserItem key={friend?._id}>
+                        <Avatar src={friend?.avatarUrl} />
                         <UserInfo>
-                          <UserName>{f.name}</UserName>
-                          <UserId>@{f.id}</UserId>
+                          <UserName>{friend?.name}</UserName>
                         </UserInfo>
-                        <AddButton>추가</AddButton>
+                        <AddButton onClick={() => handleAddMember(friend._id)}>추가</AddButton>
                       </UserItem>
                     ))}
                   </FriendList>

@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
 import type { BeakjoonTierType } from "../../types/problemType";
-import { Cell, Pie, PieChart, Tooltip } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
@@ -131,25 +131,20 @@ const StatSubText = styled.div`
 
 const ChartBox = styled.div`
   grid-column: 1 / 3;
+  height: 350px;
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
   border: 1px solid #e5e7eb;
-  padding: 16px 20px;
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 8px;
-
-  @media (max-width: 1440px) {
-    padding: 16px;
-  }
 
   @media (max-width: 1024px) {
     display: none;
   }
 `;
-
 const ChartHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -170,6 +165,7 @@ const ChartSubtitle = styled.div`
 
 const ChartInner = styled.div`
   width: 100%;
+  flex: 1;
   display: flex;
   justify-content: center;
 `;
@@ -407,29 +403,28 @@ const DashboardPage = () => {
                 <ChartSubtitle>최근 풀이를 기준으로 한 티어 분포</ChartSubtitle>
               </ChartHeader>
               <ChartInner>
-                <PieChart
-                  style={{ width: "100%", maxWidth: "420px", aspectRatio: 1 }}
-                  margin={{ top: 16, right: 16, bottom: 16, left: 16 }}
-                >
-                  <Tooltip
-                    formatter={(value, _name, props) => [
-                      `${value} solved`,
-                      props?.payload?.name?.toUpperCase?.(),
-                    ]}
-                  />
-                  <Pie
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
                     data={tierSolvedData}
-                    dataKey="value"
-                    nameKey="name"
-                    outerRadius="80%"
-                    label={(entry) => entry.value}
-                    labelLine={false}
+                    margin={{ top: 8, right: 8, bottom: 8, left: -10 }}
                   >
-                    {tierSolvedData.map((entry) => (
-                      <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
-                    ))}
-                  </Pie>
-                </PieChart>
+                    <XAxis
+                      dataKey="name"
+                      tickFormatter={(value) => value.toUpperCase()}
+                      fontSize={12}
+                    />
+                    <YAxis fontSize={12} />
+                    <Tooltip
+                      formatter={(value) => [`${value} solved`]}
+                      labelFormatter={(label) => label.toUpperCase()}
+                    />
+                    <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                      {tierSolvedData.map((entry) => (
+                        <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
               </ChartInner>
             </ChartBox>
           </DashboardInfoContainer>
