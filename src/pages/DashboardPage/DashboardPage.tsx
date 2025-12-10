@@ -8,6 +8,8 @@ import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
+import StudyCreateModal from "./components/StudyCreateModal";
+import { useState } from "react";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -321,49 +323,50 @@ const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
   { name: "ruby", value: 1 },
 ];
 
+const settings = {
+  dots: true,
+  infinite: false,
+  speed: 400,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  variableWidth: true,
+  arrows: false,
+  responsive: [
+    {
+      breakpoint: 1280,
+      settings: {
+        slidesToShow: 4,
+        variableWidth: true,
+      },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        variableWidth: true,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        variableWidth: true,
+      },
+    },
+    {
+      breakpoint: 640,
+      settings: {
+        slidesToShow: 1,
+        variableWidth: true,
+      },
+    },
+  ],
+};
+
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { data: pendingProblem } = useGetProblemList({ state: "pending" });
-
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 400,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    variableWidth: true,
-    arrows: false,
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 4,
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          variableWidth: true,
-        },
-      },
-    ],
-  };
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
     <Wapper>
@@ -452,7 +455,7 @@ const DashboardPage = () => {
               <StudyTitleMain>내 스터디</StudyTitleMain>
               <StudyTitleSub>현재 참여 중인 스터디 목록입니다.</StudyTitleSub>
             </StudyTitle>
-            <CreateStudyButton>스터디 생성</CreateStudyButton>
+            <CreateStudyButton onClick={() => setIsModalOpen(true)}>스터디 생성</CreateStudyButton>
           </StudyHeader>
 
           <StudyContainer>
@@ -470,6 +473,7 @@ const DashboardPage = () => {
           </StudyContainer>
         </StudySection>
       </DashboardContainer>
+      <StudyCreateModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </Wapper>
   );
 };
