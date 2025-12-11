@@ -4,10 +4,12 @@ import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
 import type { BeakjoonTierType } from "../../types/problemType";
-import { Cell, Pie, PieChart, Tooltip } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
+import StudyCreateModal from "./components/StudyCreateModal";
+import { useState } from "react";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -129,25 +131,20 @@ const StatSubText = styled.div`
 
 const ChartBox = styled.div`
   grid-column: 1 / 3;
+  height: 350px;
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
   border: 1px solid #e5e7eb;
-  padding: 16px 20px;
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 8px;
-
-  @media (max-width: 1440px) {
-    padding: 16px;
-  }
 
   @media (max-width: 1024px) {
     display: none;
   }
 `;
-
 const ChartHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -168,6 +165,7 @@ const ChartSubtitle = styled.div`
 
 const ChartInner = styled.div`
   width: 100%;
+  flex: 1;
   display: flex;
   justify-content: center;
 `;
@@ -321,49 +319,50 @@ const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
   { name: "ruby", value: 1 },
 ];
 
+const settings = {
+  dots: true,
+  infinite: false,
+  speed: 400,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  variableWidth: true,
+  arrows: false,
+  responsive: [
+    {
+      breakpoint: 1280,
+      settings: {
+        slidesToShow: 4,
+        variableWidth: true,
+      },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        variableWidth: true,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        variableWidth: true,
+      },
+    },
+    {
+      breakpoint: 640,
+      settings: {
+        slidesToShow: 1,
+        variableWidth: true,
+      },
+    },
+  ],
+};
+
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { data: pendingProblem } = useGetProblemList({ state: "pending" });
-
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 400,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    variableWidth: true,
-    arrows: false,
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 4,
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          variableWidth: true,
-        },
-      },
-    ],
-  };
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
     <Wapper>
@@ -404,29 +403,28 @@ const DashboardPage = () => {
                 <ChartSubtitle>최근 풀이를 기준으로 한 티어 분포</ChartSubtitle>
               </ChartHeader>
               <ChartInner>
-                <PieChart
-                  style={{ width: "100%", maxWidth: "420px", aspectRatio: 1 }}
-                  margin={{ top: 16, right: 16, bottom: 16, left: 16 }}
-                >
-                  <Tooltip
-                    formatter={(value, _name, props) => [
-                      `${value} solved`,
-                      props?.payload?.name?.toUpperCase?.(),
-                    ]}
-                  />
-                  <Pie
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
                     data={tierSolvedData}
-                    dataKey="value"
-                    nameKey="name"
-                    outerRadius="80%"
-                    label={(entry) => entry.value}
-                    labelLine={false}
+                    margin={{ top: 8, right: 8, bottom: 8, left: -10 }}
                   >
-                    {tierSolvedData.map((entry) => (
-                      <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
-                    ))}
-                  </Pie>
-                </PieChart>
+                    <XAxis
+                      dataKey="name"
+                      tickFormatter={(value) => value.toUpperCase()}
+                      fontSize={12}
+                    />
+                    <YAxis fontSize={12} />
+                    <Tooltip
+                      formatter={(value) => [`${value} solved`]}
+                      labelFormatter={(label) => label.toUpperCase()}
+                    />
+                    <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                      {tierSolvedData.map((entry) => (
+                        <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
               </ChartInner>
             </ChartBox>
           </DashboardInfoContainer>
@@ -452,7 +450,7 @@ const DashboardPage = () => {
               <StudyTitleMain>내 스터디</StudyTitleMain>
               <StudyTitleSub>현재 참여 중인 스터디 목록입니다.</StudyTitleSub>
             </StudyTitle>
-            <CreateStudyButton>스터디 생성</CreateStudyButton>
+            <CreateStudyButton onClick={() => setIsModalOpen(true)}>스터디 생성</CreateStudyButton>
           </StudyHeader>
 
           <StudyContainer>
@@ -470,6 +468,7 @@ const DashboardPage = () => {
           </StudyContainer>
         </StudySection>
       </DashboardContainer>
+      {isModalOpen && <StudyCreateModal onClose={() => setIsModalOpen(false)} />}
     </Wapper>
   );
 };
