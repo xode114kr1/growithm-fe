@@ -61,6 +61,7 @@ const HeaderNav = () => {
     <HeaderNavContainer $hide={hide}>
       <NavItem to="/dashboard">Home</NavItem>
       <NavItem to="/problem">Problem</NavItem>
+      <NavItem to="/study">Study</NavItem>
       <NavItem to="/friend">Friend</NavItem>
     </HeaderNavContainer>
   );

@@ -225,7 +225,9 @@ const SideNav = () => {
             <NavItem to="/problem">
               <NavLabel>Problem</NavLabel>
             </NavItem>
-
+            <NavItem to="/study">
+              <NavLabel>Study</NavLabel>
+            </NavItem>
             <NavItem to="/friend">
               <NavLabel>Friend</NavLabel>
             </NavItem>
