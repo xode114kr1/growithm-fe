@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import StudyCard from "./components/StudyCard";
 import { useGetStudyList } from "../../shared/hooks/useStudy";
+import { useGetStudyRequestList } from "../../shared/hooks/useStudyRequest";
+import StudyRequestItem from "./components/StudyRequestItem";
 
 const StudyListPageContainer = styled.section`
   width: 80%;
@@ -86,90 +88,15 @@ const EmptyText = styled.div`
   color: #6b7280;
 `;
 
-/* --- 가입 요청 영역 (스터디장이 나에게 초대한 경우) --- */
-
 const RequestList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-const RequestItem = styled.div`
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-`;
-
-const RequestInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-`;
-
-const RequestMain = styled.div`
-  font-size: 13px;
-  font-weight: 500;
-  color: #111827;
-`;
-
-const RequestSub = styled.div`
-  font-size: 11px;
-  color: #6b7280;
-`;
-
-const RequestActions = styled.div`
-  display: flex;
-  flex-shrink: 0;
-  gap: 6px;
-`;
-
-const RequestButton = styled.button<{ variant?: "primary" | "ghost" }>`
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: ${({ variant }) => (variant === "primary" ? "none" : "1px solid #e5e7eb")};
-  background: ${({ variant }) =>
-    variant === "primary" ? "linear-gradient(135deg, #4f46e5, #6366f1)" : "#ffffff"};
-  color: ${({ variant }) => (variant === "primary" ? "#f9fafb" : "#4b5563")};
-  font-size: 11px;
-  font-weight: 500;
-  cursor: pointer;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background 0.12s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: ${({ variant }) =>
-      variant === "primary"
-        ? "0 8px 18px rgba(79, 70, 229, 0.35)"
-        : "0 4px 10px rgba(148, 163, 184, 0.25)"};
-  }
-`;
-
-const dummyRequests = [
-  {
-    id: "r1",
-    studyName: "알고리즘 스터디 - Growithm",
-  },
-  {
-    id: "r2",
-    studyName: "React/Node.js 웹 풀스택 스터디",
-  },
-];
-
 const StudyListPage = () => {
   const { data: studyList } = useGetStudyList();
+  const { data: studyRequestList } = useGetStudyRequestList();
 
   return (
     <Wapper>
@@ -197,31 +124,21 @@ const StudyListPage = () => {
             )}
           </SectionCard>
 
-          {/* 스터디장이 보낸 가입 요청 (초대) */}
           <SectionCard>
             <SectionHeader>
               <div>
                 <SectionTitle>스터디 가입 요청</SectionTitle>
                 <SectionSubText>스터디장이 보낸 초대를 확인해요</SectionSubText>
               </div>
-              <Pill>{dummyRequests.length}건</Pill>
+              <Pill>{studyRequestList?.length}건</Pill>
             </SectionHeader>
 
-            {dummyRequests.length === 0 ? (
+            {studyRequestList?.length === 0 ? (
               <EmptyText>현재 받은 초대가 없습니다.</EmptyText>
             ) : (
               <RequestList>
-                {dummyRequests.map((req) => (
-                  <RequestItem key={req.id}>
-                    <RequestInfo>
-                      <RequestMain>{req.studyName}</RequestMain>
-                      <RequestSub>스터디 설명</RequestSub>
-                    </RequestInfo>
-                    <RequestActions>
-                      <RequestButton variant="ghost">거절</RequestButton>
-                      <RequestButton variant="primary">수락</RequestButton>
-                    </RequestActions>
-                  </RequestItem>
+                {studyRequestList?.map((studyRequest) => (
+                  <StudyRequestItem key={studyRequest._id} studyRequest={studyRequest} />
                 ))}
               </RequestList>
             )}
