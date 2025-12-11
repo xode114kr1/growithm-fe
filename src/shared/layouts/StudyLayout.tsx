@@ -52,6 +52,7 @@ const StudyBody = styled.div`
   grid-template-columns: 200px minmax(0, 1fr);
   gap: 20px;
   margin-top: 4px;
+  flex: 1;
 
   @media (max-width: 880px) {
     grid-template-columns: 1fr;
