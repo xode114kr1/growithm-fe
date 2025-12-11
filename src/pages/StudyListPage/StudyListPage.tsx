@@ -18,12 +18,6 @@ const StudyListPageContainer = styled.section`
   }
 `;
 
-const PageTitle = styled.h1`
-  font-size: 22px;
-  font-weight: 700;
-  color: #111827;
-`;
-
 const SectionLayout = styled.div`
   display: grid;
   grid-template-columns: 2fr 1.4fr;
@@ -101,8 +95,6 @@ const StudyListPage = () => {
   return (
     <Wapper>
       <StudyListPageContainer>
-        <PageTitle>스터디</PageTitle>
-
         <SectionLayout>
           <SectionCard>
             <SectionHeader>
