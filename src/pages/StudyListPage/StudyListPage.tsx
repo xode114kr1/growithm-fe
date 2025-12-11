@@ -8,13 +8,18 @@ import StudyRequestItem from "./components/StudyRequestItem";
 const StudyListPageContainer = styled.section`
   width: 80%;
   margin: 0 auto;
-  padding: 40px 0 60px;
+  padding: 48px 0 72px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 
   @media (max-width: 1024px) {
     width: 90%;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 36px 16px 56px;
   }
 `;
 
@@ -31,43 +36,57 @@ const SectionLayout = styled.div`
 const SectionCard = styled.div`
   background: #ffffff;
   border-radius: 18px;
-  padding: 20px 20px 18px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  padding: 22px 22px 20px;
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 `;
 
 const SectionHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const SectionTitleBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 16px;
-  font-weight: 600;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
   color: #111827;
 `;
 
 const SectionSubText = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
 const Pill = styled.span`
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   background: #f3f4f6;
   color: #4b5563;
+  white-space: nowrap;
 `;
 
 const StudyGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 
   @media (max-width: 960px) {
     grid-template-columns: 1fr;
@@ -75,17 +94,18 @@ const StudyGrid = styled.div`
 `;
 
 const EmptyText = styled.div`
-  padding: 18px 12px;
-  border-radius: 10px;
+  padding: 18px 14px;
+  border-radius: 12px;
   background: #f9fafb;
-  font-size: 12px;
+  font-size: 14px;
   color: #6b7280;
+  text-align: center;
 `;
 
 const RequestList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 `;
 
 const StudyListPage = () => {
@@ -96,13 +116,14 @@ const StudyListPage = () => {
     <Wapper>
       <StudyListPageContainer>
         <SectionLayout>
+          {/* 내 스터디 섹션 */}
           <SectionCard>
             <SectionHeader>
-              <div>
+              <SectionTitleBlock>
                 <SectionTitle>내 스터디</SectionTitle>
                 <SectionSubText>현재 참여 중인 스터디 목록</SectionSubText>
-              </div>
-              <Pill>{studyList?.length}개 참여 중</Pill>
+              </SectionTitleBlock>
+              <Pill>{studyList?.length ?? 0}개 참여 중</Pill>
             </SectionHeader>
 
             {studyList?.length === 0 ? (
@@ -116,13 +137,14 @@ const StudyListPage = () => {
             )}
           </SectionCard>
 
+          {/* 스터디 가입 요청 섹션 */}
           <SectionCard>
             <SectionHeader>
-              <div>
+              <SectionTitleBlock>
                 <SectionTitle>스터디 가입 요청</SectionTitle>
-                <SectionSubText>스터디장이 보낸 초대를 확인해요</SectionSubText>
-              </div>
-              <Pill>{studyRequestList?.length}건</Pill>
+                <SectionSubText>스터디장이 보낸 초대를 확인해요.</SectionSubText>
+              </SectionTitleBlock>
+              <Pill>{studyRequestList?.length ?? 0}건</Pill>
             </SectionHeader>
 
             {studyRequestList?.length === 0 ? (
