@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { acceptStudyRequest, getStudyRequestList } from "../api/studyRequest";
+import { acceptStudyRequest, getStudyRequestList, rejectStudyRequest } from "../api/studyRequest";
 import type { StudyRequest } from "../../types/studyRequestType";
 
 export function useAcceptStudyRequestMutation() {
@@ -9,6 +9,16 @@ export function useAcceptStudyRequestMutation() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["study-request"] });
       queryClient.invalidateQueries({ queryKey: ["study"] });
+    },
+  });
+}
+
+export function useRejectStudyRequestMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: rejectStudyRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["study-request"] });
     },
   });
 }
