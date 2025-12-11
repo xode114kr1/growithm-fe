@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import type { StudyRequest } from "../../../types/studyRequestType";
-import { useAcceptStudyRequestMutation } from "../../../shared/hooks/useStudyRequest";
+import {
+  useAcceptStudyRequestMutation,
+  useRejectStudyRequestMutation,
+} from "../../../shared/hooks/useStudyRequest";
 
 const RequestItem = styled.div`
   padding: 10px 12px;
@@ -71,6 +74,7 @@ interface StudyRequestItemProps {
 
 const StudyRequestItem = ({ studyRequest }: StudyRequestItemProps) => {
   const { mutate: acceptStudyRequest } = useAcceptStudyRequestMutation();
+  const { mutate: rejectStudyRequest } = useRejectStudyRequestMutation();
 
   return (
     <RequestItem>
@@ -85,7 +89,12 @@ const StudyRequestItem = ({ studyRequest }: StudyRequestItemProps) => {
         >
           수락
         </RequestButton>
-        <RequestButton variant="ghost">거절</RequestButton>
+        <RequestButton
+          variant="ghost"
+          onClick={() => rejectStudyRequest({ studyRequestId: studyRequest._id })}
+        >
+          거절
+        </RequestButton>
       </RequestActions>
     </RequestItem>
   );
