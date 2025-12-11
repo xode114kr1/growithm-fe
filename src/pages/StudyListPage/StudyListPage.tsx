@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import StudyCard from "./components/StudyCard";
+import { useGetStudyList } from "../../shared/hooks/useStudy";
 
 const StudyListPageContainer = styled.section`
   width: 80%;
@@ -156,33 +157,6 @@ const RequestButton = styled.button<{ variant?: "primary" | "ghost" }>`
   }
 `;
 
-// ────────────────────────────────────────────────────────────────
-//  dummy 데이터 (나중에 API 연결할 때 대체하면 됨)
-// ────────────────────────────────────────────────────────────────
-const dummyMyStudies = [
-  {
-    id: "1",
-    name: "알고리즘 스터디 - Growithm",
-    explanation: "백준 / 프로그래머스 위주 주 3회 문제 풀이 + 코드 리뷰.",
-    members: 8,
-    ownerName: "나",
-  },
-  {
-    id: "2",
-    name: "물리화학 기말 대비 스터디",
-    explanation: "기출 위주로 개념 정리 + 계산 문제 풀이.",
-    members: 5,
-    ownerName: "동혁",
-  },
-  {
-    id: "3",
-    name: "React/Node.js 웹 풀스택 스터디",
-    explanation: "실전 프로젝트 위주, 코드리뷰와 배포까지 같이 하는 스터디.",
-    members: 10,
-    ownerName: "지현",
-  },
-];
-
 const dummyRequests = [
   {
     id: "r1",
@@ -195,34 +169,29 @@ const dummyRequests = [
 ];
 
 const StudyListPage = () => {
+  const { data: studyList } = useGetStudyList();
+
   return (
     <Wapper>
       <StudyListPageContainer>
         <PageTitle>스터디</PageTitle>
 
         <SectionLayout>
-          {/* 내 스터디 영역 */}
           <SectionCard>
             <SectionHeader>
               <div>
                 <SectionTitle>내 스터디</SectionTitle>
                 <SectionSubText>현재 참여 중인 스터디 목록</SectionSubText>
               </div>
-              <Pill>{dummyMyStudies.length}개 참여 중</Pill>
+              <Pill>{studyList?.length}개 참여 중</Pill>
             </SectionHeader>
 
-            {dummyMyStudies.length === 0 ? (
+            {studyList?.length === 0 ? (
               <EmptyText>아직 참여 중인 스터디가 없습니다.</EmptyText>
             ) : (
               <StudyGrid>
-                {dummyMyStudies.map((study) => (
-                  <StudyCard
-                    key={study.id}
-                    name={study.name}
-                    explanation={study.explanation}
-                    members={study.members}
-                    ownerName={study.ownerName}
-                  />
+                {studyList?.map((study) => (
+                  <StudyCard key={study?._id} study={study} />
                 ))}
               </StudyGrid>
             )}

@@ -1,11 +1,9 @@
 // src/pages/StudyListPage/components/StudyCard.tsx
 import styled from "styled-components";
+import type { Study } from "../../../types/studyType";
 
 interface StudyCardProps {
-  name: string;
-  explanation: string;
-  members: number;
-  ownerName: string;
+  study: Study;
 }
 
 const Card = styled.button`
@@ -68,14 +66,14 @@ const OwnerText = styled.span`
   color: #4b5563;
 `;
 
-const StudyCard = ({ name, explanation, members, ownerName }: StudyCardProps) => {
+const StudyCard = ({ study }: StudyCardProps) => {
   return (
     <Card>
-      <StudyName>{name}</StudyName>
-      <StudyExplanation>{explanation}</StudyExplanation>
+      <StudyName>{study?.title}</StudyName>
+      <StudyExplanation>{study?.explanation}</StudyExplanation>
       <StudyMetaRow>
-        <MemberBadge>👥 {members}명</MemberBadge>
-        <OwnerText>리더 · {ownerName}</OwnerText>
+        <MemberBadge>👥 {study?.members?.length}명</MemberBadge>
+        <OwnerText>리더 · {study?.owner.name}</OwnerText>
       </StudyMetaRow>
     </Card>
   );
