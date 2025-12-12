@@ -1,5 +1,12 @@
 import styled from "styled-components";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import type { Study } from "../../types/studyType";
+import { useOutletContext } from "react-router-dom";
+
+interface StudyOutletContext {
+  study: Study;
+}
+
 type StudyTier = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
 
 const TIER_COLOR: Record<StudyTier, string> = {
@@ -276,13 +283,6 @@ const MemberRole = styled.span`
   color: #6b7280;
 `;
 
-const MOCK_MEMBERS = [
-  { name: "xode114kr1", role: "리더" },
-  { name: "study_user01", role: "스터디원" },
-  { name: "algo_master", role: "스터디원" },
-  { name: "baekjoon_lover", role: "스터디원" },
-];
-
 const MOCK_PROBLEMS = [
   { title: "[백준] 1000 - A+B", tier: "bronze" as StudyTier },
   { title: "[백준] 11047 - 동전 0", tier: "silver" as StudyTier },
@@ -297,10 +297,12 @@ const MOCK_CONTRIBUTION = [
 ];
 
 const StudyOverviewPage = () => {
+  const { study } = useOutletContext<StudyOutletContext>();
+
   const tier: StudyTier = "gold";
-  const totalSolved = 132;
   const weeklySolved = 18;
-  const memberCount = MOCK_MEMBERS.length;
+  const memberLength = study?.members?.length || 0;
+  const problemLength = study?.problem?.length || 0;
 
   return (
     <OverviewWrapper>
@@ -325,7 +327,7 @@ const StudyOverviewPage = () => {
             <StatsGrid>
               <StatCard>
                 <StatLabel>전체 푼 문제</StatLabel>
-                <StatValue>{totalSolved}</StatValue>
+                <StatValue>{problemLength}</StatValue>
               </StatCard>
               <StatCard>
                 <StatLabel>이번 주 푼 문제</StatLabel>
@@ -333,7 +335,7 @@ const StudyOverviewPage = () => {
               </StatCard>
               <StatCard>
                 <StatLabel>스터디원 수</StatLabel>
-                <StatValue>{memberCount}</StatValue>
+                <StatValue>{memberLength}</StatValue>
               </StatCard>
             </StatsGrid>
           </Card>
@@ -360,19 +362,23 @@ const StudyOverviewPage = () => {
           <MemberCard>
             <MemberHeader>
               <MemberTitle>스터디 멤버</MemberTitle>
-              <MemberCount>{memberCount}명 참여 중</MemberCount>
+              <MemberCount>{memberLength}명 참여 중</MemberCount>
             </MemberHeader>
 
             <MemberList>
-              {MOCK_MEMBERS.map((m) => (
-                <MemberRow key={m.name}>
-                  <Avatar>{m.name[0]?.toUpperCase()}</Avatar>
-                  <MemberInfo>
-                    <MemberName>{m.name}</MemberName>
-                    <MemberRole>{m.role}</MemberRole>
-                  </MemberInfo>
-                </MemberRow>
-              ))}
+              {memberLength
+                ? study?.members?.map((member) => (
+                    <MemberRow key={member?.name}>
+                      <Avatar>{member?.name[0]?.toUpperCase()}</Avatar>
+                      <MemberInfo>
+                        <MemberName>{member?.name}</MemberName>
+                        <MemberRole>
+                          {member?._id == study?.owner._id ? "owner" : "member"}
+                        </MemberRole>
+                      </MemberInfo>
+                    </MemberRow>
+                  ))
+                : null}
             </MemberList>
           </MemberCard>
           <Card>
@@ -382,12 +388,14 @@ const StudyOverviewPage = () => {
             </CardHeader>
 
             <ProblemList>
-              {MOCK_PROBLEMS.map((p) => (
-                <ProblemRow key={p.title}>
-                  <ProblemTierDot tier={p.tier} />
-                  <ProblemTitle>{p.title}</ProblemTitle>
-                </ProblemRow>
-              ))}
+              {problemLength
+                ? MOCK_PROBLEMS.map((p) => (
+                    <ProblemRow key={p.title}>
+                      <ProblemTierDot tier={p.tier} />
+                      <ProblemTitle>{p.title}</ProblemTitle>
+                    </ProblemRow>
+                  ))
+                : null}
             </ProblemList>
           </Card>
         </RightColumn>

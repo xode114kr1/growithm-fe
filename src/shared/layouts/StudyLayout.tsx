@@ -1,7 +1,7 @@
-// src/pages/StudyDetailPage/StudyLayout.tsx
 import styled from "styled-components";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
+import { useGetStudyById } from "../hooks/useStudy";
 
 const PageContainer = styled.section`
   width: 80%;
@@ -118,15 +118,14 @@ const ContentColumn = styled.section`
 
 const StudyLayout = () => {
   const { id } = useParams<{ id: string }>();
-
-  const studyTitle = "알고리즘 스터디";
+  const { data: study } = useGetStudyById({ studyId: id as string });
 
   return (
     <Wapper>
       <PageContainer>
         <StudyBox>
           <StudyHeader>
-            <StudyTitle>{studyTitle}</StudyTitle>
+            <StudyTitle>{study?.title}</StudyTitle>
           </StudyHeader>
           <StudyBody>
             <NavColumn>
@@ -140,7 +139,7 @@ const StudyLayout = () => {
             </NavColumn>
 
             <ContentColumn>
-              <Outlet />
+              <Outlet context={{ study }} />
             </ContentColumn>
           </StudyBody>
         </StudyBox>
