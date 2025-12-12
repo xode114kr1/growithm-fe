@@ -7,7 +7,16 @@ interface createStudyProps {
 }
 
 export async function getStudyList() {
-  const res = await apiClient.get("study");
+  const res = await apiClient.get("/study");
+  return res.data;
+}
+
+interface getStudyByIdProps {
+  studyId: string;
+}
+
+export async function getStudyById({ studyId }: getStudyByIdProps) {
+  const res = await apiClient.get(`/study/${studyId}`);
   return res.data;
 }
 
