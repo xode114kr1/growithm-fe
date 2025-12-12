@@ -287,7 +287,9 @@ const SolvedFormPage = () => {
           <SaveButton onClick={handleSaveButtonClick}>저장하기</SaveButton>
         </ButtonContanier>
       </SolvedFormContainer>
-      {isModalOpen && <StudyShareModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <StudyShareModal problemId={problemId as string} onClose={() => setIsModalOpen(false)} />
+      )}
     </Wapper>
   );
 };

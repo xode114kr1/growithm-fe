@@ -1,43 +1,32 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useGetStudyList } from "../../../shared/hooks/useStudy";
+import { useShareProblemToStudysMutation } from "../../../shared/hooks/useProblem";
 
-type Props = {
+interface StudyShareModalProps {
+  problemId: string;
   onClose: () => void;
-};
+}
 
-type StudyItem = {
-  id: string;
-  name: string;
-  explanation: string;
-  membersCount: number;
-};
-
-export default function StudyShareModal({ onClose }: Props) {
-  const dummyStudies: StudyItem[] = [
-    {
-      id: "1",
-      name: "알고리즘 스터디",
-      explanation: "백준 / 프로그래머스 문제 풀이",
-      membersCount: 8,
-    },
-    {
-      id: "2",
-      name: "Growithm 개발 스터디",
-      explanation: "프론트엔드 & 백엔드 협업",
-      membersCount: 4,
-    },
-    {
-      id: "3",
-      name: "CS 면접 대비",
-      explanation: "네트워크, OS, DB 정리",
-      membersCount: 6,
-    },
-  ];
+export default function StudyShareModal({ onClose, problemId }: StudyShareModalProps) {
+  const { data: studyList } = useGetStudyList();
+  const { mutate: shareProblemToStudys } = useShareProblemToStudysMutation();
 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const toggleStudy = (id: string) => {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
+  };
+
+  const handleShareButton = async () => {
+    shareProblemToStudys(
+      { problemId, studyIds: selectedIds },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   return (
@@ -59,22 +48,24 @@ export default function StudyShareModal({ onClose }: Props) {
 
         <Body>
           <List>
-            {dummyStudies.map((study) => {
-              const checked = selectedIds.includes(study.id);
+            {studyList
+              ? studyList.map((study) => {
+                  const checked = selectedIds.includes(study?._id);
 
-              return (
-                <Row key={study.id} onClick={() => toggleStudy(study.id)}>
-                  <Check type="checkbox" checked={checked} readOnly />
-                  <RowMain>
-                    <RowTop>
-                      <RowTitle>{study.name}</RowTitle>
-                      <Pill>멤버 {study.membersCount}</Pill>
-                    </RowTop>
-                    <RowDesc>{study.explanation}</RowDesc>
-                  </RowMain>
-                </Row>
-              );
-            })}
+                  return (
+                    <Row key={study?._id} onClick={() => toggleStudy(study?._id)}>
+                      <Check type="checkbox" checked={checked} readOnly />
+                      <RowMain>
+                        <RowTop>
+                          <RowTitle>{study?.title}</RowTitle>
+                          <Pill>멤버 {study?.members?.length}</Pill>
+                        </RowTop>
+                        <RowDesc>{study.explanation}</RowDesc>
+                      </RowMain>
+                    </Row>
+                  );
+                })
+              : null}
           </List>
         </Body>
 
@@ -82,7 +73,7 @@ export default function StudyShareModal({ onClose }: Props) {
 
         <Footer>
           <GhostButton onClick={onClose}>취소</GhostButton>
-          <PrimaryButton>공유하기</PrimaryButton>
+          <PrimaryButton onClick={handleShareButton}>공유하기</PrimaryButton>
         </Footer>
       </Modal>
     </Overlay>
@@ -165,6 +156,7 @@ const List = styled.div`
 
 const Row = styled.div`
   display: flex;
+  align-items: center;
   gap: 12px;
   padding: 12px;
   border-radius: 14px;
