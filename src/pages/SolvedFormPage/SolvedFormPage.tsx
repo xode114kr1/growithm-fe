@@ -6,6 +6,7 @@ import { useGetProblemById, useSaveSolvedProblem } from "../../shared/hooks/useP
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import StudyShareModal from "./components/StudyShareModal";
 
 const SolvedFormContainer = styled.section`
   display: flex;
@@ -175,6 +176,7 @@ const SolvedFormPage = () => {
   const MemoTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleSaveButtonClick = async () => {
     saveSolvedProblemMutation(
@@ -223,7 +225,7 @@ const SolvedFormPage = () => {
                 >
                   수정
                 </TitleButton>
-                <TitleButton>공유</TitleButton>
+                <TitleButton onClick={() => setIsModalOpen(true)}>공유</TitleButton>
               </>
             )}
           </TitleButtonContainer>
@@ -285,6 +287,9 @@ const SolvedFormPage = () => {
           <SaveButton onClick={handleSaveButtonClick}>저장하기</SaveButton>
         </ButtonContanier>
       </SolvedFormContainer>
+      {isModalOpen && (
+        <StudyShareModal problemId={problemId as string} onClose={() => setIsModalOpen(false)} />
+      )}
     </Wapper>
   );
 };

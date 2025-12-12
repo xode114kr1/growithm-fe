@@ -17,6 +17,11 @@ interface createSolvedProps {
   memo?: string;
 }
 
+interface shareProblemToStudysProps {
+  problemId: string;
+  studyIds: string[];
+}
+
 export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) {
   const res = await apiClient.patch(`/problem/solved/${problemId}`, { memo });
   console.log(res.data);
@@ -25,5 +30,10 @@ export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) 
 
 export async function getProblemById(problemId: string): Promise<ResponseData<Problem>> {
   const res = await apiClient.get(`/problem/${problemId}`);
+  return res.data;
+}
+
+export async function shareProblemToStudys({ problemId, studyIds }: shareProblemToStudysProps) {
+  const res = await apiClient.post("problem/share", { problemId, studyIds });
   return res.data;
 }
