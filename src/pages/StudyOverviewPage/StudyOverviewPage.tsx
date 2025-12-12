@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import type { Study } from "../../types/studyType";
 import { useOutletContext } from "react-router-dom";
+import { useGetStudyUserScoreById } from "../../shared/hooks/useStudy";
 
 interface StudyOutletContext {
   study: Study;
@@ -283,15 +284,19 @@ const MemberRole = styled.span`
   color: #6b7280;
 `;
 
-const MOCK_CONTRIBUTION = [
-  { name: "xode114kr1", solved: 42 },
-  { name: "study_user01", solved: 28 },
-  { name: "algo_master", solved: 19 },
-  { name: "baekjoon_lover", solved: 12 },
-];
-
 const StudyOverviewPage = () => {
   const { study } = useOutletContext<StudyOutletContext>();
+  const { data } = useGetStudyUserScoreById({ studyId: study?._id });
+
+  const chartData = data
+    ?.slice()
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4)
+    .map((item) => ({
+      name: item.user.name,
+      score: item.score,
+    }));
+  console.log(data);
 
   const tier: StudyTier = "gold";
   const weeklySolved = 18;
@@ -341,12 +346,14 @@ const StudyOverviewPage = () => {
 
             <div style={{ width: "100%", height: "100%" }}>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={MOCK_CONTRIBUTION} layout="vertical" margin={{ left: 20 }}>
-                  <XAxis type="number" />
-                  <YAxis type="category" dataKey="name" width={100} />
-                  <Tooltip />
-                  <Bar dataKey="solved" fill="#6366f1" radius={[4, 4, 4, 4]} barSize={40} />
-                </BarChart>
+                {chartData && (
+                  <BarChart data={chartData} layout="vertical" margin={{ left: 20 }}>
+                    <XAxis type="number" />
+                    <YAxis type="category" dataKey="name" width={100} />
+                    <Tooltip />
+                    <Bar dataKey="score" fill="#6366f1" radius={[4, 4, 4, 4]} barSize={40} />
+                  </BarChart>
+                )}
               </ResponsiveContainer>
             </div>
           </Card>
