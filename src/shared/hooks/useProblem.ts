@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProblemById, getProblemList, saveSolvedProblem } from "../api/problem";
+import {
+  getProblemById,
+  getProblemList,
+  saveSolvedProblem,
+  shareProblemToStudys,
+} from "../api/problem";
 import type { getProblemListParams, Problem } from "../../types/problemType";
 
 export function useGetProblemList({ title, platform, tier, state }: getProblemListParams) {
@@ -32,5 +37,16 @@ export function useGetProblemById(problemId: string) {
       return res.data;
     },
     enabled: !!problemId,
+  });
+}
+
+export function useShareProblemToStudysMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: shareProblemToStudys,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["study"] });
+      queryClient.invalidateQueries({ queryKey: ["problem"] });
+    },
   });
 }
