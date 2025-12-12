@@ -25,3 +25,12 @@ export async function createStudy({ title, explanation, members }: createStudyPr
   console.log(res.data);
   return res.data;
 }
+
+interface getStudyUserScoreByIdProps {
+  studyId: string;
+}
+
+export async function getStudyUserScoreById({ studyId }: getStudyUserScoreByIdProps) {
+  const res = await apiClient.get(`/study/user-score/${studyId}`);
+  return res.data;
+}

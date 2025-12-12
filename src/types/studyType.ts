@@ -6,8 +6,15 @@ export interface Study {
   title: string;
   explanation: string;
   members: User[];
-  problem: Problem[];
+  problems: Problem[];
   score: number;
   createdAd: string;
   owner: User;
+}
+
+export interface StudyUserScore {
+  _id: string;
+  study: Study;
+  user: User;
+  score: number;
 }

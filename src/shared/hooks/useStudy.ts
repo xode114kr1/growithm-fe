@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createStudy, getStudyById, getStudyList } from "../api/study";
-import type { Study } from "../../types/studyType";
+import { createStudy, getStudyById, getStudyList, getStudyUserScoreById } from "../api/study";
+import type { StudyUserScore, Study } from "../../types/studyType";
 
 export function useGetStudyList() {
   return useQuery<Study[]>({
@@ -28,6 +28,16 @@ export function useCreateStudyMutation() {
     mutationFn: createStudy,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["study"] });
+    },
+  });
+}
+
+export function useGetStudyUserScoreById({ studyId }: { studyId: string }) {
+  return useQuery<StudyUserScore[]>({
+    queryKey: ["user-score", studyId],
+    queryFn: async () => {
+      const res = await getStudyUserScoreById({ studyId });
+      return res.data;
     },
   });
 }
