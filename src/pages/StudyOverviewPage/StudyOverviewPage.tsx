@@ -152,7 +152,7 @@ const ProblemTierDot = styled.span<{ tier: StudyTier }>`
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background-color: ${({ tier }) => TIER_COLOR[tier]};
+  background-color: ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR["bronze"]};
   flex-shrink: 0;
 `;
 
@@ -283,12 +283,6 @@ const MemberRole = styled.span`
   color: #6b7280;
 `;
 
-const MOCK_PROBLEMS = [
-  { title: "[백준] 1000 - A+B", tier: "bronze" as StudyTier },
-  { title: "[백준] 11047 - 동전 0", tier: "silver" as StudyTier },
-  { title: "[프로그래머스] K번째 수", tier: "gold" as StudyTier },
-];
-
 const MOCK_CONTRIBUTION = [
   { name: "xode114kr1", solved: 42 },
   { name: "study_user01", solved: 28 },
@@ -302,7 +296,7 @@ const StudyOverviewPage = () => {
   const tier: StudyTier = "gold";
   const weeklySolved = 18;
   const memberLength = study?.members?.length || 0;
-  const problemLength = study?.problem?.length || 0;
+  const problemLength = study?.problems?.length || 0;
 
   return (
     <OverviewWrapper>
@@ -384,14 +378,14 @@ const StudyOverviewPage = () => {
           <Card>
             <CardHeader>
               <CardTitle>최근에 푼 문제</CardTitle>
-              <CardHint>스터디원들이 함께 풀이한 문제들</CardHint>
+              <CardHint>스터디원들이 풀이한 문제들</CardHint>
             </CardHeader>
 
             <ProblemList>
               {problemLength
-                ? MOCK_PROBLEMS.map((p) => (
+                ? study?.problems.map((p) => (
                     <ProblemRow key={p.title}>
-                      <ProblemTierDot tier={p.tier} />
+                      <ProblemTierDot tier={p?.tier?.split(" ")[0]?.toLowerCase()} />
                       <ProblemTitle>{p.title}</ProblemTitle>
                     </ProblemRow>
                   ))
