@@ -3,14 +3,19 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recha
 import type { Study } from "../../types/studyType";
 import { useOutletContext } from "react-router-dom";
 import { useGetStudyUserScoreById } from "../../shared/hooks/useStudy";
+import type { GrowithmTierType } from "../../types/problemType";
+import {
+  calculateStudyTier,
+  getProblemTier,
+  getStudyPrograss,
+  getStudyTierMaxScore,
+} from "../../shared/utils/tier";
 
 interface StudyOutletContext {
   study: Study;
 }
 
-type StudyTier = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
-
-const TIER_COLOR: Record<StudyTier, string> = {
+const TIER_COLOR: Record<GrowithmTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
   gold: "#FFD700",
@@ -19,7 +24,7 @@ const TIER_COLOR: Record<StudyTier, string> = {
   ruby: "#FF4F7A",
 };
 
-const TIER_PROGRESS_COLOR: Record<StudyTier, string> = {
+const TIER_PROGRESS_COLOR: Record<GrowithmTierType, string> = {
   bronze: "#B86E34",
   silver: "#9FA5AD",
   gold: "#E2C24F",
@@ -28,7 +33,7 @@ const TIER_PROGRESS_COLOR: Record<StudyTier, string> = {
   ruby: "#FF3760",
 };
 
-const TIER_KR: Record<StudyTier, string> = {
+const TIER_KR: Record<GrowithmTierType, string> = {
   bronze: "브론즈",
   silver: "실버",
   gold: "골드",
@@ -149,7 +154,7 @@ const ProblemRow = styled.div`
   color: #374151;
 `;
 
-const ProblemTierDot = styled.span<{ tier: StudyTier }>`
+const ProblemTierDot = styled.span<{ tier: GrowithmTierType }>`
   width: 8px;
   height: 8px;
   border-radius: 999px;
@@ -172,7 +177,7 @@ const RightColumn = styled.div`
   gap: 12px;
 `;
 
-const TierCard = styled.div<{ tier: StudyTier }>`
+const TierCard = styled.div<{ tier: GrowithmTierType }>`
   border-radius: 16px;
   padding: 16px 14px;
   background: ${({ tier }) =>
@@ -203,7 +208,20 @@ const ProgressBarWrapper = styled.div`
   margin-top: 6px;
 `;
 
-const ProgressBarFill = styled.div<{ value: number; tier: StudyTier }>`
+const ProgressScore = styled.div`
+  width: 100%;
+  padding: 0 5px;
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 12px;
+  font-weight: 500;
+  font-weight: div {
+    line-height: 1;
+  }
+`;
+
+const ProgressBarFill = styled.div<{ value: number; tier: GrowithmTierType }>`
   height: 100%;
   width: ${({ value }) => value}%;
   background: ${({ tier }) => TIER_PROGRESS_COLOR[tier]};
@@ -253,17 +271,16 @@ const MemberRow = styled.div`
   gap: 8px;
 `;
 
-const Avatar = styled.div`
+interface AvatarProps {
+  src?: string;
+}
+
+const Avatar = styled.img<AvatarProps>`
   width: 26px;
   height: 26px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #a855f7, #6366f1);
-  color: #f9fafb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
+  object-fit: cover;
+  background-color: #e5e7eb;
   flex-shrink: 0;
 `;
 
@@ -296,10 +313,30 @@ const StudyOverviewPage = () => {
       name: item.user.name,
       score: item.score,
     }));
-  console.log(data);
 
-  const tier: StudyTier = "gold";
-  const weeklySolved = 18;
+  const tier = calculateStudyTier(study?.score) || "bronze";
+
+  const weeklySolved =
+    study?.problems?.filter((problem) => {
+      if (!problem?.timestamp) return false;
+
+      const getDateMinusDays = (days: number) => {
+        const now = new Date();
+        now.setDate(now.getDate() - days);
+
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, "0");
+        const d = String(now.getDate()).padStart(2, "0");
+
+        return `${y}-${m}-${d}`;
+      };
+
+      const today = getDateMinusDays(0);
+      const oneWeekAgo = getDateMinusDays(7);
+
+      return problem.timestamp >= oneWeekAgo && problem.timestamp <= today;
+    }) || [];
+
   const memberLength = study?.members?.length || 0;
   const problemLength = study?.problems?.length || 0;
 
@@ -312,8 +349,12 @@ const StudyOverviewPage = () => {
         <TierLabel>현재 스터디 티어</TierLabel>
         <TierName>{TIER_KR[tier]}</TierName>
         <ProgressBarWrapper>
-          <ProgressBarFill value={65} tier={tier} />
+          <ProgressBarFill value={getStudyPrograss(study?.score) || 0} tier={tier} />
         </ProgressBarWrapper>
+        <ProgressScore>
+          <div>{study?.score}</div>
+          <div>{getStudyTierMaxScore(study?.score)}</div>
+        </ProgressScore>
       </TierCard>
       <ContentGrid>
         <LeftColumn>
@@ -330,7 +371,7 @@ const StudyOverviewPage = () => {
               </StatCard>
               <StatCard>
                 <StatLabel>이번 주 푼 문제</StatLabel>
-                <StatValue>{weeklySolved}</StatValue>
+                <StatValue>{weeklySolved.length}</StatValue>
               </StatCard>
               <StatCard>
                 <StatLabel>스터디원 수</StatLabel>
@@ -370,7 +411,7 @@ const StudyOverviewPage = () => {
               {memberLength
                 ? study?.members?.map((member) => (
                     <MemberRow key={member?.name}>
-                      <Avatar>{member?.name[0]?.toUpperCase()}</Avatar>
+                      <Avatar src={member?.avatarUrl} />
                       <MemberInfo>
                         <MemberName>{member?.name}</MemberName>
                         <MemberRole>
@@ -392,7 +433,7 @@ const StudyOverviewPage = () => {
               {problemLength
                 ? study?.problems.map((p) => (
                     <ProblemRow key={p.title}>
-                      <ProblemTierDot tier={p?.tier?.split(" ")[0]?.toLowerCase()} />
+                      <ProblemTierDot tier={getProblemTier(p)} />
                       <ProblemTitle>{p.title}</ProblemTitle>
                     </ProblemRow>
                   ))
