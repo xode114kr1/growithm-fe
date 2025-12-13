@@ -7,12 +7,30 @@ interface createStudyProps {
 }
 
 export async function getStudyList() {
-  const res = await apiClient.get("study");
+  const res = await apiClient.get("/study");
+  return res.data;
+}
+
+interface getStudyByIdProps {
+  studyId: string;
+}
+
+export async function getStudyById({ studyId }: getStudyByIdProps) {
+  const res = await apiClient.get(`/study/${studyId}`);
   return res.data;
 }
 
 export async function createStudy({ title, explanation, members }: createStudyProps) {
   const res = await apiClient.post("/study", { title, explanation, members });
   console.log(res.data);
+  return res.data;
+}
+
+interface getStudyUserScoreByIdProps {
+  studyId: string;
+}
+
+export async function getStudyUserScoreById({ studyId }: getStudyUserScoreByIdProps) {
+  const res = await apiClient.get(`/study/user-score/${studyId}`);
   return res.data;
 }

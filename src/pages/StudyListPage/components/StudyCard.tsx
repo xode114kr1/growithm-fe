@@ -1,6 +1,7 @@
 // src/pages/StudyListPage/components/StudyCard.tsx
 import styled from "styled-components";
 import type { Study } from "../../../types/studyType";
+import { useNavigate } from "react-router-dom";
 
 interface StudyCardProps {
   study: Study;
@@ -70,8 +71,9 @@ const OwnerText = styled.span`
 `;
 
 const StudyCard = ({ study }: StudyCardProps) => {
+  const navigate = useNavigate();
   return (
-    <Card>
+    <Card onClick={() => navigate(study?._id)}>
       <StudyName>{study?.title}</StudyName>
       <StudyExplanation>{study?.explanation}</StudyExplanation>
       <StudyMetaRow>
