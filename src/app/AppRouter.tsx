@@ -46,7 +46,7 @@ const AppRouter = () => {
           <Route path="/friend" element={<FriendPage />} />
           <Route path="/study" element={<StudyListPage />} />
           <Route path="study/:id" element={<StudyLayout />}>
-            <Route index element={<StudyOverviewPage />} />
+            <Route path="overview" element={<StudyOverviewPage />} />
           </Route>
         </Route>
       </Route>

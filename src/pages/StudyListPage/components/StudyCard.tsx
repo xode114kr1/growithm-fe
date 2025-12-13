@@ -73,7 +73,7 @@ const OwnerText = styled.span`
 const StudyCard = ({ study }: StudyCardProps) => {
   const navigate = useNavigate();
   return (
-    <Card onClick={() => navigate(study?._id)}>
+    <Card onClick={() => navigate(`${study?._id}/overview`)}>
       <StudyName>{study?.title}</StudyName>
       <StudyExplanation>{study?.explanation}</StudyExplanation>
       <StudyMetaRow>
