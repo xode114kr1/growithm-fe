@@ -15,38 +15,60 @@ interface WriteButtonProps {
 }
 
 const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
-  bronze: "#CC8846",
-  silver: "#C0C0C0",
-  gold: "#FFD700",
-  platinum: "#A0FFF0",
-  diamond: "#DDEBFF",
-  ruby: "#FF4F7A",
+  bronze: "#B26A2B",
+  silver: "#9CA3AF",
+  gold: "#B88700",
+  platinum: "#0F766E",
+  diamond: "#2563EB",
+  ruby: "#E11D48",
 
-  "level 1": "#CC8846",
-  "level 2": "#C0C0C0",
-  "level 3": "#FFD700",
-  "level 4": "#A0FFF0",
+  "level 1": "#B26A2B",
+  "level 2": "#9CA3AF",
+  "level 3": "#B88700",
+  "level 4": "#0F766E",
+};
+
+const TIER_TINT: Record<BeakjoonTierType | ProgrammersTierType, string> = {
+  bronze: "#FFF3E8",
+  silver: "#F3F4F6",
+  gold: "#FFFAE6",
+  platinum: "#E6FFFB",
+  diamond: "#EFF6FF",
+  ruby: "#FFF1F2",
+
+  "level 1": "#FFF3E8",
+  "level 2": "#F3F4F6",
+  "level 3": "#FFFAE6",
+  "level 4": "#E6FFFB",
 };
 
 const ProblemItemContainer = styled.div<ProblemItemContainerProps>`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 14px;
 
-  border-radius: 14px;
-  border-left: 5px solid ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
+  border-radius: 13px;
+  border-left: 4px solid ${({ tier }) => TIER_COLOR[tier]};
   background-color: #ffffff;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    box-shadow: 0 6px 18px rgba(108, 92, 231, 0.15);
+  }
 `;
 
 const ProblemTitleRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 10px;
+  gap: 9px;
 
   @media (max-width: 640px) {
     flex-direction: column;
@@ -57,7 +79,7 @@ const ProblemTitleRow = styled.div`
 const ProblemTitleText = styled.div`
   flex: 1;
   min-width: 0;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   color: #111827;
 
@@ -69,20 +91,16 @@ const ProblemTitleText = styled.div`
 const TierInfo = styled.div<TierInfoProps>`
   flex-shrink: 0;
 
-  padding: 6px 10px;
-  min-width: 88px;
+  padding: 5px 9px;
+  min-width: 80px;
 
   text-align: center;
-  background-color: ${({ tier }) => TIER_COLOR[tier] || TIER_COLOR.bronze};
+  background-color: ${({ tier }) => TIER_TINT[tier]};
   border-radius: 10px;
 
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-
-  @media (max-width: 640px) {
-    align-self: flex-start;
-  }
+  font-size: 13px;
+  font-weight: 700;
+  color: ${({ tier }) => TIER_COLOR[tier]};
 `;
 
 const ProblemSub = styled.div`
@@ -90,29 +108,32 @@ const ProblemSub = styled.div`
   flex-wrap: wrap;
   gap: 6px;
 
-  font-size: 14px;
+  font-size: 13px;
   color: #6b7280;
 `;
 
 const CategoryChip = styled.span`
-  padding: 3px 10px;
+  padding: 3px 9px;
   border-radius: 999px;
-  background-color: #eef2ff;
-  color: #4f46e5;
-  font-size: 13px;
-  font-weight: 500;
+
+  background-color: #f5f3ff;
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  color: #6c5ce7;
+
+  font-size: 12px;
+  font-weight: 600;
 `;
 
 const ProblemInfo = styled.div`
   margin-top: 2px;
-  padding-top: 8px;
+  padding-top: 7px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 
-  font-size: 15px;
+  font-size: 13px;
   color: #6b7280;
   border-top: 1px solid #e5e7eb;
 
@@ -135,27 +156,29 @@ const ProblemInfoText = styled.div`
 const WriteButton = styled.button<WriteButtonProps>`
   flex-shrink: 0;
 
-  min-width: 120px;
-  padding: 8px 14px;
+  min-width: 108px;
+  padding: 7px 12px;
 
   border: none;
   border-radius: 999px;
-  background-color: ${({ state }) => (state === "pending" ? "#4f46e5" : "#111827")};
-  color: #ffffff;
 
-  font-size: 15px;
-  font-weight: 600;
+  background-color: ${({ state }) => (state === "pending" ? " #6c5ce7" : "#ffffff")};
+  color: ${({ state }) => (state === "pending" ? "#ffffff" : "#6c5ce7")};
+  border: ${({ state }) => (state === "pending" ? "none" : `1px solid #6c5ce7`)};
+
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
 
   transition:
-    background 0.15s ease-in-out,
-    transform 0.05s ease-in-out,
-    box-shadow 0.12s ease-in-out;
+    background 0.15s ease,
+    transform 0.05s ease,
+    box-shadow 0.12s ease;
 
   &:hover {
-    background-color: ${({ state }) => (state === "pending" ? "#4338ca" : "#030712")};
+    background-color: ${({ state }) => (state === "pending" ? "#5a4bdc" : "#f5f3ff")};
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+    box-shadow: 0 4px 14px rgba(108, 92, 231, 0.25);
   }
 
   &:active {
