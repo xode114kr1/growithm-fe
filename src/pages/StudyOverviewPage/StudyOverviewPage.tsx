@@ -10,28 +10,11 @@ import {
   getStudyPrograss,
   getStudyTierMaxScore,
 } from "../../shared/utils/tier";
+import { CARD_TIER_COLOR, TIER_COLOR, TIER_PROGRESS_COLOR } from "../../shared/styles/palette";
 
 interface StudyOutletContext {
   study: Study;
 }
-
-const TIER_COLOR: Record<GrowithmTierType, string> = {
-  bronze: "#CC8846",
-  silver: "#C0C0C0",
-  gold: "#FFD700",
-  platinum: "#A0FFF0",
-  diamond: "#DDEBFF",
-  ruby: "#FF4F7A",
-};
-
-const TIER_PROGRESS_COLOR: Record<GrowithmTierType, string> = {
-  bronze: "#B86E34",
-  silver: "#9FA5AD",
-  gold: "#E2C24F",
-  platinum: "#7ED5C7",
-  diamond: "#6AA8FF",
-  ruby: "#FF3760",
-};
 
 const TIER_KR: Record<GrowithmTierType, string> = {
   bronze: "브론즈",
@@ -181,7 +164,7 @@ const TierCard = styled.div<{ tier: GrowithmTierType }>`
   border-radius: 16px;
   padding: 16px 14px;
   background: ${({ tier }) =>
-    `linear-gradient(135deg, ${TIER_COLOR[tier]}, ${TIER_COLOR[tier]}88)`};
+    `linear-gradient(135deg, ${CARD_TIER_COLOR[tier]}, ${CARD_TIER_COLOR[tier]}88)`};
   color: #111827;
 
   display: flex;
