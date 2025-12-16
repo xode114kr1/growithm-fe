@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import StudyProblemItem from "./components/StudyProblemItem";
 
 const StudyProblemContainer = styled.div`
@@ -11,7 +12,7 @@ const StudyProblemContainer = styled.div`
 const Header = styled.header`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
 `;
 
 const Title = styled.h2`
@@ -21,14 +22,199 @@ const Title = styled.h2`
   color: #111827;
 `;
 
-const ProblemItemList = styled.div``;
+const FilterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  width: 100%;
+  min-height: 60px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 12px;
+    gap: 10px;
+  }
+`;
+
+const DropdownContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+`;
+
+const DropdownMenu = styled.select`
+  width: 160px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  font-weight: 400;
+  color: #111827;
+  padding: 0 10px;
+  background: #ffffff;
+  outline: none;
+
+  &:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
+  }
+
+  @media (max-width: 1024px) {
+    flex: 1;
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`;
+
+const RightFilterArea = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+  }
+`;
+
+const SearchGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+`;
+
+const TextInput = styled.input`
+  min-width: 180px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  padding: 0 14px;
+  color: #111827;
+  background: #ffffff;
+  outline: none;
+
+  &::placeholder {
+    color: #b2bec3;
+  }
+
+  &:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    min-width: 0;
+  }
+`;
+
+const ProblemItemList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 const StudyProblemPage = () => {
+  const [platform, setPlatform] = useState<string>("");
+  const [tier, setTier] = useState<string>("");
+  const [titleKeyword, setTitleKeyword] = useState<string>("");
+  const [user, setUser] = useState<string>("");
+
+  const platformCategory = ["beakjoon", "programmers"];
+  const tierCategory = ["Bronze V", "Silver II", "Gold V", "Platinum IV", "Diamond III", "level 3"];
+  const userCategory = ["xode114kr1", "zode114kr1"];
+
   return (
     <StudyProblemContainer>
       <Header>
         <Title>Problem</Title>
+
+        <FilterContainer>
+          <DropdownContainer>
+            <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
+              <option value="">전체 플랫폼</option>
+              {platformCategory.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
+            </DropdownMenu>
+
+            <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
+              <option value="">전체 티어</option>
+              {tierCategory.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
+            </DropdownMenu>
+          </DropdownContainer>
+
+          <RightFilterArea>
+            <SearchGroup>
+              <TextInput
+                placeholder="문제 제목 검색"
+                value={titleKeyword}
+                onChange={(e) => setTitleKeyword(e.target.value)}
+              />
+            </SearchGroup>
+            <DropdownMenu value={user} onChange={(e) => setUser(e.target.value)}>
+              <option value="">전체 유저</option>
+              {userCategory.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
+            </DropdownMenu>
+          </RightFilterArea>
+        </FilterContainer>
+
         <ProblemItemList>
+          <StudyProblemItem />
+          <StudyProblemItem />
+          <StudyProblemItem />
           <StudyProblemItem />
         </ProblemItemList>
       </Header>
