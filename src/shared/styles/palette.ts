@@ -5,17 +5,17 @@ import type {
 } from "../../types/problemType";
 
 export const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
-  bronze: "#B26A2B",
-  silver: "#9CA3AF",
-  gold: "#D4AF37",
-  platinum: "#10B981",
-  diamond: "#60A5FA",
-  ruby: "#E11D48",
+  bronze: "#CC8846",
+  silver: "#C0C0C0",
+  gold: "#FFD700",
+  platinum: "#A0FFF0",
+  diamond: "#DDEBFF",
+  ruby: "#FF4F7A",
 
-  "level 1": "#B26A2B",
-  "level 2": "#9CA3AF",
-  "level 3": "#D4AF37",
-  "level 4": "#10B981",
+  "level 1": "#CC8846",
+  "level 2": "#C0C0C0",
+  "level 3": "#FFD700",
+  "level 4": "#A0FFF0",
 };
 
 export const TIER_TINT: Record<BeakjoonTierType | ProgrammersTierType, string> = {

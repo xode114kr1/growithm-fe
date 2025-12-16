@@ -10,6 +10,7 @@ import { useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
 import StudyCreateModal from "./components/StudyCreateModal";
 import { useState } from "react";
+import { TIER_COLOR } from "../../shared/styles/palette";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -300,15 +301,6 @@ const StudySlider = styled(Slider)`
     font-size: 8px;
   }
 `;
-
-const TIER_COLOR: Record<BeakjoonTierType, string> = {
-  bronze: "#CC8846",
-  silver: "#C0C0C0",
-  gold: "#FFD700",
-  platinum: "#A0FFF0",
-  diamond: "#DDEBFF",
-  ruby: "#FF4F7A",
-};
 
 const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
   { name: "bronze", value: 20 },
