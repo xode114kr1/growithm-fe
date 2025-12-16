@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import StudyProblemItem from "./components/StudyProblemItem";
+import { useOutletContext } from "react-router-dom";
+import type { Study } from "../../types/studyType";
 
 const StudyProblemContainer = styled.div`
   flex: 1;
@@ -156,7 +158,12 @@ const ProblemItemList = styled.div`
   gap: 10px;
 `;
 
+interface StudyOutletContext {
+  study: Study;
+}
+
 const StudyProblemPage = () => {
+  const { study } = useOutletContext<StudyOutletContext>();
   const [platform, setPlatform] = useState<string>("");
   const [tier, setTier] = useState<string>("");
   const [titleKeyword, setTitleKeyword] = useState<string>("");
@@ -164,7 +171,7 @@ const StudyProblemPage = () => {
 
   const platformCategory = ["beakjoon", "programmers"];
   const tierCategory = ["Bronze V", "Silver II", "Gold V", "Platinum IV", "Diamond III", "level 3"];
-  const userCategory = ["xode114kr1", "zode114kr1"];
+  const userCategory = study?.members?.map((item) => item?.name);
 
   return (
     <StudyProblemContainer>
@@ -202,7 +209,7 @@ const StudyProblemPage = () => {
             </SearchGroup>
             <DropdownMenu value={user} onChange={(e) => setUser(e.target.value)}>
               <option value="">전체 유저</option>
-              {userCategory.map((item) => (
+              {userCategory?.map((item) => (
                 <option value={item} key={item}>
                   {item}
                 </option>
@@ -212,10 +219,9 @@ const StudyProblemPage = () => {
         </FilterContainer>
 
         <ProblemItemList>
-          <StudyProblemItem />
-          <StudyProblemItem />
-          <StudyProblemItem />
-          <StudyProblemItem />
+          {study?.problems?.map((problem) => (
+            <StudyProblemItem problem={problem} />
+          ))}
         </ProblemItemList>
       </Header>
     </StudyProblemContainer>

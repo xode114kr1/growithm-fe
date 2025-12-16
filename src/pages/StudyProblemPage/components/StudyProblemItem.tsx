@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import type { BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
+import type { BeakjoonTierType, Problem, ProgrammersTierType } from "../../../types/problemType";
 import { TIER_COLOR, TIER_TINT } from "../../../shared/styles/palette";
+import { getProblemTier } from "../../../shared/utils/tier";
 
 const StudyProblemItemContainer = styled.div`
   display: flex;
@@ -88,29 +89,22 @@ const TierInfo = styled.div<TierInfoProps>`
   color: ${({ tier }) => TIER_COLOR[tier]};
 `;
 
-const StudyProblemItemCompact = () => {
-  const data = {
-    platform: "baekjoon",
-    problemId: "1629",
-    title: "곱셈",
-    tier: "Gold V",
-    solvedBy: "xode114kr1",
-  };
-  const tier = "gold";
+const StudyProblemItemCompact = ({ problem }: { problem: Problem }) => {
+  const tier = getProblemTier(problem);
   return (
     <StudyProblemItemContainer>
       <Accent tier={tier} />
       <Main>
         <Title>
-          [{data.platform}] {data.problemId} · {data.title}
+          [{problem?.platform}] {problem?.problemId} · {problem?.title}
         </Title>
         <Sub>
           <div>
-            solved by <User>{data.solvedBy}</User>
+            solved by <User>{problem?.userId?.name}</User>
           </div>
         </Sub>
       </Main>
-      <TierInfo tier={tier}>{data.tier}</TierInfo>
+      <TierInfo tier={tier}>{problem?.tier}</TierInfo>
     </StudyProblemItemContainer>
   );
 };
