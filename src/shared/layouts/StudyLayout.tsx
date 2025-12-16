@@ -131,7 +131,7 @@ const StudyLayout = () => {
             <NavColumn>
               <NavLabel>스터디 메뉴</NavLabel>
               <NavList>
-                <NavItem to="">Overview</NavItem>
+                <NavItem to="overview">Overview</NavItem>
                 <NavItem to="problem">Problem</NavItem>
                 <NavItem to="member">Member</NavItem>
                 <NavItem to="owner">Owner</NavItem>

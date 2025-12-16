@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import type { Problem, BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
 import { useNavigate } from "react-router-dom";
+import { TIER_COLOR, TIER_TINT } from "../../../shared/styles/palette";
 
 interface ProblemItemContainerProps {
   tier: BeakjoonTierType | ProgrammersTierType;
@@ -13,34 +14,6 @@ interface TierInfoProps {
 interface WriteButtonProps {
   state: "pending" | "solved" | undefined;
 }
-
-const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
-  bronze: "#B26A2B",
-  silver: "#9CA3AF",
-  gold: "#B88700",
-  platinum: "#0F766E",
-  diamond: "#2563EB",
-  ruby: "#E11D48",
-
-  "level 1": "#B26A2B",
-  "level 2": "#9CA3AF",
-  "level 3": "#B88700",
-  "level 4": "#0F766E",
-};
-
-const TIER_TINT: Record<BeakjoonTierType | ProgrammersTierType, string> = {
-  bronze: "#FFF3E8",
-  silver: "#F3F4F6",
-  gold: "#FFFAE6",
-  platinum: "#E6FFFB",
-  diamond: "#EFF6FF",
-  ruby: "#FFF1F2",
-
-  "level 1": "#FFF3E8",
-  "level 2": "#F3F4F6",
-  "level 3": "#FFFAE6",
-  "level 4": "#E6FFFB",
-};
 
 const ProblemItemContainer = styled.div<ProblemItemContainerProps>`
   display: flex;
