@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import StudyProblemItem from "./components/StudyProblemItem";
 import { useOutletContext } from "react-router-dom";
 import type { Study } from "../../types/studyType";
@@ -156,6 +156,8 @@ const ProblemItemList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 600px;
+  overflow: auto;
 `;
 
 interface StudyOutletContext {
@@ -170,14 +172,26 @@ const StudyProblemPage = () => {
   const [user, setUser] = useState<string>("");
 
   const platformCategory = ["beakjoon", "programmers"];
-  const tierCategory = ["Bronze V", "Silver II", "Gold V", "Platinum IV", "Diamond III", "level 3"];
+  const tierCategory = study?.problems?.map((item) => item?.tier);
   const userCategory = study?.members?.map((item) => item?.name);
+
+  const filteredProblems = useMemo(() => {
+    const list = study?.problems ?? [];
+
+    return list.filter((p) => {
+      const passPlatform = !platform || p?.platform === platform;
+      const passTier = !tier || p?.tier === tier;
+      const passTitle = !titleKeyword || p?.title.includes(titleKeyword);
+      const passUser = !user || p?.userId?.name === user;
+
+      return passPlatform && passTier && passTitle && passUser;
+    });
+  }, [study?.problems, platform, tier, titleKeyword, user]);
 
   return (
     <StudyProblemContainer>
       <Header>
         <Title>Problem</Title>
-
         <FilterContainer>
           <DropdownContainer>
             <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
@@ -191,7 +205,7 @@ const StudyProblemPage = () => {
 
             <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
               <option value="">전체 티어</option>
-              {tierCategory.map((item) => (
+              {tierCategory?.map((item) => (
                 <option value={item} key={item}>
                   {item}
                 </option>
@@ -219,7 +233,7 @@ const StudyProblemPage = () => {
         </FilterContainer>
 
         <ProblemItemList>
-          {study?.problems?.map((problem) => (
+          {filteredProblems?.map((problem) => (
             <StudyProblemItem problem={problem} />
           ))}
         </ProblemItemList>
