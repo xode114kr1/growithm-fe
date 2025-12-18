@@ -155,6 +155,7 @@ const TextInput = styled.input`
 const ProblemItemList = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 10px;
   max-height: 600px;
   overflow: auto;
@@ -231,13 +232,12 @@ const StudyProblemPage = () => {
             </DropdownMenu>
           </RightFilterArea>
         </FilterContainer>
-
-        <ProblemItemList>
-          {filteredProblems?.map((problem) => (
-            <StudyProblemItem problem={problem} />
-          ))}
-        </ProblemItemList>
       </Header>
+      <ProblemItemList>
+        {filteredProblems?.map((problem) => (
+          <StudyProblemItem problem={problem} />
+        ))}
+      </ProblemItemList>
     </StudyProblemContainer>
   );
 };
