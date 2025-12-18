@@ -23,12 +23,16 @@ const MemberItem = styled.div`
   }
 `;
 
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
+interface AvatarProps {
+  src?: string;
+}
+
+const Avatar = styled.img<AvatarProps>`
+  width: 38px;
+  height: 38px;
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.22), rgba(99, 102, 241, 0.08));
-  border: 1px solid rgba(79, 70, 229, 0.18);
+  object-fit: cover;
+  background-color: #e5e7eb;
   flex-shrink: 0;
 `;
 
@@ -109,15 +113,15 @@ const SmallButton = styled.button`
   }
 `;
 
-const StudyMemberItem = ({ member }: { member: User }) => {
+const StudyMemberItem = ({ member, role }: { member: User; role: "member" | "owner" }) => {
   console.log(member);
   return (
     <MemberItem>
-      <Avatar />
+      <Avatar src={member?.avatarUrl} />
       <Main>
         <NameRow>
-          <Name>홍길동</Name>
-          <Badge>멤버</Badge>
+          <Name>{member?.name}</Name>
+          <Badge>{role == "owner" ? "리더" : "맴버"}</Badge>
         </NameRow>
         <Sub>
           <div>

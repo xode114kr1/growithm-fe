@@ -132,6 +132,7 @@ const TextInput = styled.input`
 
 const MemberList = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 10px;
   max-height: 600px;
@@ -156,7 +157,7 @@ const StudyMemberPage = () => {
     }
     return member;
   }, [sortBy, study]);
-  console.log(sortedMember);
+
   return (
     <StudyMemberContainer>
       <Header>
@@ -177,11 +178,16 @@ const StudyMemberPage = () => {
             <TextInput placeholder="멤버 이름 검색" />
           </RightArea>
         </FilterContainer>
-
-        <MemberList>
-          {sortedMember && sortedMember?.map((item) => <StudyMemberItem member={item} />)}
-        </MemberList>
       </Header>
+      <MemberList>
+        {sortedMember &&
+          sortedMember?.map((item) => {
+            if (item?._id == study?.owner?._id) {
+              return <StudyMemberItem member={item} role="owner" />;
+            }
+            return <StudyMemberItem member={item} role="member" />;
+          })}
+      </MemberList>
     </StudyMemberContainer>
   );
 };
