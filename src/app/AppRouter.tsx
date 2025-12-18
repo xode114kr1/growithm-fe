@@ -15,6 +15,7 @@ import StudyListPage from "../pages/StudyListPage/StudyListPage";
 import StudyLayout from "../shared/layouts/StudyLayout";
 import StudyOverviewPage from "../pages/StudyOverviewPage/StudyOverviewPage";
 import StudyProblemPage from "../pages/StudyProblemPage/StudyProblemPage";
+import StudyMemberPage from "../pages/StudyMemberPage/StudyMemberPage";
 
 const Layout = () => {
   const location = useLocation();
@@ -49,6 +50,7 @@ const AppRouter = () => {
           <Route path="study/:id" element={<StudyLayout />}>
             <Route path="overview" element={<StudyOverviewPage />} />
             <Route path="problem" element={<StudyProblemPage />} />
+            <Route path="member" element={<StudyMemberPage />} />
           </Route>
         </Route>
       </Route>

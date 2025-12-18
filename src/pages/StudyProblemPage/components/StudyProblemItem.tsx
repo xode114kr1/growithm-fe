@@ -96,7 +96,7 @@ const StudyProblemItemCompact = ({ problem }: { problem: Problem }) => {
       <Accent tier={tier} />
       <Main>
         <Title>
-          [{problem?.platform}] {problem?.problemId} · {problem?.title}
+          [{problem?.platform}] {problem?.problemId} - {problem?.title}
         </Title>
         <Sub>
           <div>
