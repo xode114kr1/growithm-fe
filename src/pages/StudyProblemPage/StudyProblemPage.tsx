@@ -193,46 +193,46 @@ const StudyProblemPage = () => {
     <StudyProblemContainer>
       <Header>
         <Title>Problem</Title>
-        <FilterContainer>
-          <DropdownContainer>
-            <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
-              <option value="">전체 플랫폼</option>
-              {platformCategory.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </DropdownMenu>
-
-            <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
-              <option value="">전체 티어</option>
-              {tierCategory?.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </DropdownMenu>
-          </DropdownContainer>
-
-          <RightFilterArea>
-            <SearchGroup>
-              <TextInput
-                placeholder="문제 제목 검색"
-                value={titleKeyword}
-                onChange={(e) => setTitleKeyword(e.target.value)}
-              />
-            </SearchGroup>
-            <DropdownMenu value={user} onChange={(e) => setUser(e.target.value)}>
-              <option value="">전체 유저</option>
-              {userCategory?.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </DropdownMenu>
-          </RightFilterArea>
-        </FilterContainer>
       </Header>
+      <FilterContainer>
+        <DropdownContainer>
+          <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
+            <option value="">전체 플랫폼</option>
+            {platformCategory.map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
+          </DropdownMenu>
+
+          <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
+            <option value="">전체 티어</option>
+            {tierCategory?.map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
+          </DropdownMenu>
+        </DropdownContainer>
+
+        <RightFilterArea>
+          <SearchGroup>
+            <TextInput
+              placeholder="문제 제목 검색"
+              value={titleKeyword}
+              onChange={(e) => setTitleKeyword(e.target.value)}
+            />
+          </SearchGroup>
+          <DropdownMenu value={user} onChange={(e) => setUser(e.target.value)}>
+            <option value="">전체 유저</option>
+            {userCategory?.map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
+          </DropdownMenu>
+        </RightFilterArea>
+      </FilterContainer>
       <ProblemItemList>
         {filteredProblems?.map((problem) => (
           <StudyProblemItem problem={problem} />

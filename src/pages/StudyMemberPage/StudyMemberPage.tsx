@@ -162,23 +162,23 @@ const StudyMemberPage = () => {
     <StudyMemberContainer>
       <Header>
         <Title>Member</Title>
-
-        <FilterContainer>
-          <LeftArea>
-            <DropdownMenu onChange={(e) => setSortBy(e.target.value)}>
-              <option value="">기본 값</option>
-              <option value="name-asc">이름 오름차순</option>
-              <option value="name-desc">이름 내림차순</option>
-              <option value="tier-desc">티어 높은 순</option>
-              <option value="tier-asc">티어 낮은 순</option>
-            </DropdownMenu>
-          </LeftArea>
-
-          <RightArea>
-            <TextInput placeholder="멤버 이름 검색" />
-          </RightArea>
-        </FilterContainer>
       </Header>
+
+      <FilterContainer>
+        <LeftArea>
+          <DropdownMenu onChange={(e) => setSortBy(e.target.value)}>
+            <option value="">기본 값</option>
+            <option value="name-asc">이름 오름차순</option>
+            <option value="name-desc">이름 내림차순</option>
+            <option value="tier-desc">티어 높은 순</option>
+            <option value="tier-asc">티어 낮은 순</option>
+          </DropdownMenu>
+        </LeftArea>
+
+        <RightArea>
+          <TextInput placeholder="멤버 이름 검색" />
+        </RightArea>
+      </FilterContainer>
       <MemberList>
         {sortedMember &&
           sortedMember?.map((item) => {
