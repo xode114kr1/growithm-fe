@@ -216,7 +216,6 @@ const StudyOwnerPage = () => {
   const [inviteUserName, setInviteUserName] = useState<string>("");
   const { mutate: sendStudyRequest } = useSendStudyRequestMutation();
   const { data: sendStudyRequestList } = useGetSendStudyRequest({ studyId: study?._id });
-  console.log(sendStudyRequestList);
 
   const handleInviteButton = async () => {
     sendStudyRequest(

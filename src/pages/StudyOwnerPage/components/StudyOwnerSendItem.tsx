@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import type { StudyRequest } from "../../../types/studyRequestType";
+import { useRejectStudyRequestMutation } from "../../../shared/hooks/useStudyRequest";
 
 const MemberItem = styled.div`
   display: flex;
@@ -114,6 +115,12 @@ const DangerButton = styled(Button)`
 `;
 
 const StudyOwnerSendItem = ({ studyRequest }: { studyRequest: StudyRequest }) => {
+  const { mutate: rejectStudyRequest } = useRejectStudyRequestMutation();
+
+  const handleCancelButton = async () => {
+    await rejectStudyRequest({ studyRequestId: studyRequest?._id });
+  };
+
   return (
     <MemberItem>
       <Avatar />
@@ -126,7 +133,9 @@ const StudyOwnerSendItem = ({ studyRequest }: { studyRequest: StudyRequest }) =>
         </Meta>
       </MemberMain>
       <MemberActions>
-        <DangerButton type="button">초대 취소</DangerButton>
+        <DangerButton type="button" onClick={handleCancelButton}>
+          초대 취소
+        </DangerButton>
       </MemberActions>
     </MemberItem>
   );

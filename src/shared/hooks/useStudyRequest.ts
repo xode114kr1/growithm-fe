@@ -13,6 +13,7 @@ export function useSendStudyRequestMutation() {
   return useMutation({
     mutationFn: sendStudyRequest,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["send-study-request"] });
       queryClient.invalidateQueries({ queryKey: ["study-request"] });
     },
   });
@@ -20,7 +21,7 @@ export function useSendStudyRequestMutation() {
 
 export function useGetSendStudyRequest({ studyId }: { studyId: string }) {
   return useQuery<StudyRequest[]>({
-    queryKey: ["send-study-request", studyId],
+    queryKey: ["send-study-request"],
     queryFn: async () => {
       const res = await getSendStudyRequest({ studyId });
       return res.data;
@@ -44,6 +45,7 @@ export function useRejectStudyRequestMutation() {
   return useMutation({
     mutationFn: rejectStudyRequest,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["send-study-request"] });
       queryClient.invalidateQueries({ queryKey: ["study-request"] });
     },
   });
