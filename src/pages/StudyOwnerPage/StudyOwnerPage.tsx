@@ -2,8 +2,12 @@ import { useState } from "react";
 import styled from "styled-components";
 import type { Study } from "../../types/studyType";
 import { useOutletContext } from "react-router-dom";
-import { useSendStudyRequestMutation } from "../../shared/hooks/useStudyRequest";
+import {
+  useGetSendStudyRequest,
+  useSendStudyRequestMutation,
+} from "../../shared/hooks/useStudyRequest";
 import StudyOwnerMemberItem from "./components/StudyOwnerMemberItem";
+import StudyOwnerSendItem from "./components/StudyOwnerSendItem";
 
 const Container = styled.div`
   flex: 1;
@@ -149,86 +153,10 @@ const MemberList = styled.div`
   overflow: auto;
 `;
 
-const MemberItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 12px 14px;
-  background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid #eef2f7;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-
-  @media (max-width: 768px) {
-    align-items: stretch;
-    flex-direction: column;
-  }
-`;
-
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.22), rgba(99, 102, 241, 0.08));
-  border: 1px solid rgba(79, 70, 229, 0.18);
-  flex-shrink: 0;
-`;
-
-const MemberMain = styled.div`
-  flex: 1;
-  min-width: 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-`;
-
-const NameRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-`;
-
-const Name = styled.div`
-  font-size: 15px;
-  font-weight: 900;
-  color: #111827;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
 const PendingList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
-
-const Meta = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: #6b7280;
-`;
-
-const MemberActions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    width: 100%;
-  }
 `;
 
 const DangerZone = styled(Card)`
@@ -287,6 +215,8 @@ const StudyOwnerPage = () => {
   const { study } = useOutletContext<StudyOutletContext>();
   const [inviteUserName, setInviteUserName] = useState<string>("");
   const { mutate: sendStudyRequest } = useSendStudyRequestMutation();
+  const { data: sendStudyRequestList } = useGetSendStudyRequest({ studyId: study?._id });
+  console.log(sendStudyRequestList);
 
   const handleInviteButton = async () => {
     sendStudyRequest(
@@ -317,35 +247,10 @@ const StudyOwnerPage = () => {
           </PrimaryButton>
         </Row>
         <PendingList>
-          <MemberItem>
-            <Avatar />
-            <MemberMain>
-              <NameRow>
-                <Name>parkminsu</Name>
-              </NameRow>
-              <Meta>
-                <span>invited 2025-12-10</span>
-              </Meta>
-            </MemberMain>
-            <MemberActions>
-              <DangerButton type="button">초대 취소</DangerButton>
-            </MemberActions>
-          </MemberItem>
-
-          <MemberItem>
-            <Avatar />
-            <MemberMain>
-              <NameRow>
-                <Name>choihyun</Name>
-              </NameRow>
-              <Meta>
-                <span>invited 2025-12-12</span>
-              </Meta>
-            </MemberMain>
-            <MemberActions>
-              <DangerButton type="button">초대 취소</DangerButton>
-            </MemberActions>
-          </MemberItem>
+          {sendStudyRequestList &&
+            sendStudyRequestList?.map((item) => (
+              <StudyOwnerSendItem key={item?._id} studyRequest={item} />
+            ))}
         </PendingList>
       </Card>
 
