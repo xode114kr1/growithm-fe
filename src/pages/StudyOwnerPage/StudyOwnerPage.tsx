@@ -1,4 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
+import type { Study } from "../../types/studyType";
+import { useOutletContext } from "react-router-dom";
+import { useSendStudyRequestMutation } from "../../shared/hooks/useStudyRequest";
+import StudyOwnerMemberItem from "./components/StudyOwnerMemberItem";
 
 const Container = styled.div`
   flex: 1;
@@ -196,15 +201,10 @@ const Name = styled.div`
   white-space: nowrap;
 `;
 
-const Badge = styled.span`
-  flex-shrink: 0;
-  font-size: 12px;
-  font-weight: 900;
-  padding: 4px 8px;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  color: #111827;
+const PendingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Meta = styled.div`
@@ -231,11 +231,6 @@ const MemberActions = styled.div`
   }
 `;
 
-const SmallButton = styled(Button)`
-  height: 34px;
-  font-size: 13px;
-`;
-
 const DangerZone = styled(Card)`
   border-color: rgba(239, 68, 68, 0.35);
 `;
@@ -248,7 +243,7 @@ const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.5);
-  display: none; /* UI만: 나중에 true일 때 flex로 */
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 16px;
@@ -284,7 +279,24 @@ const ModalActions = styled.div`
   }
 `;
 
+interface StudyOutletContext {
+  study: Study;
+}
+
 const StudyOwnerPage = () => {
+  const { study } = useOutletContext<StudyOutletContext>();
+  const [inviteUserName, setInviteUserName] = useState<string>("");
+  const { mutate: sendStudyRequest } = useSendStudyRequestMutation();
+
+  const handleInviteButton = async () => {
+    sendStudyRequest(
+      { studyId: study?._id, inviteUserName },
+      {
+        onSuccess: () => setInviteUserName(""),
+      }
+    );
+  };
+
   return (
     <Container>
       <Header>
@@ -295,9 +307,46 @@ const StudyOwnerPage = () => {
         <Helper>이메일 또는 닉네임으로 초대 요청 전송.</Helper>
 
         <Row>
-          <TextInput placeholder="예) gildong" />
-          <PrimaryButton type="button">초대 보내기</PrimaryButton>
+          <TextInput
+            placeholder="예) gildong"
+            value={inviteUserName}
+            onChange={(e) => setInviteUserName(e.target.value)}
+          />
+          <PrimaryButton type="button" onClick={handleInviteButton}>
+            초대 보내기
+          </PrimaryButton>
         </Row>
+        <PendingList>
+          <MemberItem>
+            <Avatar />
+            <MemberMain>
+              <NameRow>
+                <Name>parkminsu</Name>
+              </NameRow>
+              <Meta>
+                <span>invited 2025-12-10</span>
+              </Meta>
+            </MemberMain>
+            <MemberActions>
+              <DangerButton type="button">초대 취소</DangerButton>
+            </MemberActions>
+          </MemberItem>
+
+          <MemberItem>
+            <Avatar />
+            <MemberMain>
+              <NameRow>
+                <Name>choihyun</Name>
+              </NameRow>
+              <Meta>
+                <span>invited 2025-12-12</span>
+              </Meta>
+            </MemberMain>
+            <MemberActions>
+              <DangerButton type="button">초대 취소</DangerButton>
+            </MemberActions>
+          </MemberItem>
+        </PendingList>
       </Card>
 
       <Card>
@@ -307,68 +356,12 @@ const StudyOwnerPage = () => {
         <Divider />
 
         <MemberList>
-          <MemberItem>
-            <Avatar />
-            <MemberMain>
-              <NameRow>
-                <Name>홍길동</Name>
-                <Badge>LEADER</Badge>
-              </NameRow>
-              <Meta>
-                <span>solved 42</span>
-                <span>·</span>
-                <span>tier Gold</span>
-                <span>·</span>
-                <span>joined 2025-10-03</span>
-              </Meta>
-            </MemberMain>
-            <MemberActions>
-              <SmallButton type="button">프로필</SmallButton>
-              <DangerButton type="button">삭제</DangerButton>
-            </MemberActions>
-          </MemberItem>
-
-          <MemberItem>
-            <Avatar />
-            <MemberMain>
-              <NameRow>
-                <Name>김철수</Name>
-                <Badge>MEMBER</Badge>
-              </NameRow>
-              <Meta>
-                <span>solved 18</span>
-                <span>·</span>
-                <span>tier Silver</span>
-                <span>·</span>
-                <span>joined 2025-11-11</span>
-              </Meta>
-            </MemberMain>
-            <MemberActions>
-              <SmallButton type="button">프로필</SmallButton>
-              <DangerButton type="button">삭제</DangerButton>
-            </MemberActions>
-          </MemberItem>
-
-          <MemberItem>
-            <Avatar />
-            <MemberMain>
-              <NameRow>
-                <Name>이영희</Name>
-                <Badge>MEMBER</Badge>
-              </NameRow>
-              <Meta>
-                <span>solved 9</span>
-                <span>·</span>
-                <span>tier Bronze</span>
-                <span>·</span>
-                <span>joined 2025-12-01</span>
-              </Meta>
-            </MemberMain>
-            <MemberActions>
-              <SmallButton type="button">프로필</SmallButton>
-              <DangerButton type="button">삭제</DangerButton>
-            </MemberActions>
-          </MemberItem>
+          {study?.members &&
+            study?.members?.map((item) => {
+              if (item._id !== study?.owner?._id) {
+                return <StudyOwnerMemberItem member={item} />;
+              }
+            })}
         </MemberList>
       </Card>
 

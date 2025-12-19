@@ -121,7 +121,7 @@ const StudyMemberItem = ({ member, role }: { member: User; role: "member" | "own
       <Main>
         <NameRow>
           <Name>{member?.name}</Name>
-          <Badge>{role == "owner" ? "리더" : "맴버"}</Badge>
+          <Badge>{role == "owner" ? "LEADER" : "MEMBER"}</Badge>
         </NameRow>
         <Sub>
           <div>
