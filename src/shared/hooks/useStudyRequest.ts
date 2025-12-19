@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   acceptStudyRequest,
+  getSendStudyRequest,
   getStudyRequestList,
   rejectStudyRequest,
   sendStudyRequest,
@@ -13,6 +14,16 @@ export function useSendStudyRequestMutation() {
     mutationFn: sendStudyRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["study-request"] });
+    },
+  });
+}
+
+export function useGetSendStudyRequest({ studyId }: { studyId: string }) {
+  return useQuery<StudyRequest[]>({
+    queryKey: ["send-study-request", studyId],
+    queryFn: async () => {
+      const res = await getSendStudyRequest({ studyId });
+      return res.data;
     },
   });
 }

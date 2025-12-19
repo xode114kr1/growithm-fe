@@ -19,6 +19,11 @@ export async function sendStudyRequest({
   return res.data;
 }
 
+export async function getSendStudyRequest({ studyId }: { studyId: string }) {
+  const res = await apiClient.get(`/study-request/send/${studyId}`);
+  return res.data;
+}
+
 export async function acceptStudyRequest({ studyRequestId }: acceptStudyRequestProps) {
   const res = await apiClient.post(`/study-request/${studyRequestId}/accept`);
   return res.data;
