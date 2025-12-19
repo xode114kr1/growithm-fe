@@ -8,6 +8,17 @@ interface rejectStudyRequestProps {
   studyRequestId: string;
 }
 
+export async function sendStudyRequest({
+  studyId,
+  inviteUserName,
+}: {
+  studyId: string;
+  inviteUserName: string;
+}) {
+  const res = await apiClient.post("/study-request/send", { studyId, inviteUserName });
+  return res.data;
+}
+
 export async function acceptStudyRequest({ studyRequestId }: acceptStudyRequestProps) {
   const res = await apiClient.post(`/study-request/${studyRequestId}/accept`);
   return res.data;
