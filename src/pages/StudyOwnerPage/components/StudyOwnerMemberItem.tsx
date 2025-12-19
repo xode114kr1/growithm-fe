@@ -1,6 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import type { User } from "../../../types/userType";
+import { useDeleteStudyMemberByIdMutation } from "../../../shared/hooks/useMember";
+import type { Study } from "../../../types/studyType";
 
 const MemberItemContainer = styled.div`
   display: flex;
@@ -119,7 +120,11 @@ const DangerButton = styled(Button)`
   }
 `;
 
-const StudyOwnerMemberItem = ({ member }: { member: User }) => {
+const StudyOwnerMemberItem = ({ member, study }: { member: User; study: Study }) => {
+  const { mutate: deleteStudyMemberById } = useDeleteStudyMemberByIdMutation();
+  const handleDeleteButton = async () => {
+    deleteStudyMemberById({ studyId: study?._id, deleteUserId: member._id });
+  };
   return (
     <MemberItemContainer>
       <Avatar />
@@ -137,7 +142,9 @@ const StudyOwnerMemberItem = ({ member }: { member: User }) => {
       </MemberMain>
       <MemberActions>
         <SmallButton type="button">프로필</SmallButton>
-        <DangerButton type="button">삭제</DangerButton>
+        <DangerButton type="button" onClick={handleDeleteButton}>
+          삭제
+        </DangerButton>
       </MemberActions>
     </MemberItemContainer>
   );

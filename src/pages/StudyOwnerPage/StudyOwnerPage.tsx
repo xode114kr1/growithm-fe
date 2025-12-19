@@ -359,7 +359,7 @@ const StudyOwnerPage = () => {
           {study?.members &&
             study?.members?.map((item) => {
               if (item._id !== study?.owner?._id) {
-                return <StudyOwnerMemberItem member={item} />;
+                return <StudyOwnerMemberItem member={item} study={study} key={item._id} />;
               }
             })}
         </MemberList>
