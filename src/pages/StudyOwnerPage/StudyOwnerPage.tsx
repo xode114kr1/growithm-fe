@@ -1,13 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
 import type { Study } from "../../types/studyType";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   useGetSendStudyRequest,
   useSendStudyRequestMutation,
 } from "../../shared/hooks/useStudyRequest";
 import StudyOwnerMemberItem from "./components/StudyOwnerMemberItem";
 import StudyOwnerSendItem from "./components/StudyOwnerSendItem";
+import { useDeleteStudyMutation } from "../../shared/hooks/useStudy";
 
 const Container = styled.div`
   flex: 1;
@@ -212,9 +213,11 @@ interface StudyOutletContext {
 }
 
 const StudyOwnerPage = () => {
+  const navigate = useNavigate();
   const { study } = useOutletContext<StudyOutletContext>();
   const [inviteUserName, setInviteUserName] = useState<string>("");
   const { mutate: sendStudyRequest } = useSendStudyRequestMutation();
+  const { mutate: deleteStudy } = useDeleteStudyMutation();
   const { data: sendStudyRequestList } = useGetSendStudyRequest({ studyId: study?._id });
 
   const handleInviteButton = async () => {
@@ -222,6 +225,15 @@ const StudyOwnerPage = () => {
       { studyId: study?._id, inviteUserName },
       {
         onSuccess: () => setInviteUserName(""),
+      }
+    );
+  };
+
+  const handleDeleteStudy = async () => {
+    await deleteStudy(
+      { studyId: study?._id },
+      {
+        onSuccess: () => navigate("/study"),
       }
     );
   };
@@ -277,7 +289,9 @@ const StudyOwnerPage = () => {
 
         <Row>
           <TextInput placeholder='확인을 위해 스터디 이름 입력 (예: "Growithm Study")' />
-          <DangerButton type="button">스터디 삭제</DangerButton>
+          <DangerButton type="button" onClick={handleDeleteStudy}>
+            스터디 삭제
+          </DangerButton>
         </Row>
       </DangerZone>
 
