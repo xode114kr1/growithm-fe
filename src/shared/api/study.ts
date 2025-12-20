@@ -26,6 +26,11 @@ export async function createStudy({ title, explanation, members }: createStudyPr
   return res.data;
 }
 
+export async function deleteStudy({ studyId }: { studyId: string }) {
+  const res = await apiClient.delete(`/study/${studyId}`);
+  return res.data;
+}
+
 interface getStudyUserScoreByIdProps {
   studyId: string;
 }
