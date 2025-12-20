@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  editSolvedProblem,
   getProblemById,
   getProblemList,
   saveSolvedProblem,
@@ -23,6 +24,16 @@ export function useSaveSolvedProblem(problemId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: saveSolvedProblem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
+    },
+  });
+}
+
+export function useEditSolvedProblem(problemId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editSolvedProblem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
     },
