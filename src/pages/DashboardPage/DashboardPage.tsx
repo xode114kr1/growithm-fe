@@ -3,7 +3,7 @@ import Wapper from "../../shared/styles/Wapper";
 import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
-import type { BeakjoonTierType } from "../../types/problemType";
+import type { GrowithmTierType } from "../../types/problemType";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import StudyCreateModal from "./components/StudyCreateModal";
 import { useMemo, useState } from "react";
 import { TIER_COLOR } from "../../shared/styles/palette";
+import { getProblemTier } from "../../shared/utils/tier";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -302,15 +303,6 @@ const StudySlider = styled(Slider)`
   }
 `;
 
-const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
-  { name: "bronze", value: 20 },
-  { name: "silver", value: 15 },
-  { name: "gold", value: 8 },
-  { name: "platinum", value: 5 },
-  { name: "diamond", value: 2 },
-  { name: "ruby", value: 1 },
-];
-
 const settings = {
   dots: true,
   infinite: false,
@@ -373,6 +365,34 @@ const DashboardPage = () => {
     return problems?.filter((item) => item?.state == "pending");
   }, [problems]);
 
+  const tierSolvedData: { name: string; value: number }[] = useMemo(() => {
+    if (!problems) return [];
+
+    const counter: Record<GrowithmTierType, number> = {
+      bronze: 0,
+      silver: 0,
+      gold: 0,
+      platinum: 0,
+      diamond: 0,
+      ruby: 0,
+    };
+
+    problems.forEach((problem) => {
+      if (problem.state !== "solved") return;
+
+      const tier = getProblemTier(problem);
+      counter[tier]++;
+    });
+    return [
+      { name: "bronze / level 1", value: counter.bronze },
+      { name: "silver / level 2", value: counter.silver },
+      { name: "gold / level 3", value: counter.gold },
+      { name: "platinum / level 4", value: counter.platinum },
+      { name: "diamond", value: counter.diamond },
+      { name: "ruby", value: counter.ruby },
+    ];
+  }, [problems]);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -432,7 +452,10 @@ const DashboardPage = () => {
                     />
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                       {tierSolvedData.map((entry) => (
-                        <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
+                        <Cell
+                          key={entry.name}
+                          fill={TIER_COLOR[entry.name.split(" ")[0] as GrowithmTierType]}
+                        />
                       ))}
                     </Bar>
                   </BarChart>
