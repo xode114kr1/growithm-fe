@@ -9,7 +9,7 @@ import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
 import StudyCreateModal from "./components/StudyCreateModal";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { TIER_COLOR } from "../../shared/styles/palette";
 
 const DashboardContainer = styled.section`
@@ -353,7 +353,26 @@ const settings = {
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { data: pendingProblem } = useGetProblemList({ state: "pending" });
+  const { data: problems } = useGetProblemList({});
+
+  const todaySolved = useMemo(() => {
+    if (!problems) return 0;
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    return problems.reduce((count, problem) => {
+      if (problem.timestamp === today) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+  }, [problems]);
+
+  const pendingProblems = useMemo(() => {
+    if (!problems) return [];
+    return problems?.filter((item) => item?.state == "pending");
+  }, [problems]);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -369,24 +388,25 @@ const DashboardPage = () => {
 
           <DashboardInfoContainer>
             <StatCard>
-              <StatLabel>전체 풀이</StatLabel>
-              <StatValue>125</StatValue>
-              <StatSubText>백준 기준 누적 풀이 수</StatSubText>
+              <StatLabel>All</StatLabel>
+              <StatValue>{problems?.length}</StatValue>
+              <StatSubText>성공한 문제</StatSubText>
             </StatCard>
             <StatCard>
-              <StatLabel>보류 문제</StatLabel>
-              <StatValue>20</StatValue>
-              <StatSubText>다시 풀어볼 문제</StatSubText>
-            </StatCard>
-            <StatCard>
-              <StatLabel>오늘 풀이</StatLabel>
-              <StatValue>2</StatValue>
+              <StatLabel>Today</StatLabel>
+              <StatValue>{todaySolved}</StatValue>
               <StatSubText>오늘 해결한 문제</StatSubText>
             </StatCard>
             <StatCard>
-              <StatLabel>연속 풀이</StatLabel>
-              <StatValue>15</StatValue>
-              <StatSubText>연속 풀이 일수</StatSubText>
+              <StatLabel>Pending</StatLabel>
+              <StatValue>{pendingProblems?.length}</StatValue>
+              <StatSubText>작성 대기 중인 문제</StatSubText>
+            </StatCard>
+
+            <StatCard>
+              <StatLabel>Solved</StatLabel>
+              <StatValue>{problems?.length || 0 - pendingProblems?.length}</StatValue>
+              <StatSubText>풀이 작성한 문제</StatSubText>
             </StatCard>
 
             <ChartBox>
@@ -424,11 +444,11 @@ const DashboardPage = () => {
           <PendingListContainer>
             <PendingListTitle>
               보류 문제
-              <PendingListTitleBadge>{pendingProblem?.length ?? 0}개</PendingListTitleBadge>
+              <PendingListTitleBadge>{pendingProblems?.length ?? 0}개</PendingListTitleBadge>
             </PendingListTitle>
             <PendingListBox>
-              {pendingProblem && pendingProblem.length > 0 ? (
-                pendingProblem.map((item) => <PendingItem pendingProblem={item} key={item._id} />)
+              {pendingProblems && pendingProblems.length > 0 ? (
+                pendingProblems.map((item) => <PendingItem pendingProblem={item} key={item._id} />)
               ) : (
                 <EmptyPending>보류 중인 문제가 없습니다. 새 문제를 추가해보세요 ✏️</EmptyPending>
               )}
