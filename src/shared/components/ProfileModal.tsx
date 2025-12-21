@@ -3,6 +3,9 @@ import type { User } from "../../types/userType";
 import { calculateTier } from "../utils/tier";
 import type { BeakjoonTierType } from "../../types/problemType";
 import { TIER_GRADIENT } from "../styles/palette";
+import { useGetProblemListByUserId } from "../hooks/useProblem";
+import { useMemo } from "react";
+import { useAuthStore } from "../../stores/authStore";
 
 type ProfileModalProps = {
   member: User;
@@ -134,7 +137,7 @@ const Bottom = styled.div`
   margin-top: 8px;
 `;
 
-const PrimaryBtn = styled.button`
+const PrimaryButton = styled.button`
   flex: 1;
   padding: 12px;
   border-radius: 12px;
@@ -149,10 +152,46 @@ const PrimaryBtn = styled.button`
   }
 `;
 
+const DangerButton = styled.button`
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #ef4444;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background: #c93737;
+  }
+`;
+
 export default function ProfileModal({ onClose, member }: ProfileModalProps) {
   const stop = (e: React.MouseEvent) => e.stopPropagation();
+  const user = useAuthStore((state) => state.user);
 
+  const isFriend = !!user?.friends.find((item) => item == member._id);
+
+  const { data: problems } = useGetProblemListByUserId({ userId: member._id });
   const tier = calculateTier(member?.score || 0);
+
+  const todaySolved = useMemo(() => {
+    if (!problems) return 0;
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    return problems.reduce((count, problem) => {
+      if (problem.timestamp === today) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+  }, [problems]);
+
+  const pendingProblems = useMemo(() => {
+    if (!problems) return [];
+    return problems?.filter((item) => item?.state == "pending");
+  }, [problems]);
 
   return (
     <Overlay onClick={onClose}>
@@ -173,26 +212,24 @@ export default function ProfileModal({ onClose, member }: ProfileModalProps) {
 
         <DashboardSection>
           <Stat>
-            <Value>312</Value>
+            <Value>{problems?.length}</Value>
             <Label>All</Label>
           </Stat>
           <Stat>
-            <Value>2</Value>
+            <Value>{todaySolved}</Value>
             <Label>Today</Label>
           </Stat>
           <Stat>
-            <Value>12</Value>
+            <Value>{pendingProblems?.length}</Value>
             <Label>Pending</Label>
           </Stat>
           <Stat>
-            <Value>42</Value>
+            <Value>{(problems?.length || 0) - pendingProblems?.length}</Value>
             <Label>Solved</Label>
           </Stat>
         </DashboardSection>
 
-        <Bottom>
-          <PrimaryBtn onClick={() => alert("하드코딩: 친구 요청")}>친구 요청</PrimaryBtn>
-        </Bottom>
+        <Bottom>{isFriend && <DangerButton>친구 삭제</DangerButton>}</Bottom>
       </Modal>
     </Overlay>
   );
