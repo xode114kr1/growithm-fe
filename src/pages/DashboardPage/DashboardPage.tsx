@@ -3,14 +3,15 @@ import Wapper from "../../shared/styles/Wapper";
 import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
-import type { BeakjoonTierType } from "../../types/problemType";
+import type { GrowithmTierType } from "../../types/problemType";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
 import StudyCreateModal from "./components/StudyCreateModal";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { TIER_COLOR } from "../../shared/styles/palette";
+import { getProblemTier } from "../../shared/utils/tier";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -302,15 +303,6 @@ const StudySlider = styled(Slider)`
   }
 `;
 
-const tierSolvedData: { name: BeakjoonTierType; value: number }[] = [
-  { name: "bronze", value: 20 },
-  { name: "silver", value: 15 },
-  { name: "gold", value: 8 },
-  { name: "platinum", value: 5 },
-  { name: "diamond", value: 2 },
-  { name: "ruby", value: 1 },
-];
-
 const settings = {
   dots: true,
   infinite: false,
@@ -353,7 +345,54 @@ const settings = {
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { data: pendingProblem } = useGetProblemList({ state: "pending" });
+  const { data: problems } = useGetProblemList({});
+
+  const todaySolved = useMemo(() => {
+    if (!problems) return 0;
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    return problems.reduce((count, problem) => {
+      if (problem.timestamp === today) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+  }, [problems]);
+
+  const pendingProblems = useMemo(() => {
+    if (!problems) return [];
+    return problems?.filter((item) => item?.state == "pending");
+  }, [problems]);
+
+  const tierSolvedData: { name: string; value: number }[] = useMemo(() => {
+    if (!problems) return [];
+
+    const counter: Record<GrowithmTierType, number> = {
+      bronze: 0,
+      silver: 0,
+      gold: 0,
+      platinum: 0,
+      diamond: 0,
+      ruby: 0,
+    };
+
+    problems.forEach((problem) => {
+      if (problem.state !== "solved") return;
+
+      const tier = getProblemTier(problem);
+      counter[tier]++;
+    });
+    return [
+      { name: "bronze / level 1", value: counter.bronze },
+      { name: "silver / level 2", value: counter.silver },
+      { name: "gold / level 3", value: counter.gold },
+      { name: "platinum / level 4", value: counter.platinum },
+      { name: "diamond", value: counter.diamond },
+      { name: "ruby", value: counter.ruby },
+    ];
+  }, [problems]);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -369,24 +408,25 @@ const DashboardPage = () => {
 
           <DashboardInfoContainer>
             <StatCard>
-              <StatLabel>전체 풀이</StatLabel>
-              <StatValue>125</StatValue>
-              <StatSubText>백준 기준 누적 풀이 수</StatSubText>
+              <StatLabel>All</StatLabel>
+              <StatValue>{problems?.length}</StatValue>
+              <StatSubText>성공한 문제</StatSubText>
             </StatCard>
             <StatCard>
-              <StatLabel>보류 문제</StatLabel>
-              <StatValue>20</StatValue>
-              <StatSubText>다시 풀어볼 문제</StatSubText>
-            </StatCard>
-            <StatCard>
-              <StatLabel>오늘 풀이</StatLabel>
-              <StatValue>2</StatValue>
+              <StatLabel>Today</StatLabel>
+              <StatValue>{todaySolved}</StatValue>
               <StatSubText>오늘 해결한 문제</StatSubText>
             </StatCard>
             <StatCard>
-              <StatLabel>연속 풀이</StatLabel>
-              <StatValue>15</StatValue>
-              <StatSubText>연속 풀이 일수</StatSubText>
+              <StatLabel>Pending</StatLabel>
+              <StatValue>{pendingProblems?.length}</StatValue>
+              <StatSubText>작성 대기 중인 문제</StatSubText>
+            </StatCard>
+
+            <StatCard>
+              <StatLabel>Solved</StatLabel>
+              <StatValue>{(problems?.length || 0) - pendingProblems?.length}</StatValue>
+              <StatSubText>풀이 작성한 문제</StatSubText>
             </StatCard>
 
             <ChartBox>
@@ -412,7 +452,10 @@ const DashboardPage = () => {
                     />
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                       {tierSolvedData.map((entry) => (
-                        <Cell key={entry.name} fill={TIER_COLOR[entry.name]} />
+                        <Cell
+                          key={entry.name}
+                          fill={TIER_COLOR[entry.name.split(" ")[0] as GrowithmTierType]}
+                        />
                       ))}
                     </Bar>
                   </BarChart>
@@ -424,11 +467,11 @@ const DashboardPage = () => {
           <PendingListContainer>
             <PendingListTitle>
               보류 문제
-              <PendingListTitleBadge>{pendingProblem?.length ?? 0}개</PendingListTitleBadge>
+              <PendingListTitleBadge>{pendingProblems?.length ?? 0}개</PendingListTitleBadge>
             </PendingListTitle>
             <PendingListBox>
-              {pendingProblem && pendingProblem.length > 0 ? (
-                pendingProblem.map((item) => <PendingItem pendingProblem={item} key={item._id} />)
+              {pendingProblems && pendingProblems.length > 0 ? (
+                pendingProblems.map((item) => <PendingItem pendingProblem={item} key={item._id} />)
               ) : (
                 <EmptyPending>보류 중인 문제가 없습니다. 새 문제를 추가해보세요 ✏️</EmptyPending>
               )}

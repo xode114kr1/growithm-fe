@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useAuthStore } from "../../../stores/authStore";
+import { calculateTier } from "../../../shared/utils/tier";
 import type { BeakjoonTierType } from "../../../types/problemType";
 
 const TIER_GRADIENT: Record<BeakjoonTierType, string> = {
@@ -73,12 +74,14 @@ const TierContainer = styled.div<TierContainerProps>`
 
 const ProfileCard = () => {
   const user = useAuthStore((s) => s.user);
+  const tier = calculateTier(user?.score || 0);
+
   return (
     <ProfileCardContainer>
       <ProfileImg src={user?.avatarUrl} />
       <ProfileName>{user?.name}</ProfileName>
       <ProfileRepo>{user?.repo}</ProfileRepo>
-      <TierContainer tier="gold">Gold</TierContainer>
+      <TierContainer tier={tier}>{tier}</TierContainer>
     </ProfileCardContainer>
   );
 };

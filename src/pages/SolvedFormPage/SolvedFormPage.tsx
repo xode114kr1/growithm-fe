@@ -2,7 +2,11 @@ import { useParams } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useGetProblemById, useSaveSolvedProblem } from "../../shared/hooks/useProblem";
+import {
+  useEditSolvedProblem,
+  useGetProblemById,
+  useSaveSolvedProblem,
+} from "../../shared/hooks/useProblem";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -166,43 +170,63 @@ const SaveButton = styled.button`
   }
 `;
 
+type Mode = "view" | "edit" | "write";
+
 const SolvedFormPage = () => {
   const { id: problemId } = useParams();
 
   const { mutate: saveSolvedProblemMutation } = useSaveSolvedProblem(problemId as string);
+  const { mutate: editSolvedProblemMutation } = useEditSolvedProblem(problemId as string);
   const { data: problem } = useGetProblemById(problemId as string);
 
   const [memoInput, setMemoInput] = useState<string>("");
   const MemoTextareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [mode, setMode] = useState<Mode>("view");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleSaveButtonClick = async () => {
-    saveSolvedProblemMutation(
-      { problemId, memo: memoInput },
-      {
-        onSuccess: () => {
-          setIsEdit(false);
-        },
-        onError: (error) => {
-          console.error("문제 풀이 저장 실패 : ", error);
-        },
-      }
-    );
+    if (mode == "write") {
+      saveSolvedProblemMutation(
+        { problemId, memo: memoInput },
+        {
+          onSuccess: () => {
+            setMode("view");
+          },
+          onError: (error) => {
+            console.error("문제 풀이 저장 실패 : ", error);
+          },
+        }
+      );
+    } else {
+      editSolvedProblemMutation(
+        { problemId, memo: memoInput },
+        {
+          onSuccess: () => {
+            setMode("view");
+          },
+          onError: (error) => {
+            console.error("문제 풀이 저장 실패 : ", error);
+          },
+        }
+      );
+    }
   };
 
   useEffect(() => {
     if (!problem) return;
 
     if (problem.state === "pending") {
-      setIsEdit(true);
+      setMode("write");
     } else {
-      setIsEdit(false);
+      setMode("view");
     }
 
     setMemoInput(problem.memo ?? "");
   }, [problem]);
+
+  const isEditable = mode === "write" || mode === "edit";
+  const primaryButtonText = mode === "write" ? "저장하기" : "수정하기";
 
   return (
     <Wapper>
@@ -210,14 +234,14 @@ const SolvedFormPage = () => {
         <TitleText>
           <span>{problem?.title}</span>
           <TitleButtonContainer>
-            {isEdit ? (
-              <SaveButton onClick={handleSaveButtonClick}>저장하기</SaveButton>
+            {isEditable ? (
+              <SaveButton onClick={handleSaveButtonClick}>{primaryButtonText}</SaveButton>
             ) : (
               <>
                 <TitleButton
                   onClick={() => {
                     setMemoInput(problem?.memo ?? "");
-                    setIsEdit(true);
+                    setMode("edit");
                     requestAnimationFrame(() => {
                       MemoTextareaRef.current?.focus();
                     });
@@ -278,13 +302,13 @@ const SolvedFormPage = () => {
           <MemoTextarea
             ref={MemoTextareaRef}
             placeholder="어떤 아이디어로 접근했는지, 실수했던 부분, 다시 풀 때 주의할 점 등을 자유롭게 적어보세요."
-            value={isEdit ? memoInput : (problem?.memo ?? "")}
+            value={isEditable ? memoInput : (problem?.memo ?? "")}
             onChange={(e) => setMemoInput(e.target.value)}
-            disabled={!isEdit}
+            disabled={!isEditable}
           />
         </Section>
-        <ButtonContanier style={{ display: isEdit ? "flex" : "none" }}>
-          <SaveButton onClick={handleSaveButtonClick}>저장하기</SaveButton>
+        <ButtonContanier style={{ display: isEditable ? "flex" : "none" }}>
+          <SaveButton onClick={handleSaveButtonClick}>{primaryButtonText}</SaveButton>
         </ButtonContanier>
       </SolvedFormContainer>
       {isModalOpen && (

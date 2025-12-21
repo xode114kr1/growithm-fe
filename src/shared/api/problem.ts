@@ -22,9 +22,13 @@ interface shareProblemToStudysProps {
   studyIds: string[];
 }
 
+export async function editSolvedProblem({ problemId, memo }: createSolvedProps) {
+  const res = await apiClient.patch(`/problem/edit/${problemId}`, { memo });
+  return res.data;
+}
+
 export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) {
   const res = await apiClient.patch(`/problem/solved/${problemId}`, { memo });
-  console.log(res.data);
   return res.data;
 }
 

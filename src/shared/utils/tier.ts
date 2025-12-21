@@ -32,6 +32,38 @@ export const STUDY_TIER_RULES: {
   },
 ];
 
+export const TIER_RULES: {
+  tier: GrowithmTierType;
+  minScore: number;
+  maxScore: number;
+}[] = [
+  {
+    tier: "bronze",
+    minScore: 0,
+    maxScore: 449,
+  },
+  {
+    tier: "silver",
+    minScore: 450,
+    maxScore: 22_499,
+  },
+  {
+    tier: "gold",
+    minScore: 22_500,
+    maxScore: 1_124_999,
+  },
+  {
+    tier: "platinum",
+    minScore: 1_125_000,
+    maxScore: 56_249_999,
+  },
+  {
+    tier: "diamond",
+    minScore: 56_250_000,
+    maxScore: Infinity,
+  },
+];
+
 export function calculateStudyTier(score: number): GrowithmTierType {
   const rule = STUDY_TIER_RULES.find((r) => score < r.maxScore);
   return rule?.tier ?? "bronze";
@@ -63,4 +95,18 @@ export function getStudyPrograss(score: number): number {
 
   if (maxScore == Infinity) return 100;
   return Math.floor((score / (maxScore + 1)) * 100);
+}
+
+export function calculateTier(score: number): GrowithmTierType {
+  const rule = TIER_RULES.find((r) => score < r.maxScore);
+  return rule?.tier ?? "bronze";
+}
+
+export function getTierRule(score: number) {
+  return TIER_RULES.find((rule) => score >= rule.minScore && score <= rule.maxScore);
+}
+
+export function getTierMaxScore(score: number): number {
+  const rule = getTierRule(score);
+  return rule?.maxScore ?? 0;
 }
