@@ -168,7 +168,7 @@ export default function ProfileModal({ onClose, member }: ProfileModalProps) {
             <NameRow>
               <Name>{member?.name}</Name>
             </NameRow>
-            <Handle>@xode114kr1</Handle>
+            <Handle>last active {member?.updatedAt.slice(0, 10)}</Handle>
           </TopInfo>
 
           <CloseBtn onClick={onClose}>✕</CloseBtn>

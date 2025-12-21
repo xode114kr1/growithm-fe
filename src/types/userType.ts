@@ -7,4 +7,6 @@ export interface User {
   avatarUrl?: string;
   score?: number;
   friends: string[];
+  createdAt: string;
+  updatedAt: string;
 }
