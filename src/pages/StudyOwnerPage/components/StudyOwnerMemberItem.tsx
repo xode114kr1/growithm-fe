@@ -2,6 +2,8 @@ import styled from "styled-components";
 import type { User } from "../../../types/userType";
 import { useDeleteStudyMemberByIdMutation } from "../../../shared/hooks/useMember";
 import type { Study } from "../../../types/studyType";
+import { useState } from "react";
+import ProfileModal from "../../../shared/components/ProfileModal";
 
 const MemberItemContainer = styled.div`
   display: flex;
@@ -121,6 +123,7 @@ const DangerButton = styled(Button)`
 `;
 
 const StudyOwnerMemberItem = ({ member, study }: { member: User; study: Study }) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { mutate: deleteStudyMemberById } = useDeleteStudyMemberByIdMutation();
   const handleDeleteButton = async () => {
     deleteStudyMemberById({ studyId: study?._id, deleteUserId: member._id });
@@ -141,11 +144,14 @@ const StudyOwnerMemberItem = ({ member, study }: { member: User; study: Study })
         </Meta>
       </MemberMain>
       <MemberActions>
-        <SmallButton type="button">프로필</SmallButton>
+        <SmallButton type="button" onClick={() => setModalOpen(true)}>
+          프로필
+        </SmallButton>
         <DangerButton type="button" onClick={handleDeleteButton}>
           삭제
         </DangerButton>
       </MemberActions>
+      {modalOpen && <ProfileModal member={member} onClose={() => setModalOpen(false)} />}
     </MemberItemContainer>
   );
 };

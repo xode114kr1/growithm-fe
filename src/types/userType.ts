@@ -6,4 +6,7 @@ export interface User {
   email?: string;
   avatarUrl?: string;
   score?: number;
+  friends: string[];
+  createdAt: string;
+  updatedAt: string;
 }

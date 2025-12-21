@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import type { User } from "../../../types/userType";
+import ProfileModal from "../../../shared/components/ProfileModal";
+import { useState } from "react";
 
 const MemberItem = styled.div`
   display: flex;
@@ -114,26 +116,31 @@ const SmallButton = styled.button`
 `;
 
 const StudyMemberItem = ({ member, role }: { member: User; role: "member" | "owner" }) => {
-  console.log(member);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   return (
-    <MemberItem>
-      <Avatar src={member?.avatarUrl} />
-      <Main>
-        <NameRow>
-          <Name>{member?.name}</Name>
-          <Badge>{role == "owner" ? "LEADER" : "MEMBER"}</Badge>
-        </NameRow>
-        <Sub>
-          <div>
-            solved <Stat>42</Stat> · streak <Stat>7</Stat>
-          </div>
-        </Sub>
-      </Main>
-      <Right>
-        <SmallButton type="button">프로필</SmallButton>
-        <Sub>last active 2025-12-16</Sub>
-      </Right>
-    </MemberItem>
+    <>
+      <MemberItem>
+        <Avatar src={member?.avatarUrl} />
+        <Main>
+          <NameRow>
+            <Name>{member?.name}</Name>
+            <Badge>{role == "owner" ? "LEADER" : "MEMBER"}</Badge>
+          </NameRow>
+          <Sub>
+            <div>
+              solved <Stat>42</Stat> · streak <Stat>7</Stat>
+            </div>
+          </Sub>
+        </Main>
+        <Right>
+          <SmallButton type="button" onClick={() => setModalOpen(true)}>
+            프로필
+          </SmallButton>
+          <Sub>last active 2025-12-16</Sub>
+        </Right>
+      </MemberItem>
+      {modalOpen && <ProfileModal member={member} onClose={() => setModalOpen(false)} />}
+    </>
   );
 };
 

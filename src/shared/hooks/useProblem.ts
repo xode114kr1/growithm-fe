@@ -3,6 +3,7 @@ import {
   editSolvedProblem,
   getProblemById,
   getProblemList,
+  getProblemListByUserId,
   saveSolvedProblem,
   shareProblemToStudys,
 } from "../api/problem";
@@ -17,6 +18,16 @@ export function useGetProblemList({ title, platform, tier, state }: getProblemLi
     },
     staleTime: 1000 * 60,
     gcTime: 1000 * 60 * 5,
+  });
+}
+
+export function useGetProblemListByUserId({ userId }: { userId: string }) {
+  return useQuery<Problem[]>({
+    queryKey: ["pending-list", userId],
+    queryFn: async () => {
+      const res = await getProblemListByUserId({ userId });
+      return res.data;
+    },
   });
 }
 

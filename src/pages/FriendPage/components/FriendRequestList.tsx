@@ -129,8 +129,6 @@ const FriendRequestList = ({ state }: { state: "receive" | "send" }) => {
   const { data: sendFriendRequest } = useGetSendFriendRequests();
   const friendRequests = state == "receive" ? receiveFriendRequest : sendFriendRequest;
 
-  console.log(receiveFriendRequest, sendFriendRequest);
-
   if (!(state === "receive") && !(state === "send")) {
     return null;
   }
