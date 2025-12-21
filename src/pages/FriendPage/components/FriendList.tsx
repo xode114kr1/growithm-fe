@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useGetFriendList } from "../../../shared/hooks/useFriend";
 import ProfileModal from "../../../shared/components/ProfileModal";
 import { useState } from "react";
+import { calculateTier } from "../../../shared/utils/tier";
 
 const FriendListContainer = styled.div`
   display: flex;
@@ -107,7 +108,7 @@ const FriendList = () => {
           <Avatar src={friend?.avatarUrl} />
           <FriendInfo>
             <FriendName>{friend?.name}</FriendName>
-            <FriendMeta>푼 문제 10개 · 현재 티어 Gold</FriendMeta>
+            <FriendMeta>현재 티어 {calculateTier(friend?.score || 0)}</FriendMeta>
           </FriendInfo>
           <FriendAction type="button" onClick={() => setModalOpen(true)}>
             상세 보기
