@@ -2,15 +2,7 @@ import styled from "styled-components";
 import { useAuthStore } from "../../../stores/authStore";
 import { calculateTier } from "../../../shared/utils/tier";
 import type { BeakjoonTierType } from "../../../types/problemType";
-
-const TIER_GRADIENT: Record<BeakjoonTierType, string> = {
-  bronze: "linear-gradient(135deg, #CC8846, #9E6430)",
-  silver: "linear-gradient(135deg, #D9D9D9, #A6A6A6)",
-  gold: "linear-gradient(135deg, #FFE56E, #D9B300)",
-  platinum: "linear-gradient(135deg, #DDEBFF, #BBD1E8)",
-  diamond: "linear-gradient(135deg, #A0FFF0, #59D6C8)",
-  ruby: "linear-gradient(135deg, #FF4F7A, #B80D4F)",
-};
+import { TIER_GRADIENT } from "../../../shared/styles/palette";
 
 interface ProfileProps {
   src?: string;
