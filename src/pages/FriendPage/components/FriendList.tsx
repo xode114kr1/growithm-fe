@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useGetFriendList } from "../../../shared/hooks/useFriend";
+import ProfileModal from "../../../shared/components/ProfileModal";
+import { useState } from "react";
 
 const FriendListContainer = styled.div`
   display: flex;
@@ -92,6 +94,7 @@ const EmptyState = styled.div`
 
 const FriendList = () => {
   const { data: friendList } = useGetFriendList();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   if (!friendList || friendList.length === 0) {
     return <EmptyState>아직 친구가 없습니다. 친구를 추가해보세요 👋</EmptyState>;
@@ -106,7 +109,10 @@ const FriendList = () => {
             <FriendName>{friend?.name}</FriendName>
             <FriendMeta>푼 문제 10개 · 현재 티어 Gold</FriendMeta>
           </FriendInfo>
-          <FriendAction type="button">상세 보기</FriendAction>
+          <FriendAction type="button" onClick={() => setModalOpen(true)}>
+            상세 보기
+          </FriendAction>
+          {modalOpen && <ProfileModal onClose={() => setModalOpen(false)} member={friend} />}
         </FriendCard>
       ))}
     </FriendListContainer>
