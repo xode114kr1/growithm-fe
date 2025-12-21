@@ -5,7 +5,6 @@ import type { BeakjoonTierType } from "../../types/problemType";
 import { TIER_GRADIENT } from "../styles/palette";
 import { useGetProblemListByUserId } from "../hooks/useProblem";
 import { useMemo } from "react";
-import { useAuthStore } from "../../stores/authStore";
 
 type ProfileModalProps = {
   member: User;
@@ -72,19 +71,6 @@ const Name = styled.h3`
   color: #111827;
 `;
 
-interface TierChipProps {
-  tier: BeakjoonTierType;
-}
-
-const TierChip = styled.span<TierChipProps>`
-  padding: 4px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 999px;
-  background: ${({ tier }) => TIER_GRADIENT[tier] || TIER_GRADIENT.bronze};
-  color: white;
-`;
-
 const Handle = styled.span`
   font-size: 13px;
   color: #6b7280;
@@ -131,46 +117,25 @@ const Label = styled.div`
   color: #6b7280;
 `;
 
-const Bottom = styled.div`
+interface TierContainerProps {
+  tier: BeakjoonTierType;
+}
+
+const TierContainer = styled.div<TierContainerProps>`
   display: flex;
-  gap: 10px;
-  margin-top: 8px;
-`;
-
-const PrimaryButton = styled.button`
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  background: #4f46e5;
-  color: #ffffff;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    background: #4338ca;
-  }
-`;
-
-const DangerButton = styled.button`
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  background: #ef4444;
-  color: #ffffff;
-  font-weight: 600;
-  cursor: pointer;
-  &:hover {
-    background: #c93737;
-  }
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  background: ${({ tier }) => TIER_GRADIENT[tier] || TIER_GRADIENT.bronze};
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
 `;
 
 export default function ProfileModal({ onClose, member }: ProfileModalProps) {
   const stop = (e: React.MouseEvent) => e.stopPropagation();
-  const user = useAuthStore((state) => state.user);
-
-  const isFriend = !!user?.friends.find((item) => item == member._id);
 
   const { data: problems } = useGetProblemListByUserId({ userId: member._id });
   const tier = calculateTier(member?.score || 0);
@@ -202,7 +167,6 @@ export default function ProfileModal({ onClose, member }: ProfileModalProps) {
           <TopInfo>
             <NameRow>
               <Name>{member?.name}</Name>
-              <TierChip tier={tier}>{tier}</TierChip>
             </NameRow>
             <Handle>@xode114kr1</Handle>
           </TopInfo>
@@ -228,8 +192,7 @@ export default function ProfileModal({ onClose, member }: ProfileModalProps) {
             <Label>Solved</Label>
           </Stat>
         </DashboardSection>
-
-        <Bottom>{isFriend && <DangerButton>친구 삭제</DangerButton>}</Bottom>
+        <TierContainer tier={tier}>{tier}</TierContainer>
       </Modal>
     </Overlay>
   );
