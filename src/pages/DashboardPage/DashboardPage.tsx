@@ -425,7 +425,7 @@ const DashboardPage = () => {
 
             <StatCard>
               <StatLabel>Solved</StatLabel>
-              <StatValue>{problems?.length || 0 - pendingProblems?.length}</StatValue>
+              <StatValue>{(problems?.length || 0) - pendingProblems?.length}</StatValue>
               <StatSubText>풀이 작성한 문제</StatSubText>
             </StatCard>
 
