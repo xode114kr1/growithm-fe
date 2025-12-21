@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { useGetFriendList } from "../../../shared/hooks/useFriend";
+import { useDeleteFriendMutation, useGetFriendList } from "../../../shared/hooks/useFriend";
 import ProfileModal from "../../../shared/components/ProfileModal";
 import { useState } from "react";
 import { calculateTier } from "../../../shared/utils/tier";
+import { FiSearch } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 
 const FriendListContainer = styled.div`
   display: flex;
@@ -57,32 +59,6 @@ const FriendMeta = styled.div`
   color: #6b7280;
 `;
 
-const FriendAction = styled.button`
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  font-size: 13px;
-  font-weight: 500;
-  color: #4b5563;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background 0.15s ease-in-out,
-    border-color 0.15s ease-in-out,
-    transform 0.05s ease-in-out;
-
-  &:hover {
-    background: #eef2ff;
-    border-color: #c7d2fe;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
 const EmptyState = styled.div`
   padding: 18px 20px;
   border-radius: 14px;
@@ -93,13 +69,38 @@ const EmptyState = styled.div`
   text-align: center;
 `;
 
+const FiSearchButton = styled(FiSearch)`
+  cursor: pointer;
+
+  color: #6b7280;
+
+  &:hover {
+    color: #111827;
+  }
+`;
+
+const FiTrash2Button = styled(FiTrash2)`
+  cursor: pointer;
+
+  color: #ef4444;
+
+  &:hover {
+    color: #dc2626;
+  }
+`;
+
 const FriendList = () => {
   const { data: friendList } = useGetFriendList();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { mutate: deleteFriend } = useDeleteFriendMutation();
 
   if (!friendList || friendList.length === 0) {
     return <EmptyState>아직 친구가 없습니다. 친구를 추가해보세요 👋</EmptyState>;
   }
+
+  const handleDeleteButton = async (friendId: string) => {
+    await deleteFriend({ friendId });
+  };
 
   return (
     <FriendListContainer>
@@ -110,9 +111,10 @@ const FriendList = () => {
             <FriendName>{friend?.name}</FriendName>
             <FriendMeta>현재 티어 {calculateTier(friend?.score || 0)}</FriendMeta>
           </FriendInfo>
-          <FriendAction type="button" onClick={() => setModalOpen(true)}>
-            상세 보기
-          </FriendAction>
+
+          <FiSearchButton size={23} onClick={() => setModalOpen(true)} />
+          <FiTrash2Button size={23} onClick={() => handleDeleteButton(friend?._id)} />
+
           {modalOpen && <ProfileModal onClose={() => setModalOpen(false)} member={friend} />}
         </FriendCard>
       ))}
