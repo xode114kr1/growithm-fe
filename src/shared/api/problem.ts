@@ -32,6 +32,11 @@ export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) 
   return res.data;
 }
 
+export async function getProblemListByUserId({ userId }: { userId: string }) {
+  const res = await apiClient.get(`/problem/list/${userId}`);
+  return res.data;
+}
+
 export async function getProblemById(problemId: string): Promise<ResponseData<Problem>> {
   const res = await apiClient.get(`/problem/${problemId}`);
   return res.data;
