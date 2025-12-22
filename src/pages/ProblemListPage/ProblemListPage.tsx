@@ -206,7 +206,15 @@ const ProblemListPage = () => {
   } = useGetProblemList({ title: inputText, platform, tier, state: queryState });
 
   const platformCategory = ["beakjoon", "programmers"];
-  const tierCategory = Array.from(new Set(problemList?.map((item) => item.tier) ?? []));
+  const beakjoonTier = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"];
+  const programmersTier = ["level 1", "level 2", "level 3", "level 4"];
+
+  const tierCategory =
+    platform === ""
+      ? [...beakjoonTier, ...programmersTier]
+      : platform === "beakjoon"
+        ? beakjoonTier
+        : programmersTier;
 
   const problemCount = problemList?.length ?? 0;
 
