@@ -115,7 +115,15 @@ const SmallButton = styled.button`
   }
 `;
 
-const StudyMemberItem = ({ member, role }: { member: User; role: "member" | "owner" }) => {
+const StudyMemberItem = ({
+  member,
+  role,
+  score,
+}: {
+  member: User;
+  role: "member" | "owner";
+  score: number;
+}) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   return (
     <>
@@ -128,7 +136,7 @@ const StudyMemberItem = ({ member, role }: { member: User; role: "member" | "own
           </NameRow>
           <Sub>
             <div>
-              solved <Stat>42</Stat> · streak <Stat>7</Stat>
+              Contribution : <Stat>{score} XP</Stat>
             </div>
           </Sub>
         </Main>
@@ -136,7 +144,7 @@ const StudyMemberItem = ({ member, role }: { member: User; role: "member" | "own
           <SmallButton type="button" onClick={() => setModalOpen(true)}>
             프로필
           </SmallButton>
-          <Sub>last active 2025-12-16</Sub>
+          <Sub>last active {member?.updatedAt?.slice(0, 10)}</Sub>
         </Right>
       </MemberItem>
       {modalOpen && <ProfileModal member={member} onClose={() => setModalOpen(false)} />}

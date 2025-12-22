@@ -171,7 +171,6 @@ const StudyProblemPage = () => {
   const [tier, setTier] = useState<string>("");
   const [titleKeyword, setTitleKeyword] = useState<string>("");
   const [user, setUser] = useState<string>("");
-
   const platformCategory = ["beakjoon", "programmers"];
   const tierCategory = study?.problems?.map((item) => item?.tier);
   const userCategory = study?.members?.map((item) => item?.name);
@@ -235,7 +234,7 @@ const StudyProblemPage = () => {
       </FilterContainer>
       <ProblemItemList>
         {filteredProblems?.map((problem) => (
-          <StudyProblemItem problem={problem} />
+          <StudyProblemItem problem={problem} key={problem._id} />
         ))}
       </ProblemItemList>
     </StudyProblemContainer>

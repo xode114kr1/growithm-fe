@@ -4,6 +4,7 @@ import styled from "styled-components";
 import type { Study } from "../../types/studyType";
 import { useMemo, useState } from "react";
 import StudyMemberItem from "./components/StudyMemberItem";
+import { useGetStudyUserScoreById } from "../../shared/hooks/useStudy";
 
 const StudyMemberContainer = styled.div`
   flex: 1;
@@ -146,17 +147,42 @@ interface StudyOutletContext {
 const StudyMemberPage = () => {
   const { study } = useOutletContext<StudyOutletContext>();
 
+  const { data: studyUserScoreList } = useGetStudyUserScoreById({ studyId: study?._id });
+
   const [sortBy, setSortBy] = useState<string>("");
 
+  const scoreMap = useMemo(() => {
+    const map = new Map<string, number>();
+    studyUserScoreList?.forEach((s) => {
+      if (s.user?._id) {
+        map.set(s.user._id, s.score);
+      }
+    });
+    return map;
+  }, [studyUserScoreList]);
+
   const sortedMember = useMemo(() => {
-    const member = study?.members ?? [];
-    if (sortBy == "name-asc") {
-      member.sort((a, b) => (a.name > b.name ? 1 : -1));
-    } else if (sortBy == "name-desc") {
-      member.sort((a, b) => (b.name > a.name ? 1 : -1));
+    if (!study) return [];
+
+    const members = [...study.members];
+
+    switch (sortBy) {
+      case "name-asc":
+        return members.sort((a, b) => a.name.localeCompare(b.name));
+
+      case "name-desc":
+        return members.sort((a, b) => b.name.localeCompare(a.name));
+
+      case "score-desc":
+        return members.sort((a, b) => (scoreMap.get(b._id) ?? 0) - (scoreMap.get(a._id) ?? 0));
+
+      case "score-asc":
+        return members.sort((a, b) => (scoreMap.get(a._id) ?? 0) - (scoreMap.get(b._id) ?? 0));
+
+      default:
+        return members;
     }
-    return member;
-  }, [sortBy, study]);
+  }, [study, sortBy, scoreMap]);
 
   return (
     <StudyMemberContainer>
@@ -170,8 +196,8 @@ const StudyMemberPage = () => {
             <option value="">기본 값</option>
             <option value="name-asc">이름 오름차순</option>
             <option value="name-desc">이름 내림차순</option>
-            <option value="tier-desc">티어 높은 순</option>
-            <option value="tier-asc">티어 낮은 순</option>
+            <option value="score-desc">기여도 높은 순</option>
+            <option value="score-asc">기여도 낮은 순</option>
           </DropdownMenu>
         </LeftArea>
 
@@ -182,10 +208,14 @@ const StudyMemberPage = () => {
       <MemberList>
         {sortedMember &&
           sortedMember?.map((item) => {
+            const score =
+              studyUserScoreList?.find((studyUserScore) => studyUserScore?.user?._id == item?._id)
+                ?.score || 0;
+
             if (item?._id == study?.owner?._id) {
-              return <StudyMemberItem member={item} role="owner" />;
+              return <StudyMemberItem member={item} role="owner" key={item?._id} score={score} />;
             }
-            return <StudyMemberItem member={item} role="member" />;
+            return <StudyMemberItem member={item} role="member" key={item?._id} score={score} />;
           })}
       </MemberList>
     </StudyMemberContainer>
