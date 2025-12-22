@@ -2,6 +2,8 @@ import styled from "styled-components";
 import type { BeakjoonTierType, Problem, ProgrammersTierType } from "../../../types/problemType";
 import { TIER_COLOR, TIER_TINT } from "../../../shared/styles/palette";
 import { getProblemTier } from "../../../shared/utils/tier";
+import StudyProblemDetailModal from "./StudyProblemDetailModal";
+import { useState } from "react";
 
 const StudyProblemItemContainer = styled.div`
   display: flex;
@@ -90,22 +92,28 @@ const TierInfo = styled.div<TierInfoProps>`
 `;
 
 const StudyProblemItemCompact = ({ problem }: { problem: Problem }) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const tier = getProblemTier(problem);
   return (
-    <StudyProblemItemContainer>
-      <Accent tier={tier} />
-      <Main>
-        <Title>
-          [{problem?.platform}] {problem?.problemId} - {problem?.title}
-        </Title>
-        <Sub>
-          <div>
-            solved by <User>{problem?.userId?.name}</User>
-          </div>
-        </Sub>
-      </Main>
-      <TierInfo tier={tier}>{problem?.tier}</TierInfo>
-    </StudyProblemItemContainer>
+    <>
+      <StudyProblemItemContainer onClick={() => setModalOpen(true)}>
+        <Accent tier={tier} />
+        <Main>
+          <Title>
+            [{problem?.platform}] {problem?.problemId} - {problem?.title}
+          </Title>
+          <Sub>
+            <div>
+              solved by <User>{problem?.userId?.name}</User>
+            </div>
+          </Sub>
+        </Main>
+        <TierInfo tier={tier}>{problem?.tier}</TierInfo>
+      </StudyProblemItemContainer>
+      {modalOpen && (
+        <StudyProblemDetailModal onClose={() => setModalOpen(false)} problem={problem} />
+      )}
+    </>
   );
 };
 
