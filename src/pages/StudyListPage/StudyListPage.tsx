@@ -4,6 +4,8 @@ import StudyCard from "./components/StudyCard";
 import { useGetStudyList } from "../../shared/hooks/useStudy";
 import { useGetStudyRequestList } from "../../shared/hooks/useStudyRequest";
 import StudyRequestItem from "./components/StudyRequestItem";
+import { useState } from "react";
+import StudyCreateModal from "./components/StudyCreateModal";
 
 const StudyListPageContainer = styled.section`
   width: 80%;
@@ -61,6 +63,32 @@ const SectionTitleBlock = styled.div`
   gap: 4px;
 `;
 
+const CreateStudyButton = styled.button`
+  background: #4f46e5;
+  border: none;
+  color: #f9fafb;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s ease-in-out,
+    transform 0.05s ease-in-out,
+    box-shadow 0.12s ease-in-out;
+
+  &:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+`;
+
 const SectionTitle = styled.h2`
   margin: 0;
   font-size: 20px;
@@ -111,19 +139,21 @@ const RequestList = styled.div`
 const StudyListPage = () => {
   const { data: studyList } = useGetStudyList();
   const { data: studyRequestList } = useGetStudyRequestList();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
     <Wapper>
       <StudyListPageContainer>
         <SectionLayout>
-          {/* 내 스터디 섹션 */}
           <SectionCard>
             <SectionHeader>
               <SectionTitleBlock>
                 <SectionTitle>내 스터디</SectionTitle>
                 <SectionSubText>현재 참여 중인 스터디 목록</SectionSubText>
               </SectionTitleBlock>
-              <Pill>{studyList?.length ?? 0}개 참여 중</Pill>
+              <CreateStudyButton onClick={() => setIsModalOpen(true)}>
+                스터디 생성
+              </CreateStudyButton>
             </SectionHeader>
 
             {studyList?.length === 0 ? (
@@ -137,7 +167,6 @@ const StudyListPage = () => {
             )}
           </SectionCard>
 
-          {/* 스터디 가입 요청 섹션 */}
           <SectionCard>
             <SectionHeader>
               <SectionTitleBlock>
@@ -158,6 +187,7 @@ const StudyListPage = () => {
             )}
           </SectionCard>
         </SectionLayout>
+        {isModalOpen && <StudyCreateModal onClose={() => setIsModalOpen(false)} />}
       </StudyListPageContainer>
     </Wapper>
   );

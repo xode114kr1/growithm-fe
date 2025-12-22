@@ -1,15 +1,12 @@
 import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
-import Slider from "react-slick";
 import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
 import type { GrowithmTierType } from "../../types/problemType";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import StudyCard from "./components/StudyCard";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
-import StudyCreateModal from "./components/StudyCreateModal";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { TIER_COLOR } from "../../shared/styles/palette";
 import { getProblemTier } from "../../shared/utils/tier";
 
@@ -20,7 +17,6 @@ const DashboardContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 32px;
-
   @media (max-width: 1024px) {
     width: 90%;
     padding: 40px 0 48px;
@@ -133,7 +129,7 @@ const StatSubText = styled.div`
 
 const ChartBox = styled.div`
   grid-column: 1 / 3;
-  height: 350px;
+  height: 500px;
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
@@ -226,123 +222,6 @@ const EmptyPending = styled.div`
   text-align: center;
 `;
 
-const StudySection = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const StudyHeader = styled.header`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StudyTitle = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-const StudyTitleMain = styled.span`
-  font-size: 20px;
-  font-weight: 600;
-  color: #111827;
-`;
-
-const StudyTitleSub = styled.span`
-  font-size: 13px;
-  color: #9ca3af;
-`;
-
-const CreateStudyButton = styled.button`
-  background: #4f46e5;
-  border: none;
-  color: #f9fafb;
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    background 0.15s ease-in-out,
-    transform 0.05s ease-in-out,
-    box-shadow 0.12s ease-in-out;
-
-  &:hover {
-    background: #4338ca;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: none;
-  }
-`;
-
-const StudyContainer = styled.section`
-  width: 100%;
-  padding: 16px 10px 30px;
-`;
-
-const StudySlider = styled(Slider)`
-  .slick-track {
-    display: flex !important;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .slick-slide {
-    padding: 0 6px;
-  }
-
-  .slick-dots li button:before {
-    font-size: 8px;
-  }
-`;
-
-const settings = {
-  dots: true,
-  infinite: false,
-  speed: 400,
-  slidesToShow: 5,
-  slidesToScroll: 1,
-  variableWidth: true,
-  arrows: false,
-  responsive: [
-    {
-      breakpoint: 1280,
-      settings: {
-        slidesToShow: 4,
-        variableWidth: true,
-      },
-    },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        variableWidth: true,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 2,
-        variableWidth: true,
-      },
-    },
-    {
-      breakpoint: 640,
-      settings: {
-        slidesToShow: 1,
-        variableWidth: true,
-      },
-    },
-  ],
-};
-
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { data: problems } = useGetProblemList({});
@@ -392,8 +271,6 @@ const DashboardPage = () => {
       { name: "ruby", value: counter.ruby },
     ];
   }, [problems]);
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
     <Wapper>
@@ -478,32 +355,7 @@ const DashboardPage = () => {
             </PendingListBox>
           </PendingListContainer>
         </UserInfoContainer>
-
-        <StudySection>
-          <StudyHeader>
-            <StudyTitle>
-              <StudyTitleMain>내 스터디</StudyTitleMain>
-              <StudyTitleSub>현재 참여 중인 스터디 목록입니다.</StudyTitleSub>
-            </StudyTitle>
-            <CreateStudyButton onClick={() => setIsModalOpen(true)}>스터디 생성</CreateStudyButton>
-          </StudyHeader>
-
-          <StudyContainer>
-            <StudySlider {...settings}>
-              <StudyCard />
-              <StudyCard />
-              <StudyCard />
-              <StudyCard />
-              <StudyCard />
-              <StudyCard />
-              <StudyCard />
-              <StudyCard />
-              <StudyCard />
-            </StudySlider>
-          </StudyContainer>
-        </StudySection>
       </DashboardContainer>
-      {isModalOpen && <StudyCreateModal onClose={() => setIsModalOpen(false)} />}
     </Wapper>
   );
 };
