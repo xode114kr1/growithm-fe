@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import Wapper from "../../shared/styles/Wapper";
 import { useGetStudyById } from "../hooks/useStudy";
+import { useAuthStore } from "../../stores/authStore";
 
 const PageContainer = styled.section`
   width: 80%;
@@ -119,7 +120,8 @@ const ContentColumn = styled.section`
 const StudyLayout = () => {
   const { id } = useParams<{ id: string }>();
   const { data: study } = useGetStudyById({ studyId: id as string });
-
+  const user = useAuthStore((state) => state.user);
+  const isOwner = study?.owner._id == user?._id;
   return (
     <Wapper>
       <PageContainer>
@@ -134,7 +136,7 @@ const StudyLayout = () => {
                 <NavItem to="overview">Overview</NavItem>
                 <NavItem to="problem">Problem</NavItem>
                 <NavItem to="member">Member</NavItem>
-                <NavItem to="owner">Owner</NavItem>
+                {isOwner && <NavItem to="owner">Owner</NavItem>}
               </NavList>
             </NavColumn>
 
