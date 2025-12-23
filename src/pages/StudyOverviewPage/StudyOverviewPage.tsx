@@ -362,7 +362,7 @@ const StudyOverviewPage = () => {
               </StatCard>
             </StatsGrid>
           </Card>
-          <Card>
+          <Card style={{ minHeight: "300px" }}>
             <CardHeader>
               <CardTitle>기여도 분석</CardTitle>
               <CardHint>스터디원별 풀이 기여도</CardHint>
