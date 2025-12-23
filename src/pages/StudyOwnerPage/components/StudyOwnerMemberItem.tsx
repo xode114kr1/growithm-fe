@@ -4,6 +4,7 @@ import { useDeleteStudyMemberByIdMutation } from "../../../shared/hooks/useMembe
 import type { Study } from "../../../types/studyType";
 import { useState } from "react";
 import ProfileModal from "../../../shared/components/ProfileModal";
+import WarningModal from "../../../shared/components/WarningModal";
 
 const MemberItemContainer = styled.div`
   display: flex;
@@ -22,12 +23,16 @@ const MemberItemContainer = styled.div`
   }
 `;
 
-const Avatar = styled.div`
+interface AvatarProps {
+  src?: string;
+}
+
+const Avatar = styled.img<AvatarProps>`
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.22), rgba(99, 102, 241, 0.08));
-  border: 1px solid rgba(79, 70, 229, 0.18);
+  object-fit: cover;
+  background-color: #e5e7eb;
   flex-shrink: 0;
 `;
 
@@ -55,14 +60,6 @@ const Name = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-`;
-
-const Meta = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: #6b7280;
 `;
 
 const MemberActions = styled.div`
@@ -124,34 +121,36 @@ const DangerButton = styled(Button)`
 
 const StudyOwnerMemberItem = ({ member, study }: { member: User; study: Study }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [warningModalOpen, setWarningModalOpen] = useState<boolean>(false);
+
   const { mutate: deleteStudyMemberById } = useDeleteStudyMemberByIdMutation();
   const handleDeleteButton = async () => {
     deleteStudyMemberById({ studyId: study?._id, deleteUserId: member._id });
   };
   return (
     <MemberItemContainer>
-      <Avatar />
+      <Avatar src={member?.avatarUrl} />
       <MemberMain>
         <NameRow>
           <Name>{member.name}</Name>
         </NameRow>
-        <Meta>
-          <span>solved 42</span>
-          <span>·</span>
-          <span>tier Gold</span>
-          <span>·</span>
-          <span>joined 2025-10-03</span>
-        </Meta>
       </MemberMain>
       <MemberActions>
         <SmallButton type="button" onClick={() => setModalOpen(true)}>
           프로필
         </SmallButton>
-        <DangerButton type="button" onClick={handleDeleteButton}>
+        <DangerButton type="button" onClick={() => setWarningModalOpen(true)}>
           삭제
         </DangerButton>
       </MemberActions>
       {modalOpen && <ProfileModal member={member} onClose={() => setModalOpen(false)} />}
+      {warningModalOpen && (
+        <WarningModal
+          onClose={() => setWarningModalOpen(false)}
+          handleDeleteButton={handleDeleteButton}
+          message="맴버를 삭제하시겠습니까?"
+        />
+      )}
     </MemberItemContainer>
   );
 };

@@ -44,12 +44,16 @@ const Button = styled.button`
   }
 `;
 
-const Avatar = styled.div`
+interface AvatarProps {
+  src?: string;
+}
+
+const Avatar = styled.img<AvatarProps>`
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.22), rgba(99, 102, 241, 0.08));
-  border: 1px solid rgba(79, 70, 229, 0.18);
+  object-fit: cover;
+  background-color: #e5e7eb;
   flex-shrink: 0;
 `;
 
@@ -67,14 +71,6 @@ const NameRow = styled.div`
   align-items: center;
   gap: 8px;
   min-width: 0;
-`;
-
-const Meta = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: #6b7280;
 `;
 
 const Name = styled.div`
@@ -123,14 +119,11 @@ const StudyOwnerSendItem = ({ studyRequest }: { studyRequest: StudyRequest }) =>
 
   return (
     <MemberItem>
-      <Avatar />
+      <Avatar src={studyRequest?.userId?.avatarUrl} />
       <MemberMain>
         <NameRow>
           <Name>{studyRequest?.userId.name}</Name>
         </NameRow>
-        <Meta>
-          <span>invited 2025-12-10</span>
-        </Meta>
       </MemberMain>
       <MemberActions>
         <DangerButton type="button" onClick={handleCancelButton}>

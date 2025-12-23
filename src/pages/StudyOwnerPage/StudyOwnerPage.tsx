@@ -9,6 +9,7 @@ import {
 import StudyOwnerMemberItem from "./components/StudyOwnerMemberItem";
 import StudyOwnerSendItem from "./components/StudyOwnerSendItem";
 import { useDeleteStudyMutation } from "../../shared/hooks/useStudy";
+import WarningModal from "../../shared/components/WarningModal";
 
 const Container = styled.div`
   flex: 1;
@@ -168,46 +169,6 @@ const DangerTitle = styled(CardTitle)`
   color: #ef4444;
 `;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-`;
-
-const Modal = styled.div`
-  width: 100%;
-  max-width: 520px;
-  background: #ffffff;
-  border-radius: 18px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-
-const ModalTitle = styled.h4`
-  margin: 0;
-  font-size: 16px;
-  font-weight: 900;
-  color: #111827;
-`;
-
-const ModalActions = styled.div`
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-
-  @media (max-width: 480px) {
-    flex-direction: column-reverse;
-  }
-`;
-
 interface StudyOutletContext {
   study: Study;
 }
@@ -216,6 +177,10 @@ const StudyOwnerPage = () => {
   const navigate = useNavigate();
   const { study } = useOutletContext<StudyOutletContext>();
   const [inviteUserName, setInviteUserName] = useState<string>("");
+  const [deleteStudyName, setDeleteStudyModal] = useState<string>("");
+
+  const [warningModalOpen, setWarningModalOpen] = useState<boolean>(false);
+
   const { mutate: sendStudyRequest } = useSendStudyRequestMutation();
   const { mutate: deleteStudy } = useDeleteStudyMutation();
   const { data: sendStudyRequestList } = useGetSendStudyRequest({ studyId: study?._id });
@@ -227,6 +192,11 @@ const StudyOwnerPage = () => {
         onSuccess: () => setInviteUserName(""),
       }
     );
+  };
+
+  const handleDeleteButton = () => {
+    if (deleteStudyName !== study.title) return;
+    setWarningModalOpen(true);
   };
 
   const handleDeleteStudy = async () => {
@@ -288,28 +258,23 @@ const StudyOwnerPage = () => {
         </Helper>
 
         <Row>
-          <TextInput placeholder='확인을 위해 스터디 이름 입력 (예: "Growithm Study")' />
-          <DangerButton type="button" onClick={handleDeleteStudy}>
+          <TextInput
+            placeholder='확인을 위해 스터디 이름 입력 (예: "Growithm Study")'
+            value={deleteStudyName}
+            onChange={(e) => setDeleteStudyModal(e.target.value)}
+          />
+          <DangerButton type="button" onClick={handleDeleteButton}>
             스터디 삭제
           </DangerButton>
         </Row>
       </DangerZone>
-
-      <ModalOverlay>
-        <Modal>
-          <ModalTitle>멤버 삭제</ModalTitle>
-          <Helper>
-            <b>김철수</b> 멤버를 스터디에서 삭제. 이 작업은 되돌릴 수 없음.
-          </Helper>
-
-          <TextInput placeholder='확인을 위해 "삭제" 입력' />
-
-          <ModalActions>
-            <Button type="button">취소</Button>
-            <DangerButton type="button">삭제</DangerButton>
-          </ModalActions>
-        </Modal>
-      </ModalOverlay>
+      {warningModalOpen && (
+        <WarningModal
+          onClose={() => setWarningModalOpen(false)}
+          handleDeleteButton={handleDeleteStudy}
+          title="스터디를 삭제하시겠습니까?"
+        />
+      )}
     </Container>
   );
 };

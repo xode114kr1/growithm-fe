@@ -5,6 +5,7 @@ import { useState } from "react";
 import { calculateTier } from "../../../shared/utils/tier";
 import { FiSearch } from "react-icons/fi";
 import { FiTrash2 } from "react-icons/fi";
+import WarningModal from "../../../shared/components/WarningModal";
 
 const FriendListContainer = styled.div`
   display: flex;
@@ -92,6 +93,7 @@ const FiTrash2Button = styled(FiTrash2)`
 const FriendList = () => {
   const { data: friendList } = useGetFriendList();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [warningModalOpen, setWarningModalOpen] = useState<boolean>(false);
   const { mutate: deleteFriend } = useDeleteFriendMutation();
 
   if (!friendList || friendList.length === 0) {
@@ -99,7 +101,7 @@ const FriendList = () => {
   }
 
   const handleDeleteButton = async (friendId: string) => {
-    await deleteFriend({ friendId });
+    await deleteFriend({ friendId }, { onSuccess: () => setWarningModalOpen(false) });
   };
 
   return (
@@ -113,9 +115,15 @@ const FriendList = () => {
           </FriendInfo>
 
           <FiSearchButton size={23} onClick={() => setModalOpen(true)} />
-          <FiTrash2Button size={23} onClick={() => handleDeleteButton(friend?._id)} />
+          <FiTrash2Button size={23} onClick={() => setWarningModalOpen(true)} />
 
           {modalOpen && <ProfileModal onClose={() => setModalOpen(false)} member={friend} />}
+          {warningModalOpen && (
+            <WarningModal
+              onClose={() => setWarningModalOpen(false)}
+              handleDeleteButton={() => handleDeleteButton(friend._id)}
+            />
+          )}
         </FriendCard>
       ))}
     </FriendListContainer>
