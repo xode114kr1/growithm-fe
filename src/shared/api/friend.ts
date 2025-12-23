@@ -1,7 +1,7 @@
 import { apiClient } from ".";
 
 export async function getFriendList() {
-  const res = await apiClient.get("/friend");
+  const res = await apiClient.get("/friend/me");
   return res.data;
 }
 
