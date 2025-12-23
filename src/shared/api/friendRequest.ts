@@ -30,12 +30,12 @@ export async function cancelFriendRequest({ requestId }: rejectFriendRequestRequ
 }
 
 export async function getSendFriendRequests(): Promise<ResponseData<FriendRequests[]>> {
-  const res = await apiClient.get("/friend-request/send");
+  const res = await apiClient.get("/friend-request/send/me");
   return res.data;
 }
 
 export async function getReceiveFriendRequests(): Promise<ResponseData<FriendRequests[]>> {
-  const res = await apiClient.get("/friend-request/receive");
+  const res = await apiClient.get("/friend-request/receive/me");
   return res.data;
 }
 

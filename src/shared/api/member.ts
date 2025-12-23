@@ -7,8 +7,6 @@ export async function deleteStudyMemberById({
   studyId: string;
   deleteUserId: string;
 }) {
-  const res = await apiClient.delete(
-    `/member/owner?studyId=${studyId}&deleteUserId=${deleteUserId}`
-  );
+  const res = await apiClient.delete(`/study/${studyId}/member/${deleteUserId}`);
   return res.data;
 }
