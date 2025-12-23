@@ -15,7 +15,7 @@ export async function sendStudyRequest({
   studyId: string;
   inviteUserName: string;
 }) {
-  const res = await apiClient.post("/study-request/send", { studyId, inviteUserName });
+  const res = await apiClient.post(`/study/${studyId}/send`, { inviteUserName });
   return res.data;
 }
 
@@ -36,6 +36,5 @@ export async function rejectStudyRequest({ studyRequestId }: rejectStudyRequestP
 
 export async function getStudyRequestList() {
   const res = await apiClient("study-request");
-  console.log(res.data);
   return res.data;
 }
