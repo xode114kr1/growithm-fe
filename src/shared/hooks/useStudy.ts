@@ -5,6 +5,7 @@ import {
   getStudyById,
   getStudyList,
   getStudyUserScoreById,
+  leaveStudy,
 } from "../api/study";
 import type { StudyUserScore, Study } from "../../types/studyType";
 
@@ -54,6 +55,16 @@ export function useGetStudyUserScoreById({ studyId }: { studyId: string }) {
     queryFn: async () => {
       const res = await getStudyUserScoreById({ studyId });
       return res.data;
+    },
+  });
+}
+
+export function useLeaveStudyMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: leaveStudy,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["study"] });
     },
   });
 }
