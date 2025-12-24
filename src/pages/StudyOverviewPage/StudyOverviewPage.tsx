@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import type { Study } from "../../types/studyType";
-import { useOutletContext } from "react-router-dom";
-import { useGetStudyUserScoreById } from "../../shared/hooks/useStudy";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { useGetStudyUserScoreById, useLeaveStudyMutation } from "../../shared/hooks/useStudy";
 import type { GrowithmTierType } from "../../types/problemType";
 import {
   calculateStudyTier,
@@ -11,6 +11,10 @@ import {
   getStudyTierMaxScore,
 } from "../../shared/utils/tier";
 import { CARD_TIER_COLOR, TIER_COLOR, TIER_PROGRESS_COLOR } from "../../shared/styles/palette";
+import WarningModal from "../../shared/components/WarningModal";
+import { useState } from "react";
+import { FiLogOut } from "react-icons/fi";
+import { useAuthStore } from "../../stores/authStore";
 
 interface StudyOutletContext {
   study: Study;
@@ -34,7 +38,8 @@ const OverviewWrapper = styled.div`
 
 const Header = styled.header`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   gap: 4px;
 `;
 
@@ -43,6 +48,22 @@ const Title = styled.h2`
   font-size: 20px;
   font-weight: 700;
   color: #111827;
+`;
+
+export const FiLogOutButton = styled(FiLogOut)`
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  color: #111827;
+  transition: 150ms ease;
+
+  &:hover {
+    color: #ef4444;
+    background-color: #fee2e2;
+  }
 `;
 
 const ContentGrid = styled.div`
@@ -286,7 +307,14 @@ const MemberRole = styled.span`
 
 const StudyOverviewPage = () => {
   const { study } = useOutletContext<StudyOutletContext>();
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   const { data } = useGetStudyUserScoreById({ studyId: study?._id });
+  const { mutate: leaveStudy } = useLeaveStudyMutation();
+
+  const isOwner = study?.owner?._id == user?._id;
 
   const chartData = data
     ?.slice()
@@ -320,6 +348,10 @@ const StudyOverviewPage = () => {
       return problem.timestamp >= oneWeekAgo && problem.timestamp <= today;
     }) || [];
 
+  const handleDeleteButton = async () => {
+    await leaveStudy({ studyId: study._id }, { onSuccess: () => navigate("/study") });
+  };
+
   const memberLength = study?.members?.length || 0;
   const problemLength = study?.problems?.length || 0;
 
@@ -327,6 +359,11 @@ const StudyOverviewPage = () => {
     <OverviewWrapper>
       <Header>
         <Title>Overview</Title>
+        {!isOwner && (
+          <FiLogOutButton size={15} onClick={() => setModalOpen(true)}>
+            탈퇴하기
+          </FiLogOutButton>
+        )}
       </Header>
       <TierCard tier={tier}>
         <TierLabel>현재 스터디 티어</TierLabel>
@@ -362,7 +399,7 @@ const StudyOverviewPage = () => {
               </StatCard>
             </StatsGrid>
           </Card>
-          <Card>
+          <Card style={{ minHeight: "300px" }}>
             <CardHeader>
               <CardTitle>기여도 분석</CardTitle>
               <CardHint>스터디원별 풀이 기여도</CardHint>
@@ -425,6 +462,9 @@ const StudyOverviewPage = () => {
           </Card>
         </RightColumn>
       </ContentGrid>
+      {modalOpen && (
+        <WarningModal onClose={() => setModalOpen(false)} handleDeleteButton={handleDeleteButton} />
+      )}
     </OverviewWrapper>
   );
 };

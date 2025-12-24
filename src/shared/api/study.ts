@@ -39,3 +39,8 @@ export async function getStudyUserScoreById({ studyId }: getStudyUserScoreByIdPr
   const res = await apiClient.get(`/study/user-score/${studyId}`);
   return res.data;
 }
+
+export async function leaveStudy({ studyId }: { studyId: string }) {
+  const res = await apiClient.delete(`/study/${studyId}/leave`);
+  return res.data;
+}
