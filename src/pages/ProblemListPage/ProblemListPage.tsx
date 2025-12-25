@@ -3,6 +3,7 @@ import Wapper from "../../shared/styles/Wapper";
 import { useState } from "react";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import ProblemItem from "./components/ProblemItem";
+import ProblemPagination from "./components/ProblemPagination";
 
 const ProblemListPageContainer = styled.section`
   width: 80%;
@@ -196,14 +197,23 @@ const ProblemListPage = () => {
   const [platform, setPlatform] = useState<string>("");
   const [tier, setTier] = useState<string>("");
   const [state, setState] = useState<"all" | "pending" | "solved">("all");
+  const [page, setPage] = useState<number>(1);
 
   const queryState = state === "all" ? "" : state;
 
-  const {
-    data: problemList,
-    isLoading,
-    error,
-  } = useGetProblemList({ title: inputText, platform, tier, state: queryState });
+  const { data, isLoading, error } = useGetProblemList({
+    title: inputText,
+    platform,
+    tier,
+    state: queryState,
+    page: page,
+  });
+
+  const { data: problemList, totalPages } = data ?? {
+    problemList: [],
+    total: 0,
+    totalPages: 1,
+  };
 
   const platformCategory = ["beakjoon", "programmers"];
   const beakjoonTier = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"];
@@ -216,7 +226,7 @@ const ProblemListPage = () => {
         ? beakjoonTier
         : programmersTier;
 
-  const problemCount = problemList?.length ?? 0;
+  const problemCount = data?.total ?? 0;
 
   return (
     <Wapper>
@@ -267,12 +277,13 @@ const ProblemListPage = () => {
           {isLoading && <StatusMessage>문제 목록을 불러오는 중입니다...</StatusMessage>}
           {error && <StatusMessage>문제를 불러오는 중 오류가 발생했습니다.</StatusMessage>}
           {!isLoading && !error && problemCount === 0 && (
-            <StatusMessage>조건에 맞는 문제가 없습니다. 필터를 변경해보세요.</StatusMessage>
+            <StatusMessage>조건에 맞는 문제가 없습니다.</StatusMessage>
           )}
-
           {problemList?.map((item) => (
             <ProblemItem problem={item} key={item._id} />
           ))}
+
+          <ProblemPagination page={page} totalPages={totalPages} onChange={setPage} />
         </ProblemListWrapper>
       </ProblemListPageContainer>
     </Wapper>

@@ -9,6 +9,8 @@ export interface getProblemListParams {
   platform?: string;
   tier?: string;
   state?: string;
+  size?: number;
+  page?: number;
 }
 
 export interface Problem {

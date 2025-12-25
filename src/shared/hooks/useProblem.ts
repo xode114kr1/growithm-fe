@@ -9,12 +9,27 @@ import {
 } from "../api/problem";
 import type { getProblemListParams, Problem } from "../../types/problemType";
 
-export function useGetProblemList({ title, platform, tier, state }: getProblemListParams) {
-  return useQuery<Problem[]>({
-    queryKey: ["problem-list", title, platform, tier, state],
+export type ProblemListResponse = {
+  data: Problem[];
+  page: number;
+  size: number;
+  total: number;
+  totalPages: number;
+};
+
+export function useGetProblemList({
+  title,
+  platform,
+  tier,
+  state,
+  size,
+  page,
+}: getProblemListParams) {
+  return useQuery<ProblemListResponse>({
+    queryKey: ["problem-list", title, platform, tier, state, size, page],
     queryFn: async () => {
-      const res = await getProblemList({ title, platform, tier, state });
-      return res.data;
+      const res = await getProblemList({ title, platform, tier, state, size, page });
+      return res;
     },
     staleTime: 1000 * 60,
     gcTime: 1000 * 60 * 5,
