@@ -7,8 +7,12 @@ export async function getProblemList({
   platform,
   tier,
   state,
-}: getProblemListParams): Promise<ResponseData<Problem[]>> {
-  const res = await apiClient.get("/problem", { params: { title, platform, tier, state } });
+  size,
+  page,
+}: getProblemListParams) {
+  const res = await apiClient.get("/problem", {
+    params: { title, platform, tier, state, page, size },
+  });
   return res.data;
 }
 

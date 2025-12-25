@@ -224,7 +224,9 @@ const EmptyPending = styled.div`
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { data: problems } = useGetProblemList({});
+  const { data } = useGetProblemList({});
+
+  const { data: problems } = data ?? { data: [] };
 
   const todaySolved = useMemo(() => {
     if (!problems) return 0;
