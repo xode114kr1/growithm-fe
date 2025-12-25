@@ -1,0 +1,6 @@
+import { apiClient } from ".";
+
+export async function getUserByName({ name }: { name: string }) {
+  const res = await apiClient(`/user?name=${name}`);
+  return res.data;
+}
