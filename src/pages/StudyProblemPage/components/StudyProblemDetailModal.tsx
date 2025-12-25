@@ -183,15 +183,16 @@ const CodeBlock = styled.pre`
 
 const MemoTextarea = styled.div`
   width: 100%;
-  min-height: 200px;
+  min-height: 240px;
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid #e5e7eb;
   background-color: #f9fafb;
   font-size: 14px;
   color: #111827;
   resize: vertical;
   line-height: 1.5;
+  white-space: pre-wrap;
 
   &:focus {
     outline: none;
@@ -279,7 +280,7 @@ const StudyProblemDetailModal = ({ onClose, problem }: StudyProblemDetailModalPr
         </Body>
 
         <Footer>
-          <DarkButton>닫기</DarkButton>
+          <DarkButton onClick={onClose}>닫기</DarkButton>
         </Footer>
       </Modal>
     </Overlay>
