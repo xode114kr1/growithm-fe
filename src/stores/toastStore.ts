@@ -2,15 +2,18 @@ import { create } from "zustand";
 
 interface ToastState {
   isOpenToast: boolean;
-  setOpenToast: () => void;
+  message: string;
+  setOpenToast: (message?: string) => void;
   setCloseToast: () => void;
 }
 
 export const useToastStore = create<ToastState>((set) => ({
   isOpenToast: false,
-  setOpenToast: () => {
+  message: "",
+  setOpenToast: (message) => {
     set({
       isOpenToast: true,
+      message: message,
     });
   },
   setCloseToast: () => {
