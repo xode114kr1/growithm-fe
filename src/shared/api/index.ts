@@ -24,7 +24,7 @@ apiClient.interceptors.response.use(
     if (status === 400) {
       setOpenToast("요청이 올바르지 않습니다.");
     } else if (status === 401) {
-      setOpenToast("로그인이 필요합니다.");
+      return Promise.reject(error);
     } else if (status === 403) {
       setOpenToast("권한이 없습니다.");
     } else if (status === 404) {
