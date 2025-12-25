@@ -10,6 +10,7 @@ import StudyOwnerMemberItem from "./components/StudyOwnerMemberItem";
 import StudyOwnerSendItem from "./components/StudyOwnerSendItem";
 import { useDeleteStudyMutation } from "../../shared/hooks/useStudy";
 import WarningModal from "../../shared/components/WarningModal";
+import { useOpenToast } from "../../shared/hooks/useToast";
 
 const Container = styled.div`
   flex: 1;
@@ -178,6 +179,7 @@ const StudyOwnerPage = () => {
   const { study } = useOutletContext<StudyOutletContext>();
   const [inviteUserName, setInviteUserName] = useState<string>("");
   const [deleteStudyName, setDeleteStudyModal] = useState<string>("");
+  const openToast = useOpenToast();
 
   const [warningModalOpen, setWarningModalOpen] = useState<boolean>(false);
 
@@ -195,7 +197,10 @@ const StudyOwnerPage = () => {
   };
 
   const handleDeleteButton = () => {
-    if (deleteStudyName !== study.title) return;
+    if (deleteStudyName !== study.title) {
+      openToast({ message: "스터디 이름이 일치하지 않습니다" });
+      return;
+    }
     setWarningModalOpen(true);
   };
 
