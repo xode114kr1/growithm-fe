@@ -16,6 +16,7 @@ interface getStudyByIdProps {
 }
 
 export async function getStudyById({ studyId }: getStudyByIdProps) {
+  if (!studyId) return;
   const res = await apiClient.get(`/study/${studyId}`);
   return res.data;
 }
@@ -36,6 +37,7 @@ interface getStudyUserScoreByIdProps {
 }
 
 export async function getStudyUserScoreById({ studyId }: getStudyUserScoreByIdProps) {
+  if (!studyId) return;
   const res = await apiClient.get(`/study/user-score/${studyId}`);
   return res.data;
 }
