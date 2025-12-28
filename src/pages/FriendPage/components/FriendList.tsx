@@ -6,6 +6,7 @@ import { calculateTier } from "../../../shared/utils/tier";
 import { FiSearch } from "react-icons/fi";
 import { FiTrash2 } from "react-icons/fi";
 import WarningModal from "../../../shared/components/WarningModal";
+import type { User } from "../../../types/userType";
 
 const FriendListContainer = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const FriendListContainer = styled.div`
   gap: 10px;
 `;
 
-const FriendCard = styled.div`
+const FriendCardContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
@@ -90,41 +91,46 @@ const FiTrash2Button = styled(FiTrash2)`
   }
 `;
 
-const FriendList = () => {
-  const { data: friendList } = useGetFriendList();
+const FriendCard = ({ friend }: { friend: User }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [warningModalOpen, setWarningModalOpen] = useState<boolean>(false);
   const { mutate: deleteFriend } = useDeleteFriendMutation();
+  const handleDeleteButton = async (friendId: string) => {
+    await deleteFriend({ friendId }, { onSuccess: () => setWarningModalOpen(false) });
+  };
+  return (
+    <FriendCardContainer>
+      <Avatar src={friend?.avatarUrl} />
+      <FriendInfo>
+        <FriendName>{friend?.name}</FriendName>
+        <FriendMeta>현재 티어 {calculateTier(friend?.score || 0)}</FriendMeta>
+      </FriendInfo>
+
+      <FiSearchButton size={23} onClick={() => setModalOpen(true)} />
+      <FiTrash2Button size={23} onClick={() => setWarningModalOpen(true)} />
+
+      {modalOpen && <ProfileModal onClose={() => setModalOpen(false)} member={friend} />}
+      {warningModalOpen && (
+        <WarningModal
+          onClose={() => setWarningModalOpen(false)}
+          handleDeleteButton={() => handleDeleteButton(friend._id)}
+        />
+      )}
+    </FriendCardContainer>
+  );
+};
+
+const FriendList = () => {
+  const { data: friendList } = useGetFriendList();
 
   if (!friendList || friendList.length === 0) {
     return <EmptyState>아직 친구가 없습니다. 친구를 추가해보세요 👋</EmptyState>;
   }
 
-  const handleDeleteButton = async (friendId: string) => {
-    await deleteFriend({ friendId }, { onSuccess: () => setWarningModalOpen(false) });
-  };
-
   return (
     <FriendListContainer>
       {friendList.map((friend) => (
-        <FriendCard key={friend?._id}>
-          <Avatar src={friend?.avatarUrl} />
-          <FriendInfo>
-            <FriendName>{friend?.name}</FriendName>
-            <FriendMeta>현재 티어 {calculateTier(friend?.score || 0)}</FriendMeta>
-          </FriendInfo>
-
-          <FiSearchButton size={23} onClick={() => setModalOpen(true)} />
-          <FiTrash2Button size={23} onClick={() => setWarningModalOpen(true)} />
-
-          {modalOpen && <ProfileModal onClose={() => setModalOpen(false)} member={friend} />}
-          {warningModalOpen && (
-            <WarningModal
-              onClose={() => setWarningModalOpen(false)}
-              handleDeleteButton={() => handleDeleteButton(friend._id)}
-            />
-          )}
-        </FriendCard>
+        <FriendCard friend={friend} key={friend?._id} />
       ))}
     </FriendListContainer>
   );
