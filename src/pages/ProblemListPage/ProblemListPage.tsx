@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import ProblemItem from "./components/ProblemItem";
 import ProblemPagination from "./components/ProblemPagination";
+import { useLocation } from "react-router-dom";
+import type { ProblemState } from "../../types/problemType";
 
 const ProblemListPageContainer = styled.section`
   width: 80%;
@@ -193,10 +195,15 @@ const StatusMessage = styled.div`
 `;
 
 const ProblemListPage = () => {
+  const location = useLocation();
+
+  const initialState: ProblemState = location.state?.initialState ?? "all";
+  const initalIsToday: boolean = location.state?.initalIsToday ?? false;
+
   const [inputText, setInputText] = useState<string>("");
   const [platform, setPlatform] = useState<string>("");
   const [tier, setTier] = useState<string>("");
-  const [state, setState] = useState<"all" | "pending" | "solved">("all");
+  const [state, setState] = useState<ProblemState>(initialState);
   const [page, setPage] = useState<number>(1);
 
   const queryState = state === "all" ? "" : state;

@@ -108,6 +108,18 @@ const StatCard = styled.div`
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
   border: 1px solid #e5e7eb;
   gap: 4px;
+  cursor: pointer;
+
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.18s ease,
+    border-color 0.14s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: #a5b4fc;
+    box-shadow: 0 12px 26px rgba(129, 140, 248, 0.25);
+  }
 `;
 
 const StatLabel = styled.div`
@@ -143,6 +155,7 @@ const ChartBox = styled.div`
     display: none;
   }
 `;
+
 const ChartHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -286,7 +299,7 @@ const DashboardPage = () => {
           </ProfileContainer>
 
           <DashboardInfoContainer>
-            <StatCard>
+            <StatCard onClick={() => navigate("/problem")}>
               <StatLabel>All</StatLabel>
               <StatValue>{problems?.length}</StatValue>
               <StatSubText>성공한 문제</StatSubText>
@@ -296,13 +309,13 @@ const DashboardPage = () => {
               <StatValue>{todaySolved}</StatValue>
               <StatSubText>오늘 해결한 문제</StatSubText>
             </StatCard>
-            <StatCard>
+            <StatCard onClick={() => navigate("/problem", { state: { initialState: "pending" } })}>
               <StatLabel>Pending</StatLabel>
               <StatValue>{pendingProblems?.length}</StatValue>
               <StatSubText>작성 대기 중인 문제</StatSubText>
             </StatCard>
 
-            <StatCard>
+            <StatCard onClick={() => navigate("/problem", { state: { initialState: "solved" } })}>
               <StatLabel>Solved</StatLabel>
               <StatValue>{(problems?.length || 0) - pendingProblems?.length}</StatValue>
               <StatSubText>풀이 작성한 문제</StatSubText>
