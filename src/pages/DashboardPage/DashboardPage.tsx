@@ -304,7 +304,7 @@ const DashboardPage = () => {
               <StatValue>{problems?.length}</StatValue>
               <StatSubText>성공한 문제</StatSubText>
             </StatCard>
-            <StatCard>
+            <StatCard onClick={() => navigate("/problem", { state: { initalIsToday: true } })}>
               <StatLabel>Today</StatLabel>
               <StatValue>{todaySolved}</StatValue>
               <StatSubText>오늘 해결한 문제</StatSubText>
@@ -334,7 +334,7 @@ const DashboardPage = () => {
                   >
                     <XAxis
                       dataKey="name"
-                      tickFormatter={(value) => value.toUpperCase()}
+                      tickFormatter={(value) => value.split(" ")[0].toUpperCase()}
                       fontSize={12}
                     />
                     <YAxis fontSize={12} />
