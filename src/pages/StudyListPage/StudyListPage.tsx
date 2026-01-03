@@ -10,7 +10,7 @@ import StudyCreateModal from "./components/StudyCreateModal";
 const StudyListPageContainer = styled.section`
   width: 80%;
   margin: 0 auto;
-  padding: 48px 0 72px;
+  padding: 40px 0 72px;
   display: flex;
   flex-direction: column;
   gap: 28px;
