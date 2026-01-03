@@ -15,6 +15,8 @@ export type ProblemListResponse = {
   size: number;
   total: number;
   totalPages: number;
+  startDate: string;
+  endDate: string;
 };
 
 export function useGetProblemList({
@@ -24,11 +26,22 @@ export function useGetProblemList({
   state,
   size,
   page,
+  startDate,
+  endDate,
 }: getProblemListParams) {
   return useQuery<ProblemListResponse>({
-    queryKey: ["problem-list", title, platform, tier, state, size, page],
+    queryKey: ["problem-list", title, platform, tier, state, size, page, startDate, endDate],
     queryFn: async () => {
-      const res = await getProblemList({ title, platform, tier, state, size, page });
+      const res = await getProblemList({
+        title,
+        platform,
+        tier,
+        state,
+        size,
+        page,
+        startDate,
+        endDate,
+      });
       return res;
     },
     staleTime: 1000 * 60,
