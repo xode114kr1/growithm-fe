@@ -39,14 +39,14 @@ const ProfileImg = styled.div<ProfileProps>`
 `;
 
 const ProfileName = styled.div`
-  font-size: 23px;
+  font-size: 24px;
   font-weight: 500;
   color: #2d3436;
 `;
 
 const ProfileRepo = styled.div`
   flex: 1;
-  font-size: 16px;
+  font-size: 17px;
   color: #866e72;
   margin-bottom: 15px;
 `;
@@ -59,7 +59,7 @@ const TierContainer = styled.div<TierContainerProps>`
   height: 40px;
   background: ${({ tier }) => TIER_GRADIENT[tier] || TIER_GRADIENT.bronze};
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 500;
   color: white;
 `;

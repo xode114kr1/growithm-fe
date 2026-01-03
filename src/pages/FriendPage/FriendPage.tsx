@@ -26,7 +26,7 @@ const AddFriendArea = styled.div`
 `;
 
 const AddFriendLabel = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #374151;
 `;
@@ -53,7 +53,7 @@ const ToggleButton = styled.button<{ $active?: boolean }>`
   cursor: pointer;
   padding: 8px 14px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 
   background-color: ${({ $active }) => ($active ? "#ffffff" : "transparent")};
@@ -93,19 +93,19 @@ const SearchBox = styled.div`
     border: none;
     outline: none;
     flex: 1;
-    font-size: 15px; /* 13 → 15 */
+    font-size: 16px; /* 13 → 15 */
     background: transparent;
     color: #111827;
 
     &::placeholder {
       color: #9ca3af;
-      font-size: 15px;
+      font-size: 16px;
     }
   }
 `;
 
 const SearchIcon = styled.span`
-  font-size: 16px;
+  font-size: 17px;
   color: #9ca3af;
 `;
 
@@ -113,7 +113,7 @@ const AddFriendButton = styled.button`
   padding: 10px 16px;
   border-radius: 999px;
   border: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;

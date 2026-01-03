@@ -29,7 +29,7 @@ const ToastContainer = styled.div`
 `;
 
 const Message = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 1.4;
 `;

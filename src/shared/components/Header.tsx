@@ -34,7 +34,7 @@ const Logo = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 800;
   color: #6c5ce7;
   cursor: pointer;
@@ -56,7 +56,7 @@ const LoginButton = styled.button`
   border-radius: 8px;
   width: 70px;
   height: 40px;
-  font-size: 16px;
+  font-size: 17px;
   transition: 200ms ease-in;
 
   &:hover {

@@ -26,7 +26,7 @@ const Button = styled.button`
   border: 1px solid #e5e7eb;
   background: #ffffff;
   color: #111827;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
 
@@ -74,7 +74,7 @@ const NameRow = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 900;
   color: #111827;
 

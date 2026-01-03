@@ -23,13 +23,13 @@ const RequestInfo = styled.div`
 `;
 
 const RequestMain = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #111827;
 `;
 
 const RequestSub = styled.div`
-  font-size: 11px;
+  font-size: 12px;
   color: #6b7280;
 `;
 
@@ -46,7 +46,7 @@ const RequestButton = styled.button<{ variant?: "primary" | "ghost" }>`
   background: ${({ variant }) =>
     variant === "primary" ? "linear-gradient(135deg, #4f46e5, #6366f1)" : "#ffffff"};
   color: ${({ variant }) => (variant === "primary" ? "#f9fafb" : "#4b5563")};
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
 

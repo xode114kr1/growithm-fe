@@ -36,13 +36,13 @@ const Card = styled.button`
 `;
 
 const StudyName = styled.div`
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #111827;
 `;
 
 const StudyExplanation = styled.p`
-  font-size: 14px;
+  font-size: 15px;
   color: #6b7280;
   line-height: 1.5;
   min-height: 40px;
@@ -53,7 +53,7 @@ const StudyMetaRow = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
@@ -65,7 +65,7 @@ const MemberBadge = styled.span`
 `;
 
 const OwnerText = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   color: #4b5563;
   font-weight: 500;
 `;

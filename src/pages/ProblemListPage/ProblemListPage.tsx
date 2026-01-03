@@ -70,7 +70,7 @@ const DropdownMenu = styled.select`
   height: 36px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   color: #111827;
   padding: 0 10px;
@@ -145,7 +145,7 @@ const StateFilterButton = styled.button<{ $active?: boolean }>`
   border: none;
   border-radius: 999px;
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   min-width: 70px;
   cursor: pointer;
   background: ${({ $active }) => ($active ? "#4f46e5" : "transparent")};
@@ -172,7 +172,7 @@ const TextInput = styled.input`
   height: 36px;
   border-radius: 999px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
+  font-size: 15px;
   padding: 0 14px;
   color: #111827;
   background: #ffffff;
@@ -207,7 +207,7 @@ const StatusMessage = styled.div`
   border-radius: 12px;
   border: 1px dashed #e5e7eb;
   background-color: #f9fafb;
-  font-size: 14px;
+  font-size: 15px;
   color: #6b7280;
   text-align: center;
 `;
@@ -252,7 +252,7 @@ const DateInput = styled.input`
   padding: 0 12px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
-  font-size: 13px;
+  font-size: 14px;
   color: #111827;
   background: #ffffff;
   outline: none;
@@ -269,7 +269,7 @@ const DateInput = styled.input`
 `;
 
 const DateDash = styled.span`
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
   user-select: none;
 `;

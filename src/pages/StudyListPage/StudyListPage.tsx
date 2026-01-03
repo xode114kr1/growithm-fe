@@ -69,7 +69,7 @@ const CreateStudyButton = styled.button`
   color: #f9fafb;
   border-radius: 999px;
   padding: 8px 16px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition:
@@ -91,20 +91,20 @@ const CreateStudyButton = styled.button`
 
 const SectionTitle = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
   color: #111827;
 `;
 
 const SectionSubText = styled.span`
-  font-size: 14px;
+  font-size: 15px;
   color: #6b7280;
 `;
 
 const Pill = styled.span`
   padding: 5px 12px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   background: #f3f4f6;
   color: #4b5563;
@@ -125,7 +125,7 @@ const EmptyText = styled.div`
   padding: 18px 14px;
   border-radius: 12px;
   background: #f9fafb;
-  font-size: 14px;
+  font-size: 15px;
   color: #6b7280;
   text-align: center;
 `;

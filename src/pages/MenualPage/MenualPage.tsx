@@ -21,13 +21,13 @@ const MenualPageContainer = styled.section`
 `;
 
 const PageTitle = styled.h1`
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 700;
   margin-bottom: 8px;
 `;
 
 const PageDescription = styled.p`
-  font-size: 15px;
+  font-size: 16px;
   color: #666;
   line-height: 1.6;
 `;
@@ -65,7 +65,7 @@ const StepBadge = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 999px;
@@ -75,13 +75,13 @@ const StepBadge = styled.div`
 `;
 
 const StepTitle = styled.h2`
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 700;
   margin-bottom: 10px;
 `;
 
 const StepText = styled.p`
-  font-size: 14px;
+  font-size: 15px;
   color: #555;
   line-height: 1.7;
   white-space: pre-line;
@@ -93,7 +93,7 @@ const LinkButton = styled.a`
   justify-content: center;
   margin-top: auto;
   padding: 8px 14px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: 999px;
   border: 1px solid #6c5ce7;
@@ -120,7 +120,7 @@ const ImageFrame = styled.div`
   justify-content: center;
   padding: 12px;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   color: #94a3b8;
   overflow: hidden;
 
@@ -134,7 +134,7 @@ const ImageFrame = styled.div`
 
 const ImageLabel = styled.div`
   margin-top: 6px;
-  font-size: 11px;
+  font-size: 12px;
   color: #64748b;
 `;
 
@@ -147,7 +147,7 @@ const FormContainer = styled.div`
 `;
 
 const FieldLabel = styled.label`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #374151;
 `;
@@ -156,7 +156,7 @@ const TextInput = styled.input`
   width: 100%;
   height: 38px;
   padding: 0 10px;
-  font-size: 13px;
+  font-size: 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   outline: none;
@@ -177,7 +177,7 @@ const SubmitButton = styled.button`
   height: 38px;
   border-radius: 999px;
   border: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   background: #6c5ce7;
@@ -201,7 +201,7 @@ const SubmitButton = styled.button`
 `;
 
 const HelperText = styled.p`
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
   line-height: 1.6;
   margin-top: 4px;

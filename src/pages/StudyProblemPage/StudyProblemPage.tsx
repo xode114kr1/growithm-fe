@@ -19,7 +19,7 @@ const Header = styled.header`
 
 const Title = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
   color: #111827;
 `;
@@ -69,7 +69,7 @@ const DropdownMenu = styled.select`
   height: 36px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   color: #111827;
   padding: 0 10px;
@@ -131,7 +131,7 @@ const TextInput = styled.input`
   height: 36px;
   border-radius: 999px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
+  font-size: 15px;
   padding: 0 14px;
   color: #111827;
   background: #ffffff;
