@@ -150,7 +150,7 @@ const StateFilterButton = styled.button<{ $active?: boolean }>`
   cursor: pointer;
   background: ${({ $active }) => ($active ? "#4f46e5" : "transparent")};
   color: ${({ $active }) => ($active ? "#ffffff" : "#111827")};
-  font-weight: ${({ $active }) => ($active ? 600 : 400)};
+  font-weight: 500;
   transition:
     background 0.15s ease,
     color 0.15s ease,

@@ -8,7 +8,7 @@ interface HeaderNavContainerProps {
 
 const HeaderNavContainer = styled.nav<HeaderNavContainerProps>`
   position: fixed;
-  margin-top: 65px;
+  margin-top: 67px;
   left: 50%;
   transform: translateX(-50%);
   opacity: ${({ $hide }) => ($hide ? 0 : 1)};
@@ -22,12 +22,11 @@ const NavItem = styled(NavLink)`
   position: relative;
   color: #999;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   padding: 8px 12px;
-
+  font-weight: 500;
   &.active {
     color: #6c5ce7;
-    font-weight: 700;
   }
 
   &::after {
