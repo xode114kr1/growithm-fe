@@ -39,6 +39,7 @@ const Logo = styled.div`
   color: #6c5ce7;
   cursor: pointer;
   transition: 300ms ease-in;
+  font-family: "Space Grotesk", sans-serif;
 
   &:hover {
     transform: translateY(-55%) translateX(-50%);
