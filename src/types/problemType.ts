@@ -12,6 +12,8 @@ export interface getProblemListParams {
   state?: string;
   size?: number;
   page?: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface Problem {

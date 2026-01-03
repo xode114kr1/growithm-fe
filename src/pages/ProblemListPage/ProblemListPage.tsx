@@ -319,6 +319,8 @@ const ProblemListPage = () => {
     tier,
     state: queryState,
     page: page,
+    startDate,
+    endDate,
   });
 
   const { data: problemList, totalPages } = data ?? {
