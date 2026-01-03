@@ -4,6 +4,8 @@ import studyImg from "../../assets/study_poster_img.png";
 import githubImg from "../../assets/github_poster_img.png";
 import formImg from "../../assets/form_poster_img.png";
 import { GITHUB_AUTH_URL } from "../../shared/api/auth";
+import { useEffect } from "react";
+import axios from "axios";
 
 interface ExplainBoxProps {
   direction: "left" | "right";
@@ -144,6 +146,13 @@ const RecommedButton = styled.button`
 `;
 
 const HomePage = () => {
+  useEffect(() => {
+    const test1 = async () => {
+      const res = await axios.get("https://growithm-be.duckdns.org");
+      console.log("dddd", res.data.message);
+    };
+    test1();
+  }, []);
   return (
     <HomePageContainer>
       <HomeBanner>
