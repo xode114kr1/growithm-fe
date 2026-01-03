@@ -18,7 +18,7 @@ export async function login(code: string): Promise<{ data: User }> {
     { code },
     { withCredentials: true }
   );
-
+  console.log(res.data);
   return res.data;
 }
 
