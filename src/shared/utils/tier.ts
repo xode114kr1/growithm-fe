@@ -64,6 +64,22 @@ export const TIER_RULES: {
   },
 ];
 
+// 문제 티어
+
+export function getProblemTier(problem: Problem): GrowithmTierType {
+  if (problem?.platform == "beakjoon") {
+    return problem.tier.split(" ")[0].toLowerCase() as GrowithmTierType;
+  } else if (problem?.platform == "programmers") {
+    if (problem.tier == "level 1") return "bronze";
+    if (problem.tier == "level 2") return "silver";
+    if (problem.tier == "level 3") return "gold";
+    if (problem.tier == "level 4") return "platinum";
+  }
+  return "bronze";
+}
+
+// 스터디 티어
+
 export function calculateStudyTier(score: number): GrowithmTierType {
   const rule = STUDY_TIER_RULES.find((r) => score < r.maxScore);
   return rule?.tier ?? "bronze";
@@ -78,24 +94,14 @@ export function getStudyTierMaxScore(score: number): number {
   return rule?.maxScore ?? 0;
 }
 
-export function getProblemTier(problem: Problem): GrowithmTierType {
-  if (problem?.platform == "beakjoon") {
-    return problem.tier.split(" ")[0].toLowerCase() as GrowithmTierType;
-  } else if (problem?.platform == "programmers") {
-    if (problem.tier == "level 1") return "bronze";
-    if (problem.tier == "level 2") return "silver";
-    if (problem.tier == "level 3") return "gold";
-    if (problem.tier == "level 4") return "platinum";
-  }
-  return "bronze";
-}
-
 export function getStudyPrograss(score: number): number {
   const maxScore = getStudyTierMaxScore(score);
 
   if (maxScore == Infinity) return 100;
   return Math.floor((score / (maxScore + 1)) * 100);
 }
+
+// 개인 티어
 
 export function calculateTier(score: number): GrowithmTierType {
   const rule = TIER_RULES.find((r) => score < r.maxScore);
@@ -109,4 +115,11 @@ export function getTierRule(score: number) {
 export function getTierMaxScore(score: number): number {
   const rule = getTierRule(score);
   return rule?.maxScore ?? 0;
+}
+
+export function getPrograss(score: number): number {
+  const maxScore = getTierMaxScore(score);
+
+  if (maxScore == Infinity) return 100;
+  return Math.floor((score / (maxScore + 1)) * 100);
 }
