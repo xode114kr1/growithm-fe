@@ -132,12 +132,6 @@ const ImageFrame = styled.div`
   }
 `;
 
-const ImageLabel = styled.div`
-  margin-top: 6px;
-  font-size: 12px;
-  color: #64748b;
-`;
-
 const FormContainer = styled.div`
   margin-top: 16px;
   display: flex;
@@ -259,7 +253,6 @@ const MenualPage = () => {
           <StepRight>
             <ImageFrame>
               <img src={createRepoImg} alt="깃허브 레포 생성 화면 예시" />
-              <ImageLabel>이미지: 깃허브 레포 생성 스크린샷</ImageLabel>
             </ImageFrame>
           </StepRight>
         </StepCard>
@@ -278,6 +271,11 @@ const MenualPage = () => {
               2) &ldquo;Chrome에 추가&rdquo; / &ldquo;브라우저에 추가&rdquo;를 클릭하여 설치합니다.
               <br />
               3) 설치 후, 확장 프로그램 옵션에서 방금 만든 GitHub Repo와 연동해 주세요.
+              <br />
+              4) <b>&ldquo;Pick an Option&rdquo;</b> 항목에서
+              <b>1단계에서 생성한 GitHub Repository</b>를 선택합니다.
+              <br />
+              5) <b>&ldquo;Organize by platform&rdquo;</b> 옵션을 선택합니다.
             </StepText>
 
             <LinkButton
@@ -294,7 +292,6 @@ const MenualPage = () => {
           <StepRight>
             <ImageFrame>
               <img src={beakjoonHubImg} alt="백준 허브 확장프로그램 설치/연동 예시" />
-              <ImageLabel>이미지: 백준 허브 설치 및 Repo 연동 과정 (GIF 권장)</ImageLabel>
             </ImageFrame>
           </StepRight>
         </StepCard>
