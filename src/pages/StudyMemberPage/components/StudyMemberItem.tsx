@@ -55,7 +55,7 @@ const NameRow = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
   color: #111827;
 
@@ -66,7 +66,7 @@ const Name = styled.div`
 
 const Badge = styled.span`
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   padding: 4px 8px;
   border-radius: 999px;
@@ -81,7 +81,7 @@ const Sub = styled.div`
   gap: 8px;
   flex-wrap: wrap;
 
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
 `;
 
@@ -105,7 +105,7 @@ const SmallButton = styled.button`
   border: 1px solid #e5e7eb;
   background: #ffffff;
   color: #111827;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 

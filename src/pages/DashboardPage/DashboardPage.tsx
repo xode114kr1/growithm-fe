@@ -66,7 +66,7 @@ const MenualButton = styled.button`
   color: #f9fafb;
   box-shadow: 0 6px 18px rgba(79, 70, 229, 0.25);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   transition:
     transform 0.08s ease-in-out,
@@ -123,19 +123,19 @@ const StatCard = styled.div`
 `;
 
 const StatLabel = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: #6b7280;
 `;
 
 const StatValue = styled.div`
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
   color: #111827;
 `;
 
 const StatSubText = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   color: #9ca3af;
 `;
 
@@ -164,13 +164,13 @@ const ChartHeader = styled.div`
 `;
 
 const ChartTitle = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #111827;
 `;
 
 const ChartSubtitle = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   color: #9ca3af;
 `;
 
@@ -204,14 +204,14 @@ const PendingListTitle = styled.div`
   background-color: #f9fafb;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #4f46e5;
   border-bottom: 1px solid #e5e7eb;
 `;
 
 const PendingListTitleBadge = styled.span`
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   padding: 2px 8px;
   border-radius: 999px;
@@ -230,7 +230,7 @@ const PendingListBox = styled.div`
 
 const EmptyPending = styled.div`
   padding: 20px 12px 24px;
-  font-size: 14px;
+  font-size: 15px;
   color: #9ca3af;
   text-align: center;
 `;

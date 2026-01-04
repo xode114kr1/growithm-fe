@@ -28,7 +28,7 @@ const PendingItemContainer = styled.div<PendingItemContainerProps>`
   background-color: #ffffff;
 
   color: #111827;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
 
   white-space: nowrap;

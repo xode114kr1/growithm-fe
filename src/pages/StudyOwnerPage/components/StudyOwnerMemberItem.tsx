@@ -53,7 +53,7 @@ const NameRow = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 900;
   color: #111827;
 
@@ -85,7 +85,7 @@ const Button = styled.button`
   border: 1px solid #e5e7eb;
   background: #ffffff;
   color: #111827;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
 
@@ -105,7 +105,7 @@ const Button = styled.button`
 
 const SmallButton = styled(Button)`
   height: 34px;
-  font-size: 13px;
+  font-size: 14px;
 `;
 
 const DangerButton = styled(Button)`

@@ -42,7 +42,7 @@ const Header = styled.div`
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 900;
   color: #0f172a;
 `;
@@ -55,7 +55,7 @@ const Body = styled.div`
 
 const Message = styled.p`
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   color: #334155;
 `;
 

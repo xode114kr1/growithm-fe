@@ -58,3 +58,50 @@ export const TIER_GRADIENT: Record<BeakjoonTierType, string> = {
   diamond: "linear-gradient(135deg, #A0FFF0, #59D6C8)",
   ruby: "linear-gradient(135deg, #FF4F7A, #B80D4F)",
 };
+
+export const TIER_CARD_STYLE: Record<
+  GrowithmTierType,
+  {
+    bg: string;
+    border: string;
+    shadow: string;
+    hoverBorder: string;
+  }
+> = {
+  bronze: {
+    bg: "linear-gradient(135deg, #FFF7ED, #FFE4C7)",
+    border: "#E6B98A",
+    hoverBorder: "#CC8846",
+    shadow: "rgba(204, 136, 70, 0.35)",
+  },
+  silver: {
+    bg: "linear-gradient(135deg, #F9FAFB, #E5E7EB)",
+    border: "#D1D5DB",
+    hoverBorder: "#9CA3AF",
+    shadow: "rgba(156, 163, 175, 0.35)",
+  },
+  gold: {
+    bg: "linear-gradient(135deg, #FFFBEB, #FEF3C7)",
+    border: "#FACC15",
+    hoverBorder: "#EAB308",
+    shadow: "rgba(234, 179, 8, 0.4)",
+  },
+  platinum: {
+    bg: "linear-gradient(135deg, #ECFEFF, #CCFBF1)",
+    border: "#5EEAD4",
+    hoverBorder: "#2DD4BF",
+    shadow: "rgba(45, 212, 191, 0.4)",
+  },
+  diamond: {
+    bg: "linear-gradient(135deg, #EFF6FF, #DBEAFE)",
+    border: "#93C5FD",
+    hoverBorder: "#3B82F6",
+    shadow: "rgba(59, 130, 246, 0.4)",
+  },
+  ruby: {
+    bg: "linear-gradient(135deg, #FFF1F2, #FFE4E6)",
+    border: "#FB7185",
+    hoverBorder: "#F43F5E",
+    shadow: "rgba(244, 63, 94, 0.45)",
+  },
+};

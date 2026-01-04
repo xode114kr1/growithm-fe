@@ -15,7 +15,7 @@ const BaseButton = styled.button`
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   background: #ffffff;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
 

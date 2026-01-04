@@ -45,7 +45,7 @@ const TitleRow = styled.div`
 
 const Title = styled.h2`
   margin: 0;
-  font-size: 26px;
+  font-size: 27px;
   font-weight: 700;
   color: #111827;
   line-height: 1.2;
@@ -54,7 +54,7 @@ const Title = styled.h2`
 
 const Author = styled.div`
   padding-left: 5px;
-  font-size: 15px;
+  font-size: 16px;
   color: #6b7280;
 `;
 
@@ -69,7 +69,7 @@ const DarkButton = styled.button`
   border-radius: 8px;
   height: 40px;
   padding: 0 14px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   transition: 200ms ease-in;
   cursor: pointer;
@@ -85,7 +85,7 @@ const CloseBtn = styled.button`
   right: 0;
   background: transparent;
   border: none;
-  font-size: 18px;
+  font-size: 19px;
   cursor: pointer;
   color: #6b7280;
 
@@ -129,7 +129,7 @@ const Tfoot = styled.tfoot`
 
   td {
     padding: 10px 12px;
-    font-size: 14px;
+    font-size: 15px;
     color: #374151;
   }
 
@@ -153,14 +153,14 @@ const ProblemBody = styled.div`
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   background-color: #f9fafb;
-  font-size: 14px;
+  font-size: 15px;
   color: #374151;
   line-height: 1.6;
 `;
 
 const SectionTitle = styled.h3`
   margin: 0;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #111827;
 `;
@@ -172,7 +172,7 @@ const CodeBlock = styled.pre`
   border: 1px solid #e5e7eb;
   background-color: #111827;
   color: #e5e7eb;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.35;
   overflow: auto;
   font-family:
@@ -188,7 +188,7 @@ const MemoTextarea = styled.div`
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   background-color: #f9fafb;
-  font-size: 14px;
+  font-size: 15px;
   color: #111827;
   resize: vertical;
   line-height: 1.5;

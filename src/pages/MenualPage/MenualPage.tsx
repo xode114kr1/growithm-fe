@@ -21,13 +21,13 @@ const MenualPageContainer = styled.section`
 `;
 
 const PageTitle = styled.h1`
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 700;
   margin-bottom: 8px;
 `;
 
 const PageDescription = styled.p`
-  font-size: 15px;
+  font-size: 16px;
   color: #666;
   line-height: 1.6;
 `;
@@ -65,7 +65,7 @@ const StepBadge = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 999px;
@@ -75,13 +75,13 @@ const StepBadge = styled.div`
 `;
 
 const StepTitle = styled.h2`
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 700;
   margin-bottom: 10px;
 `;
 
 const StepText = styled.p`
-  font-size: 14px;
+  font-size: 15px;
   color: #555;
   line-height: 1.7;
   white-space: pre-line;
@@ -93,7 +93,7 @@ const LinkButton = styled.a`
   justify-content: center;
   margin-top: auto;
   padding: 8px 14px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: 999px;
   border: 1px solid #6c5ce7;
@@ -120,7 +120,7 @@ const ImageFrame = styled.div`
   justify-content: center;
   padding: 12px;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   color: #94a3b8;
   overflow: hidden;
 
@@ -132,12 +132,6 @@ const ImageFrame = styled.div`
   }
 `;
 
-const ImageLabel = styled.div`
-  margin-top: 6px;
-  font-size: 11px;
-  color: #64748b;
-`;
-
 const FormContainer = styled.div`
   margin-top: 16px;
   display: flex;
@@ -147,7 +141,7 @@ const FormContainer = styled.div`
 `;
 
 const FieldLabel = styled.label`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #374151;
 `;
@@ -156,7 +150,7 @@ const TextInput = styled.input`
   width: 100%;
   height: 38px;
   padding: 0 10px;
-  font-size: 13px;
+  font-size: 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   outline: none;
@@ -177,7 +171,7 @@ const SubmitButton = styled.button`
   height: 38px;
   border-radius: 999px;
   border: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   background: #6c5ce7;
@@ -201,7 +195,7 @@ const SubmitButton = styled.button`
 `;
 
 const HelperText = styled.p`
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
   line-height: 1.6;
   margin-top: 4px;
@@ -259,7 +253,6 @@ const MenualPage = () => {
           <StepRight>
             <ImageFrame>
               <img src={createRepoImg} alt="깃허브 레포 생성 화면 예시" />
-              <ImageLabel>이미지: 깃허브 레포 생성 스크린샷</ImageLabel>
             </ImageFrame>
           </StepRight>
         </StepCard>
@@ -278,6 +271,11 @@ const MenualPage = () => {
               2) &ldquo;Chrome에 추가&rdquo; / &ldquo;브라우저에 추가&rdquo;를 클릭하여 설치합니다.
               <br />
               3) 설치 후, 확장 프로그램 옵션에서 방금 만든 GitHub Repo와 연동해 주세요.
+              <br />
+              4) <b>&ldquo;Pick an Option&rdquo;</b> 항목에서
+              <b>1단계에서 생성한 GitHub Repository</b>를 선택합니다.
+              <br />
+              5) <b>&ldquo;Organize by platform&rdquo;</b> 옵션을 선택합니다.
             </StepText>
 
             <LinkButton
@@ -294,7 +292,6 @@ const MenualPage = () => {
           <StepRight>
             <ImageFrame>
               <img src={beakjoonHubImg} alt="백준 허브 확장프로그램 설치/연동 예시" />
-              <ImageLabel>이미지: 백준 허브 설치 및 Repo 연동 과정 (GIF 권장)</ImageLabel>
             </ImageFrame>
           </StepRight>
         </StepCard>

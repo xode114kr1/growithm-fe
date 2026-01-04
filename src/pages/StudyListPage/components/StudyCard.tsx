@@ -2,22 +2,27 @@
 import styled from "styled-components";
 import type { Study } from "../../../types/studyType";
 import { useNavigate } from "react-router-dom";
+import type { GrowithmTierType } from "../../../types/problemType";
+import { TIER_CARD_STYLE } from "../../../shared/styles/palette";
+import { calculateStudyTier } from "../../../shared/utils/tier";
 
 interface StudyCardProps {
   study: Study;
 }
 
-const Card = styled.button`
+interface CardProps {
+  tier: GrowithmTierType;
+}
+
+export const Card = styled.button<CardProps>`
   width: 100%;
   text-align: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-
   border-radius: 16px;
   padding: 20px 18px;
-  background: linear-gradient(135deg, #f9fafb, #eef2ff);
-  border: 1px solid #e5e7eb;
+  cursor: pointer;
+
+  background: ${({ tier }) => TIER_CARD_STYLE[tier].bg};
+  border: 1px solid ${({ tier }) => TIER_CARD_STYLE[tier].border};
 
   display: flex;
   flex-direction: column;
@@ -30,19 +35,23 @@ const Card = styled.button`
 
   &:hover {
     transform: translateY(-3px);
-    border-color: #a5b4fc;
-    box-shadow: 0 12px 26px rgba(129, 140, 248, 0.25);
+    border-color: ${({ tier }) => TIER_CARD_STYLE[tier].hoverBorder};
+    box-shadow: 0 14px 30px ${({ tier }) => TIER_CARD_STYLE[tier].shadow};
+  }
+
+  &:active {
+    transform: translateY(-1px);
   }
 `;
 
 const StudyName = styled.div`
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #111827;
 `;
 
 const StudyExplanation = styled.p`
-  font-size: 14px;
+  font-size: 15px;
   color: #6b7280;
   line-height: 1.5;
   min-height: 40px;
@@ -53,7 +62,7 @@ const StudyMetaRow = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
@@ -65,7 +74,7 @@ const MemberBadge = styled.span`
 `;
 
 const OwnerText = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   color: #4b5563;
   font-weight: 500;
 `;
@@ -73,7 +82,10 @@ const OwnerText = styled.span`
 const StudyCard = ({ study }: StudyCardProps) => {
   const navigate = useNavigate();
   return (
-    <Card onClick={() => navigate(`${study?._id}/overview`)}>
+    <Card
+      tier={calculateStudyTier(study?.score)}
+      onClick={() => navigate(`${study?._id}/overview`)}
+    >
       <StudyName>{study?.title}</StudyName>
       <StudyExplanation>{study?.explanation}</StudyExplanation>
       <StudyMetaRow>

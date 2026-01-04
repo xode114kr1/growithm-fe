@@ -45,7 +45,7 @@ const Header = styled.header`
 
 const Title = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
   color: #111827;
 `;
@@ -102,13 +102,13 @@ const CardHeader = styled.div`
 `;
 
 const CardTitle = styled.span`
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: #111827;
 `;
 
 const CardHint = styled.span`
-  font-size: 12px;
+  font-size: 13px;
   color: #9ca3af;
 `;
 
@@ -133,12 +133,12 @@ const StatCard = styled.div`
 `;
 
 const StatLabel = styled.span`
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
 `;
 
 const StatValue = styled.span`
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #111827;
 `;
@@ -154,7 +154,7 @@ const ProblemRow = styled.div`
   align-items: center;
   gap: 8px;
 
-  font-size: 13px;
+  font-size: 14px;
   color: #374151;
 `;
 
@@ -194,12 +194,12 @@ const TierCard = styled.div<{ tier: GrowithmTierType }>`
 `;
 
 const TierLabel = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   opacity: 0.9;
 `;
 
 const TierName = styled.span`
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
 `;
 
@@ -218,7 +218,7 @@ const ProgressScore = styled.div`
   display: flex;
   justify-content: space-between;
 
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   font-weight: div {
     line-height: 1;
@@ -251,13 +251,13 @@ const MemberHeader = styled.div`
 `;
 
 const MemberTitle = styled.span`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #111827;
 `;
 
 const MemberCount = styled.span`
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
 `;
 
@@ -295,13 +295,13 @@ const MemberInfo = styled.div`
 `;
 
 const MemberName = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #111827;
 `;
 
 const MemberRole = styled.span`
-  font-size: 11px;
+  font-size: 12px;
   color: #6b7280;
 `;
 

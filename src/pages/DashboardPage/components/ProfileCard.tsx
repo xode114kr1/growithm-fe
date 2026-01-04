@@ -3,6 +3,7 @@ import { useAuthStore } from "../../../stores/authStore";
 import { calculateTier } from "../../../shared/utils/tier";
 import type { BeakjoonTierType } from "../../../types/problemType";
 import { TIER_GRADIENT } from "../../../shared/styles/palette";
+import TierProgressHover, { ProgressCard } from "./TierProgressHover";
 
 interface ProfileProps {
   src?: string;
@@ -39,19 +40,20 @@ const ProfileImg = styled.div<ProfileProps>`
 `;
 
 const ProfileName = styled.div`
-  font-size: 23px;
+  font-size: 24px;
   font-weight: 500;
   color: #2d3436;
 `;
 
 const ProfileRepo = styled.div`
   flex: 1;
-  font-size: 16px;
+  font-size: 17px;
   color: #866e72;
   margin-bottom: 15px;
 `;
 
 const TierContainer = styled.div<TierContainerProps>`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,9 +61,13 @@ const TierContainer = styled.div<TierContainerProps>`
   height: 40px;
   background: ${({ tier }) => TIER_GRADIENT[tier] || TIER_GRADIENT.bronze};
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 500;
   color: white;
+
+  &:hover ${ProgressCard} {
+    display: block;
+  }
 `;
 
 const ProfileCard = () => {
@@ -73,7 +79,10 @@ const ProfileCard = () => {
       <ProfileImg src={user?.avatarUrl} />
       <ProfileName>{user?.name}</ProfileName>
       <ProfileRepo>{user?.repo}</ProfileRepo>
-      <TierContainer tier={tier}>{tier}</TierContainer>
+      <TierContainer tier={tier}>
+        {tier}
+        <TierProgressHover score={user?.score || 0} />
+      </TierContainer>
     </ProfileCardContainer>
   );
 };

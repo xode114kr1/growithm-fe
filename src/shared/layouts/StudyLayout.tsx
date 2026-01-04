@@ -43,7 +43,7 @@ const StudyHeader = styled.header`
 
 const StudyTitle = styled.h1`
   margin: 0;
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 700;
   color: #111827;
 `;
@@ -67,7 +67,7 @@ const NavColumn = styled.nav`
 `;
 
 const NavLabel = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   color: #9ca3af;
   margin-bottom: 2px;
 `;
@@ -85,7 +85,7 @@ const NavItem = styled(NavLink)`
 
   padding: 8px 12px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 
   color: #4b5563;

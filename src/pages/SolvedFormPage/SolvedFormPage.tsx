@@ -25,7 +25,7 @@ const SolvedFormContainer = styled.section`
 const TitleText = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 40px;
+  font-size: 45px;
   border-bottom: 1px solid #d1d5db;
   width: 100%;
   color: #111827;
@@ -46,7 +46,7 @@ const TitleButton = styled.button`
   border-radius: 8px;
   width: 70px;
   height: 40px;
-  font-size: 16px;
+  font-size: 17px;
   transition: 200ms ease-in;
 
   &:hover {
@@ -78,7 +78,7 @@ const Tfoot = styled.tfoot`
 
   td {
     padding: 12px;
-    font-size: 14px;
+    font-size: 15px;
     color: #374151;
   }
 
@@ -95,7 +95,7 @@ const Section = styled.section`
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 600;
   color: #111827;
   margin-bottom: 12px;
@@ -107,7 +107,7 @@ const ProblemBody = styled.div`
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   background-color: #f9fafb;
-  font-size: 14px;
+  font-size: 15px;
   color: #374151;
   line-height: 1.6;
 `;
@@ -119,7 +119,7 @@ const CodeBlock = styled.pre`
   border: 1px solid #e5e7eb;
   background-color: #111827;
   color: #e5e7eb;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.3;
   overflow: auto;
   font-family:
@@ -135,7 +135,7 @@ const MemoTextarea = styled.textarea`
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   background-color: #f9fafb;
-  font-size: 14px;
+  font-size: 15px;
   color: #111827;
   resize: vertical;
   line-height: 1.5;
@@ -161,7 +161,7 @@ const SaveButton = styled.button`
   color: white;
   border-radius: 8px;
   height: 40px;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
   transition: 200ms ease-in;
 
