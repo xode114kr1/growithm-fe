@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetProblemList } from "../../shared/hooks/useProblem";
 import ProblemItem from "./components/ProblemItem";
 import ProblemPagination from "./components/ProblemPagination";
+import { useLocation, useNavigate } from "react-router-dom";
+import type { ProblemState } from "../../types/problemType";
 
 const ProblemListPageContainer = styled.section`
   width: 80%;
@@ -13,7 +15,7 @@ const ProblemListPageContainer = styled.section`
   flex-direction: column;
   gap: 20px;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     width: 90%;
   }
 
@@ -37,7 +39,7 @@ const FilterContainer = styled.div`
   border: 1px solid #e5e7eb;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     flex-direction: column;
     align-items: stretch;
     padding: 12px 12px;
@@ -45,12 +47,12 @@ const FilterContainer = styled.div`
   }
 `;
 
-const DropdownContainer = styled.div`
+const LeftFilterArea = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     width: 100%;
     align-items: stretch;
     justify-content: space-between;
@@ -80,7 +82,7 @@ const DropdownMenu = styled.select`
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     flex: 1;
     width: 100%;
   }
@@ -103,6 +105,24 @@ const RightFilterArea = styled.div`
 
   @media (max-width: 480px) {
     flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+  }
+`;
+
+const DropdownFilterRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
     align-items: stretch;
     gap: 8px;
   }
@@ -167,7 +187,7 @@ const TextInput = styled.input`
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     width: 100%;
   }
 
@@ -192,12 +212,104 @@ const StatusMessage = styled.div`
   text-align: center;
 `;
 
+const DateFilterRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+`;
+
+const DateRange = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  @media (max-width: 1440px) {
+    flex: 2;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+`;
+
+const DateInput = styled.input`
+  height: 36px;
+  min-width: 148px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  color: #111827;
+  background: #ffffff;
+  outline: none;
+
+  &:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
+  }
+
+  @media (max-width: 1440px) {
+    min-width: 0;
+    width: 100%;
+  }
+`;
+
+const DateDash = styled.span`
+  font-size: 12px;
+  color: #6b7280;
+  user-select: none;
+`;
+import { AiOutlineReload } from "react-icons/ai";
+const AiOutlineReloadButton = styled(AiOutlineReload)`
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  flex: 0 0 auto;
+  cursor: pointer;
+  border-radius: 50%;
+  transition:
+    transform 300ms ease-in,
+    background-color 150ms ease-in;
+
+  &:hover {
+    transform: rotate(180deg);
+    background-color: #f0f0f0;
+  }
+`;
+
 const ProblemListPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const initialState: ProblemState = location.state?.initialState ?? "all";
+  const initalIsToday: boolean = location.state?.initalIsToday ?? false;
+  const date = new Date();
+
   const [inputText, setInputText] = useState<string>("");
   const [platform, setPlatform] = useState<string>("");
   const [tier, setTier] = useState<string>("");
-  const [state, setState] = useState<"all" | "pending" | "solved">("all");
+  const [state, setState] = useState<ProblemState>(initialState);
   const [page, setPage] = useState<number>(1);
+  const [startDate, setStartDate] = useState<string>(
+    initalIsToday ? date.toISOString().slice(0, 10) : ""
+  );
+  const [endDate, setEndDate] = useState<string>(
+    initalIsToday ? date.toISOString().slice(0, 10) : ""
+  );
 
   const queryState = state === "all" ? "" : state;
 
@@ -207,6 +319,8 @@ const ProblemListPage = () => {
     tier,
     state: queryState,
     page: page,
+    startDate,
+    endDate,
   });
 
   const { data: problemList, totalPages } = data ?? {
@@ -228,29 +342,68 @@ const ProblemListPage = () => {
 
   const problemCount = data?.total ?? 0;
 
+  useEffect(() => {
+    if (location.state) {
+      navigate(location.pathname + location.search, {
+        replace: true,
+        state: null,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Wapper>
       <ProblemListPageContainer>
         <FilterContainer>
-          <DropdownContainer>
-            <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
-              <option value="">전체 플랫폼</option>
-              {platformCategory?.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </DropdownMenu>
+          <LeftFilterArea>
+            <DropdownFilterRow>
+              <DropdownMenu value={platform} onChange={(e) => setPlatform(e.target.value)}>
+                <option value="">전체 플랫폼</option>
+                {platformCategory?.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </DropdownMenu>
 
-            <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
-              <option value="">전체 티어</option>
-              {tierCategory?.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </DropdownMenu>
-          </DropdownContainer>
+              <DropdownMenu value={tier} onChange={(e) => setTier(e.target.value)}>
+                <option value="">전체 티어</option>
+                {tierCategory?.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </DropdownMenu>
+            </DropdownFilterRow>
+
+            <DateFilterRow>
+              <DateRange>
+                <DateInput
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => {
+                    setStartDate(e.target.value);
+                  }}
+                />
+                <DateDash>—</DateDash>
+                <DateInput
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => {
+                    setEndDate(e.target.value);
+                  }}
+                />
+                <AiOutlineReloadButton
+                  size={30}
+                  onClick={() => {
+                    setStartDate("");
+                    setEndDate("");
+                  }}
+                />
+              </DateRange>
+            </DateFilterRow>
+          </LeftFilterArea>
 
           <RightFilterArea>
             <StateFilterGroup>

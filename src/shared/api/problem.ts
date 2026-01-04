@@ -9,9 +9,11 @@ export async function getProblemList({
   state,
   size,
   page,
+  startDate,
+  endDate,
 }: getProblemListParams) {
   const res = await apiClient.get("/problem", {
-    params: { title, platform, tier, state, page, size },
+    params: { title, platform, tier, state, page, size, startDate, endDate },
   });
   return res.data;
 }
