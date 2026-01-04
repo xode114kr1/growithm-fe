@@ -52,7 +52,7 @@ const ProblemTitleRow = styled.div`
 const ProblemTitleText = styled.div`
   flex: 1;
   min-width: 0;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 600;
   color: #111827;
 
@@ -71,7 +71,7 @@ const TierInfo = styled.div<TierInfoProps>`
   background-color: ${({ tier }) => TIER_TINT[tier]};
   border-radius: 10px;
 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: ${({ tier }) => TIER_COLOR[tier]};
 `;
@@ -81,7 +81,7 @@ const ProblemSub = styled.div`
   flex-wrap: wrap;
   gap: 6px;
 
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
@@ -93,7 +93,7 @@ const CategoryChip = styled.span`
   border: 1px solid rgba(108, 92, 231, 0.3);
   color: #6c5ce7;
 
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 `;
 
@@ -106,7 +106,7 @@ const ProblemInfo = styled.div`
   align-items: center;
   gap: 10px;
 
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
   border-top: 1px solid #e5e7eb;
 
@@ -139,7 +139,7 @@ const WriteButton = styled.button<WriteButtonProps>`
   color: ${({ state }) => (state === "pending" ? "#ffffff" : "#6c5ce7")};
   border: ${({ state }) => (state === "pending" ? "none" : `1px solid #6c5ce7`)};
 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 

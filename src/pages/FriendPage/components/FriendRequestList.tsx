@@ -50,7 +50,7 @@ const RequestInfo = styled.div`
 `;
 
 const RequestName = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #111827;
 `;
@@ -70,7 +70,7 @@ const AcceptButton = styled.button`
   border-radius: 999px;
   border: 1px solid #4f46e5;
   background: #4f46e5;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #f9fafb;
   cursor: pointer;
@@ -99,7 +99,7 @@ const RejectButton = styled.button`
   border-radius: 999px;
   border: 1px solid #e5e7eb;
   background: #f9fafb;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #4b5563;
   cursor: pointer;

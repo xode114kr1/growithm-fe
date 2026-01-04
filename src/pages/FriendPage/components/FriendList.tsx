@@ -51,13 +51,13 @@ const FriendInfo = styled.div`
 `;
 
 const FriendName = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #111827;
 `;
 
 const FriendMeta = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
@@ -66,7 +66,7 @@ const EmptyState = styled.div`
   border-radius: 14px;
   border: 1px dashed #e5e7eb;
   background-color: #f9fafb;
-  font-size: 14px;
+  font-size: 15px;
   color: #6b7280;
   text-align: center;
 `;

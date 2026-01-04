@@ -39,7 +39,7 @@ const ModalHeader = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #111827;
 `;
@@ -48,7 +48,7 @@ const CloseButton = styled.button`
   border: none;
   outline: none;
   background: transparent;
-  font-size: 18px;
+  font-size: 19px;
   cursor: pointer;
   color: #6b7280;
 
@@ -78,13 +78,13 @@ const LabelRow = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #374151;
 `;
 
 const LabelSub = styled.span`
-  font-size: 11px;
+  font-size: 12px;
   color: #9ca3af;
 `;
 
@@ -93,7 +93,7 @@ const TextInput = styled.input`
   padding: 9px 11px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
-  font-size: 13px;
+  font-size: 14px;
   background: #ffffff;
   outline: none;
 
@@ -110,7 +110,7 @@ const TextArea = styled.textarea`
   padding: 9px 11px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
-  font-size: 13px;
+  font-size: 14px;
   background: #ffffff;
   outline: none;
 
@@ -149,7 +149,7 @@ const SmallInput = styled.input`
   padding: 7px 9px;
   border-radius: 9px;
   border: 1px solid #e5e7eb;
-  font-size: 12px;
+  font-size: 13px;
   background: #f9fafb;
   outline: none;
 
@@ -163,7 +163,7 @@ const SmallButton = styled.button`
   padding: 7px 10px;
   border-radius: 9px;
   border: none;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
@@ -243,7 +243,7 @@ const UserInfo = styled.div`
 `;
 
 const UserName = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #111827;
 `;
@@ -252,7 +252,7 @@ const RemoveButton = styled.button<{ selected?: boolean }>`
   border-radius: 999px;
   border: none;
   padding: 4px 10px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
@@ -268,7 +268,7 @@ const AddButton = styled.button<{ selected?: boolean }>`
   border-radius: 999px;
   border: none;
   padding: 4px 10px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
@@ -291,7 +291,7 @@ const ModalFooter = styled.div`
 const CancelButton = styled.button`
   border-radius: 999px;
   padding: 8px 14px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   border: none;
   background: #e5e7eb;
@@ -306,7 +306,7 @@ const CancelButton = styled.button`
 const PrimaryButton = styled.button`
   border-radius: 999px;
   padding: 8px 16px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   border: none;
   background: linear-gradient(135deg, #6366f1, #8b5cf6);

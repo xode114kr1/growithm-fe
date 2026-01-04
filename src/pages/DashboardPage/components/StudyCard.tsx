@@ -47,7 +47,7 @@ const StudyTextArea = styled.div`
 
 const StudyTitle = styled.div`
   width: 100%;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: #111827;
   overflow: hidden;
@@ -56,13 +56,13 @@ const StudyTitle = styled.div`
 `;
 
 const StudyLeader = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
 const StudyMeta = styled.div`
   margin-top: 2px;
-  font-size: 12px;
+  font-size: 13px;
   color: #9ca3af;
 `;
 

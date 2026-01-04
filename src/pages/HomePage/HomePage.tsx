@@ -47,12 +47,12 @@ const BannerInfoContainer = styled.div`
 `;
 
 const TitleInfo = styled.div`
-  font-size: 70px;
+  font-size: 60px;
   color: #2d3436;
 `;
 
 const SubInfo = styled.div`
-  font-size: 17px;
+  font-size: 18px;
   color: #866e72;
   padding-left: 10px;
 `;
@@ -65,7 +65,7 @@ const StartButton = styled.button`
   width: 100px;
   height: 40px;
   border-radius: 15px;
-  font-size: 16px;
+  font-size: 17px;
   color: #f0f0f0;
   cursor: pointer;
   transition: 0.3s ease-in;
@@ -102,11 +102,11 @@ const ExplainTextContainer = styled.div`
 `;
 const ExplainTitle = styled.span`
   color: #6c5ce7;
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 500;
 `;
 const ExplainSub = styled.span`
-  font-size: 16px;
+  font-size: 17px;
   color: #866e72;
 `;
 
@@ -122,8 +122,8 @@ const RecommendContainer = styled.section`
 
 const RecommendTitle = styled.span`
   text-align: center;
-  font-size: 50px;
-  font-weight: 400;
+  font-size: 55px;
+  font-weight: 600;
   color: #2d3436;
   margin-bottom: 30px;
 `;
@@ -134,7 +134,7 @@ const RecommedButton = styled.button`
   border: none;
   border-radius: 8px;
   background-color: #6c5ce7;
-  font-size: 17px;
+  font-size: 18px;
   color: #f0f0f0;
   transition: 300ms ease-in;
 

@@ -49,7 +49,7 @@ const Main = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: #111827;
 
@@ -61,7 +61,7 @@ const Title = styled.div`
 const Sub = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
   display: flex;
   gap: 8px;
@@ -86,7 +86,7 @@ const TierInfo = styled.div<TierInfoProps>`
   background-color: ${({ tier }) => TIER_TINT[tier]};
   border-radius: 10px;
 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: ${({ tier }) => TIER_COLOR[tier]};
 `;

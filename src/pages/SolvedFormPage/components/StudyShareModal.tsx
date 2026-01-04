@@ -115,13 +115,13 @@ const TitleBox = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #111827;
 `;
 
 const SubTitle = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
@@ -189,13 +189,13 @@ const RowTop = styled.div`
 `;
 
 const RowTitle = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: #111827;
 `;
 
 const Pill = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   padding: 6px 8px;
   border-radius: 999px;
   background: #f3f4f6;
@@ -204,7 +204,7 @@ const Pill = styled.div`
 `;
 
 const RowDesc = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   color: #4b5563;
 `;
 

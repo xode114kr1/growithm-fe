@@ -66,13 +66,13 @@ const NameRow = styled.div`
 
 const Name = styled.h3`
   margin: 0;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
   color: #111827;
 `;
 
 const Handle = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 `;
 
@@ -82,7 +82,7 @@ const CloseBtn = styled.button`
   right: 0;
   background: transparent;
   border: none;
-  font-size: 18px;
+  font-size: 19px;
   cursor: pointer;
   color: #6b7280;
 
@@ -107,13 +107,13 @@ const Stat = styled.div`
 `;
 
 const Value = styled.div`
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #111827;
 `;
 
 const Label = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
 `;
 
@@ -129,7 +129,7 @@ const TierContainer = styled.div<TierContainerProps>`
   height: 40px;
   background: ${({ tier }) => TIER_GRADIENT[tier] || TIER_GRADIENT.bronze};
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 500;
   color: white;
 `;

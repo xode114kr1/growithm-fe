@@ -41,14 +41,14 @@ const SideNavHeader = styled.header`
 `;
 
 const Brand = styled.div`
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
   letter-spacing: 0.03em;
   color: #6c5ce7;
 `;
 
 const NavSectionTitle = styled.div`
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   color: #6b7280;
@@ -74,7 +74,7 @@ const NavItem = styled(NavLink)`
   border-radius: 12px;
   text-decoration: none;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 
   color: #2d3436;
@@ -98,13 +98,13 @@ const NavItem = styled(NavLink)`
 `;
 
 const NavLabel = styled.span`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 `;
 
 const SideNavFooter = styled.footer`
   margin-top: auto;
-  font-size: 11px;
+  font-size: 12px;
   color: #6b7280;
   padding-top: 16px;
   border-top: 1px solid #e5e7eb;
@@ -125,19 +125,19 @@ const EmptyState = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   color: #4b5563;
 `;
 
 const EmptyTitle = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #111827;
 `;
 
 const EmptyText = styled.p`
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   color: #6b7280;
 `;
@@ -149,7 +149,7 @@ const LoginButton = styled.button`
 
   padding: 6px 12px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   text-decoration: none;
 

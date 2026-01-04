@@ -27,7 +27,7 @@ const Header = styled.header`
 
 const Title = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
   color: #111827;
 `;
@@ -46,7 +46,7 @@ const Card = styled.section`
 
 const CardTitle = styled.h3`
   margin: 0;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
   color: #111827;
 `;
@@ -68,7 +68,7 @@ const TextInput = styled.input`
   height: 38px;
   border-radius: 999px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
+  font-size: 15px;
   padding: 0 14px;
   color: #111827;
   background: #ffffff;
@@ -96,7 +96,7 @@ const Button = styled.button`
   border: 1px solid #e5e7eb;
   background: #ffffff;
   color: #111827;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
 
@@ -138,7 +138,7 @@ const DangerButton = styled(Button)`
 
 const Helper = styled.p`
   margin: 0;
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
   line-height: 1.5;
 `;

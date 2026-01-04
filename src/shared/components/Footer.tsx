@@ -16,7 +16,7 @@ const TitleInfo = styled.span`
 
 const TextInfo = styled.span`
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   color: #866e72;
 `;
 
