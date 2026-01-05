@@ -1,4 +1,4 @@
-import { apiClient, setAccessToken } from "./index";
+import { apiClient } from "./index";
 import type { User } from "../../types/userType";
 
 const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
@@ -18,7 +18,8 @@ export async function login(code: string): Promise<{ data: User }> {
     { code },
     { withCredentials: true }
   );
-  setAccessToken(res.data.accessToken);
+  sessionStorage.setItem("accessToken", res.data.accessToken);
+
   return res.data;
 }
 
