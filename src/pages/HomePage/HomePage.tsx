@@ -4,6 +4,7 @@ import studyImg from "../../assets/study_poster_img.png";
 import githubImg from "../../assets/github_poster_img.png";
 import formImg from "../../assets/form_poster_img.png";
 import { GITHUB_AUTH_URL } from "../../shared/api/auth";
+import { useInView } from "../../shared/hooks/useInView";
 
 interface ExplainBoxProps {
   direction: "left" | "right";
@@ -143,8 +144,18 @@ const ExplainBox = styled.section<ExplainBoxProps>`
   align-items: center;
   gap: 24px;
   margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 600ms ease,
+    transform 600ms ease;
 
   flex-direction: ${({ direction }) => (direction === "left" ? "row" : "row-reverse")};
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   @media (max-width: ${breakpoints.md}) {
     flex-direction: column;
@@ -248,6 +259,9 @@ const RecommedButton = styled.button`
 `;
 
 const HomePage = () => {
+  const ref1 = useInView();
+  const ref2 = useInView();
+  const ref3 = useInView();
   return (
     <HomePageContainer>
       <HomeBanner>
@@ -269,7 +283,7 @@ const HomePage = () => {
       </HomeBanner>
 
       <ExplainContainer>
-        <ExplainBox direction="left">
+        <ExplainBox direction="left" ref={ref1}>
           <ExplainImg src={formImg} />
           <ExplainTextContainer>
             <ExplainTitle>문제 풀이 기록</ExplainTitle>
@@ -280,7 +294,7 @@ const HomePage = () => {
           </ExplainTextContainer>
         </ExplainBox>
 
-        <ExplainBox direction="right">
+        <ExplainBox direction="right" ref={ref2}>
           <ExplainImg src={githubImg} />
           <ExplainTextContainer>
             <ExplainTitle>Github 자동 연동</ExplainTitle>
@@ -291,7 +305,7 @@ const HomePage = () => {
           </ExplainTextContainer>
         </ExplainBox>
 
-        <ExplainBox direction="left">
+        <ExplainBox direction="left" ref={ref3}>
           <ExplainImg src={studyImg} />
           <ExplainTextContainer>
             <ExplainTitle>스터디 그룹 관리</ExplainTitle>
