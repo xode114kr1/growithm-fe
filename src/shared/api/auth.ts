@@ -13,17 +13,19 @@ export const GITHUB_AUTH_URL =
 
 export async function login(code: string): Promise<{ data: User }> {
   if (!code) throw new Error("인가 코드가 없습니다.");
-  const res = await apiClient.post<{ data: User }>(
+  const res = await apiClient.post<{ data: User; accessToken: string }>(
     "/auth/github/callback",
     { code },
     { withCredentials: true }
   );
+  sessionStorage.setItem("accessToken", res.data.accessToken);
 
   return res.data;
 }
 
 export async function logout() {
   const res = await apiClient.post("/user/logout");
+  sessionStorage.removeItem("accessToken");
   return res.data;
 }
 

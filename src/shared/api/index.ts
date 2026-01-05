@@ -8,6 +8,15 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
+apiClient.interceptors.request.use((req) => {
+  const token = sessionStorage.getItem("accessToken");
+  if (token) {
+    req.headers = req.headers ?? {};
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+  return req;
+});
+
 let toastTimer: number | null = null;
 
 apiClient.interceptors.response.use(
