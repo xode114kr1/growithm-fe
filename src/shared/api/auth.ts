@@ -25,6 +25,7 @@ export async function login(code: string): Promise<{ data: User }> {
 
 export async function logout() {
   const res = await apiClient.post("/user/logout");
+  sessionStorage.removeItem("accessToken");
   return res.data;
 }
 
