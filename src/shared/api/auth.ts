@@ -1,4 +1,4 @@
-import { apiClient } from "./index";
+import { apiClient, setAccessToken } from "./index";
 import type { User } from "../../types/userType";
 
 const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
@@ -13,12 +13,12 @@ export const GITHUB_AUTH_URL =
 
 export async function login(code: string): Promise<{ data: User }> {
   if (!code) throw new Error("인가 코드가 없습니다.");
-  const res = await apiClient.post<{ data: User }>(
+  const res = await apiClient.post<{ data: User; accessToken: string }>(
     "/auth/github/callback",
     { code },
     { withCredentials: true }
   );
-
+  setAccessToken(res.data.accessToken);
   return res.data;
 }
 
