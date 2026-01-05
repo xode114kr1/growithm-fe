@@ -16,6 +16,12 @@ const FriendPageContainer = styled.section`
   @media (max-width: 1024px) {
     width: 90%;
   }
+
+  @media (max-width: 480px) {
+    width: 92%;
+    padding: 40px 0 40px;
+    gap: 18px;
+  }
 `;
 
 const AddFriendArea = styled.div`
@@ -25,16 +31,16 @@ const AddFriendArea = styled.div`
   gap: 8px;
 `;
 
-const AddFriendLabel = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  color: #374151;
-`;
-
 const AddFriendRow = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
 `;
 
 const RequestToggle = styled.div`
@@ -42,9 +48,18 @@ const RequestToggle = styled.div`
   padding: 6px;
   border-radius: 999px;
   background-color: #e5e7eb;
+  gap: 6px;
 
   @media (max-width: 768px) {
-    align-self: flex-end;
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
@@ -66,6 +81,9 @@ const ToggleButton = styled.button<{ $active?: boolean }>`
     box-shadow 0.12s ease-in-out,
     transform 0.05s ease-in-out;
 
+  flex: 0 0 auto;
+  white-space: nowrap;
+
   &:hover {
     transform: translateY(-1px);
   }
@@ -77,7 +95,14 @@ const ToggleButton = styled.button<{ $active?: boolean }>`
 const TopRow = styled.div`
   display: flex;
   align-items: flex-end;
+  justify-content: space-between;
   gap: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
 `;
 
 const SearchBox = styled.div`
@@ -89,11 +114,14 @@ const SearchBox = styled.div`
   border: 1px solid #e5e7eb;
   background-color: #ffffff;
 
+  flex: 1;
+  min-width: 240px;
+
   input {
     border: none;
     outline: none;
     flex: 1;
-    font-size: 16px; /* 13 → 15 */
+    font-size: 16px;
     background: transparent;
     color: #111827;
 
@@ -101,6 +129,11 @@ const SearchBox = styled.div`
       color: #9ca3af;
       font-size: 16px;
     }
+  }
+
+  @media (max-width: 768px) {
+    min-width: 0;
+    width: 100%;
   }
 `;
 
@@ -135,6 +168,10 @@ const AddFriendButton = styled.button`
     transform: translateY(0);
     box-shadow: none;
   }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const Section = styled.section`
@@ -165,7 +202,6 @@ const FriendPage = () => {
       <FriendPageContainer>
         <TopRow>
           <AddFriendArea>
-            <AddFriendLabel>친구 추가</AddFriendLabel>
             <AddFriendRow>
               <SearchBox>
                 <SearchIcon>🔍</SearchIcon>
