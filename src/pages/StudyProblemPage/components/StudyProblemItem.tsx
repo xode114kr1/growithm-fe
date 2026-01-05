@@ -25,6 +25,12 @@ const StudyProblemItemContainer = styled.div`
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(79, 70, 229, 0.15);
   }
+
+  @media (max-width: 480px) {
+    align-items: flex-start;
+    padding: 12px 12px;
+    gap: 12px;
+  }
 `;
 
 interface AccentProps {
@@ -37,6 +43,10 @@ const Accent = styled.div<AccentProps>`
   border-radius: 999px;
   background: ${({ tier }) => TIER_COLOR[tier]};
   flex-shrink: 0;
+
+  @media (max-width: 480px) {
+    height: 44px;
+  }
 `;
 
 const Main = styled.div`
@@ -46,6 +56,10 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
+
+  @media (max-width: 480px) {
+    gap: 6px;
+  }
 `;
 
 const Title = styled.div`
@@ -56,6 +70,14 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: 480px) {
+    font-size: 15px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 const Sub = styled.div`
@@ -63,9 +85,13 @@ const Sub = styled.div`
   justify-content: space-between;
   font-size: 13px;
   color: #6b7280;
-  display: flex;
   gap: 8px;
   flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    justify-content: flex-start;
+  }
 `;
 
 const User = styled.span`
@@ -89,6 +115,13 @@ const TierInfo = styled.div<TierInfoProps>`
   font-size: 14px;
   font-weight: 700;
   color: ${({ tier }) => TIER_COLOR[tier]};
+
+  @media (max-width: 480px) {
+    min-width: 0;
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 999px;
+  }
 `;
 
 const StudyProblemItemCompact = ({ problem }: { problem: Problem }) => {
