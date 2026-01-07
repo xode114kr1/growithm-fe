@@ -157,8 +157,17 @@ const ProblemItemList = styled.div`
   flex-direction: column;
   flex: 1;
   gap: 10px;
-  max-height: 600px;
+
+  max-height: min(600px, calc(100vh - 280px));
   overflow: auto;
+
+  @media (max-width: 768px) {
+    max-height: calc(100vh - 320px);
+  }
+
+  @media (max-width: 480px) {
+    max-height: calc(100vh - 360px);
+  }
 `;
 
 interface StudyOutletContext {
