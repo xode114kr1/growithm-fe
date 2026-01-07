@@ -30,7 +30,7 @@ export function useGetProblemList({
   endDate,
 }: getProblemListParams) {
   return useQuery<ProblemListResponse>({
-    queryKey: ["problem-list", title, platform, tier, state, size, page, startDate, endDate],
+    queryKey: ["problem-list"],
     queryFn: async () => {
       const res = await getProblemList({
         title,
@@ -65,6 +65,7 @@ export function useSaveSolvedProblem(problemId: string) {
     mutationFn: saveSolvedProblem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
+      queryClient.invalidateQueries({ queryKey: ["problem-list"] });
     },
   });
 }
@@ -75,6 +76,7 @@ export function useEditSolvedProblem(problemId: string) {
     mutationFn: editSolvedProblem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
+      queryClient.invalidateQueries({ queryKey: ["problem-list"] });
     },
   });
 }
