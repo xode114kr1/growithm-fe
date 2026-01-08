@@ -4,11 +4,12 @@ import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
 import type { GrowithmTierType } from "../../types/problemType";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { useGetProblemList } from "../../shared/hooks/useProblem";
+import { useGetProblemInfo, useGetProblemList } from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { TIER_COLOR } from "../../shared/styles/palette";
 import { getProblemTier } from "../../shared/utils/tier";
+import { useAuthStore } from "../../stores/authStore";
 
 const DashboardContainer = styled.section`
   width: 80%;
@@ -241,18 +242,8 @@ const DashboardPage = () => {
 
   const { data: problems } = data ?? { data: [] };
 
-  const todaySolved = useMemo(() => {
-    if (!problems) return 0;
-
-    const today = new Date().toISOString().slice(0, 10);
-
-    return problems.reduce((count, problem) => {
-      if (problem.timestamp === today) {
-        return count + 1;
-      }
-      return count;
-    }, 0);
-  }, [problems]);
+  const user = useAuthStore((s) => s.user);
+  const { data: problemInfo } = useGetProblemInfo({ userId: user?._id });
 
   const pendingProblems = useMemo(() => {
     if (!problems) return [];
@@ -301,23 +292,23 @@ const DashboardPage = () => {
           <DashboardInfoContainer>
             <StatCard onClick={() => navigate("/problem")}>
               <StatLabel>All</StatLabel>
-              <StatValue>{problems?.length}</StatValue>
+              <StatValue>{problemInfo?.allProblemCount}</StatValue>
               <StatSubText>성공한 문제</StatSubText>
             </StatCard>
             <StatCard onClick={() => navigate("/problem", { state: { initalIsToday: true } })}>
               <StatLabel>Today</StatLabel>
-              <StatValue>{todaySolved}</StatValue>
+              <StatValue>{problemInfo?.todayProblemCount}</StatValue>
               <StatSubText>오늘 해결한 문제</StatSubText>
             </StatCard>
             <StatCard onClick={() => navigate("/problem", { state: { initialState: "pending" } })}>
               <StatLabel>Pending</StatLabel>
-              <StatValue>{pendingProblems?.length}</StatValue>
+              <StatValue>{problemInfo?.pendingProblemCount}</StatValue>
               <StatSubText>작성 대기 중인 문제</StatSubText>
             </StatCard>
 
             <StatCard onClick={() => navigate("/problem", { state: { initialState: "solved" } })}>
               <StatLabel>Solved</StatLabel>
-              <StatValue>{(problems?.length || 0) - pendingProblems?.length}</StatValue>
+              <StatValue>{problemInfo?.solvedProblemCount}</StatValue>
               <StatSubText>풀이 작성한 문제</StatSubText>
             </StatCard>
 
@@ -359,7 +350,7 @@ const DashboardPage = () => {
           <PendingListContainer>
             <PendingListTitle>
               보류 문제
-              <PendingListTitleBadge>{pendingProblems?.length ?? 0}개</PendingListTitleBadge>
+              <PendingListTitleBadge>{problemInfo?.pendingProblemCount}개</PendingListTitleBadge>
             </PendingListTitle>
             <PendingListBox>
               {pendingProblems && pendingProblems.length > 0 ? (
