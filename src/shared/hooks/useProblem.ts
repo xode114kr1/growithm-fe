@@ -2,12 +2,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   editSolvedProblem,
   getProblemById,
+  getProblemInfo,
   getProblemList,
   getProblemListByUserId,
   saveSolvedProblem,
   shareProblemToStudys,
 } from "../api/problem";
-import type { getProblemListParams, Problem } from "../../types/problemType";
+import type { getProblemListParams, Problem, ProblemInfo } from "../../types/problemType";
 
 export type ProblemListResponse = {
   data: Problem[];
@@ -64,6 +65,7 @@ export function useSaveSolvedProblem(problemId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
       queryClient.invalidateQueries({ queryKey: ["problem-list"] });
+      queryClient.invalidateQueries({ queryKey: ["me"] });
     },
   });
 }
@@ -98,5 +100,16 @@ export function useShareProblemToStudysMutation() {
       queryClient.invalidateQueries({ queryKey: ["study"] });
       queryClient.invalidateQueries({ queryKey: ["problem"] });
     },
+  });
+}
+
+export function useGetProblemInfo({ userId }: { userId?: string }) {
+  return useQuery<ProblemInfo>({
+    queryKey: ["user-info", { userId }],
+    queryFn: async () => {
+      const res = await getProblemInfo({ userId: userId! });
+      return res.data;
+    },
+    enabled: !!userId,
   });
 }

@@ -34,6 +34,13 @@ export interface Problem {
   memo?: string;
 }
 
+export interface ProblemInfo {
+  allProblemCount: number;
+  pendingProblemCount: number;
+  solvedProblemCount: number;
+  todayProblemCount: number;
+}
+
 export interface GetProblemListResponse {
   message: string;
   data: Problem[];
