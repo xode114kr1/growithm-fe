@@ -65,6 +65,7 @@ export function useSaveSolvedProblem(problemId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["problem", problemId] });
       queryClient.invalidateQueries({ queryKey: ["problem-list"] });
+      queryClient.invalidateQueries({ queryKey: ["me"] });
     },
   });
 }
