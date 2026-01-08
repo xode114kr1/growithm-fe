@@ -30,7 +30,7 @@ export function useGetProblemList({
   endDate,
 }: getProblemListParams) {
   return useQuery<ProblemListResponse>({
-    queryKey: ["problem-list"],
+    queryKey: ["problem-list", { title, platform, tier, state, size, page, startDate, endDate }],
     queryFn: async () => {
       const res = await getProblemList({
         title,
@@ -44,8 +44,6 @@ export function useGetProblemList({
       });
       return res;
     },
-    staleTime: 1000 * 60,
-    gcTime: 1000 * 60 * 5,
   });
 }
 

@@ -2,6 +2,8 @@ import styled from "styled-components";
 import type { Problem, BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
 import { useNavigate } from "react-router-dom";
 import { TIER_COLOR, TIER_TINT } from "../../../shared/styles/palette";
+import { inWithinDaysFromToday } from "../../../shared/utils/dateUtils";
+import { TbCircleLetterP } from "react-icons/tb";
 
 interface ProblemItemContainerProps {
   tier: BeakjoonTierType | ProgrammersTierType;
@@ -50,6 +52,8 @@ const ProblemTitleRow = styled.div`
 `;
 
 const ProblemTitleText = styled.div`
+  display: flex;
+  align-items: center;
   flex: 1;
   min-width: 0;
   font-size: 21px;
@@ -160,12 +164,19 @@ const WriteButton = styled.button<WriteButtonProps>`
   }
 `;
 
+const StyledTbCircleLetterP = styled(TbCircleLetterP)`
+  color: #22c55e;
+  margin-right: 5px;
+`;
+
 interface ProblemItemProps {
   problem: Problem;
 }
 
 const ProblemItem = ({ problem }: ProblemItemProps) => {
   const navigate = useNavigate();
+
+  const isInWithinDate = inWithinDaysFromToday(problem?.timestamp, 3);
 
   let growithmTier: BeakjoonTierType | ProgrammersTierType;
 
@@ -179,7 +190,10 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
     <ProblemItemContainer tier={growithmTier}>
       <ProblemTitleRow>
         <ProblemTitleText>
-          [{problem?.platform}] {problem?.problemId} - {problem?.title}
+          {isInWithinDate && <StyledTbCircleLetterP size={21} />}
+          <span>
+            [{problem?.platform}] {problem?.problemId} - {problem?.title}
+          </span>
         </ProblemTitleText>
         <TierInfo tier={growithmTier}>{problem?.tier}</TierInfo>
       </ProblemTitleRow>

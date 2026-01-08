@@ -11,6 +11,8 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import StudyShareModal from "./components/StudyShareModal";
+import { inWithinDaysFromToday } from "../../shared/utils/dateUtils";
+import { TbCircleLetterP } from "react-icons/tb";
 
 const SolvedFormContainer = styled.section`
   display: flex;
@@ -22,15 +24,49 @@ const SolvedFormContainer = styled.section`
   background-color: #fff;
 `;
 
-const TitleText = styled.div`
+const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 45px;
-  border-bottom: 1px solid #d1d5db;
+
   width: 100%;
   color: #111827;
   font-weight: 600;
-  padding-bottom: 12px;
+`;
+
+const SubTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 10px;
+  margin-top: 5px;
+  border-bottom: 1px solid #d1d5db;
+
+  flex-wrap: wrap;
+
+  color: #6b7280;
+`;
+
+const MetaChip = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+`;
+
+const TitleText = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const TitleButtonContainer = styled.div`
@@ -170,6 +206,11 @@ const SaveButton = styled.button`
   }
 `;
 
+const StyledTbCircleLetterP = styled(TbCircleLetterP)`
+  color: #22c55e;
+  margin-right: 15px;
+`;
+
 type Mode = "view" | "edit" | "write";
 
 const SolvedFormPage = () => {
@@ -178,6 +219,8 @@ const SolvedFormPage = () => {
   const { mutate: saveSolvedProblemMutation } = useSaveSolvedProblem(problemId as string);
   const { mutate: editSolvedProblemMutation } = useEditSolvedProblem(problemId as string);
   const { data: problem } = useGetProblemById(problemId as string);
+
+  const isInWithinDate = inWithinDaysFromToday(problem?.timestamp, 3);
 
   const [memoInput, setMemoInput] = useState<string>("");
   const MemoTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -231,8 +274,17 @@ const SolvedFormPage = () => {
   return (
     <Wapper>
       <SolvedFormContainer>
-        <TitleText>
-          <span>{problem?.title}</span>
+        <TitleContainer>
+          <TitleText>
+            {isInWithinDate && <StyledTbCircleLetterP size={45} />}
+            <span>{problem?.title}</span>
+          </TitleText>
+        </TitleContainer>
+
+        <SubTitleRow>
+          <MetaChip>
+            [{problem?.platform}] {problem?.problemId}
+          </MetaChip>
           <TitleButtonContainer>
             {isEditable ? (
               <SaveButton onClick={handleSaveButtonClick}>{primaryButtonText}</SaveButton>
@@ -253,7 +305,8 @@ const SolvedFormPage = () => {
               </>
             )}
           </TitleButtonContainer>
-        </TitleText>
+        </SubTitleRow>
+
         <InfoTable>
           <thead>
             <tr>
@@ -312,7 +365,11 @@ const SolvedFormPage = () => {
         </ButtonContanier>
       </SolvedFormContainer>
       {isModalOpen && (
-        <StudyShareModal problemId={problemId as string} onClose={() => setIsModalOpen(false)} />
+        <StudyShareModal
+          problemId={problemId as string}
+          onClose={() => setIsModalOpen(false)}
+          isInWithinDate={isInWithinDate}
+        />
       )}
     </Wapper>
   );
