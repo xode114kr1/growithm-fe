@@ -3,8 +3,7 @@ import type { User } from "../../types/userType";
 import { calculateTier } from "../utils/tier";
 import type { BeakjoonTierType } from "../../types/problemType";
 import { TIER_GRADIENT } from "../styles/palette";
-import { useGetProblemListByUserId } from "../hooks/useProblem";
-import { useMemo } from "react";
+import { useGetProblemInfo } from "../hooks/useProblem";
 
 type ProfileModalProps = {
   member: User;
@@ -137,26 +136,8 @@ const TierContainer = styled.div<TierContainerProps>`
 export default function ProfileModal({ onClose, member }: ProfileModalProps) {
   const stop = (e: React.MouseEvent) => e.stopPropagation();
 
-  const { data: problems } = useGetProblemListByUserId({ userId: member._id });
+  const { data: problemInfo } = useGetProblemInfo({ userId: member._id });
   const tier = calculateTier(member?.score || 0);
-
-  const todaySolved = useMemo(() => {
-    if (!problems) return 0;
-
-    const today = new Date().toISOString().slice(0, 10);
-
-    return problems.reduce((count, problem) => {
-      if (problem.timestamp === today) {
-        return count + 1;
-      }
-      return count;
-    }, 0);
-  }, [problems]);
-
-  const pendingProblems = useMemo(() => {
-    if (!problems) return [];
-    return problems?.filter((item) => item?.state == "pending");
-  }, [problems]);
 
   return (
     <Overlay onClick={onClose}>
@@ -176,19 +157,19 @@ export default function ProfileModal({ onClose, member }: ProfileModalProps) {
 
         <DashboardSection>
           <Stat>
-            <Value>{problems?.length}</Value>
+            <Value>{problemInfo?.allProblemCount}</Value>
             <Label>All</Label>
           </Stat>
           <Stat>
-            <Value>{todaySolved}</Value>
+            <Value>{problemInfo?.todayProblemCount}</Value>
             <Label>Today</Label>
           </Stat>
           <Stat>
-            <Value>{pendingProblems?.length}</Value>
+            <Value>{problemInfo?.pendingProblemCount}</Value>
             <Label>Pending</Label>
           </Stat>
           <Stat>
-            <Value>{(problems?.length || 0) - pendingProblems?.length}</Value>
+            <Value>{problemInfo?.solvedProblemCount}</Value>
             <Label>Solved</Label>
           </Stat>
         </DashboardSection>
