@@ -28,11 +28,40 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 45px;
-  border-bottom: 1px solid #d1d5db;
+
   width: 100%;
   color: #111827;
   font-weight: 600;
-  padding-bottom: 12px;
+`;
+
+const SubTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 10px;
+  margin-top: 5px;
+  border-bottom: 1px solid #d1d5db;
+
+  flex-wrap: wrap;
+
+  color: #6b7280;
+`;
+
+const MetaChip = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
 `;
 
 const TitleText = styled.div`
@@ -250,6 +279,12 @@ const SolvedFormPage = () => {
             {isInWithinDate && <StyledTbCircleLetterP size={45} />}
             <span>{problem?.title}</span>
           </TitleText>
+        </TitleContainer>
+
+        <SubTitleRow>
+          <MetaChip>
+            [{problem?.platform}] {problem?.problemId}
+          </MetaChip>
           <TitleButtonContainer>
             {isEditable ? (
               <SaveButton onClick={handleSaveButtonClick}>{primaryButtonText}</SaveButton>
@@ -270,7 +305,8 @@ const SolvedFormPage = () => {
               </>
             )}
           </TitleButtonContainer>
-        </TitleContainer>
+        </SubTitleRow>
+
         <InfoTable>
           <thead>
             <tr>
