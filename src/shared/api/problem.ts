@@ -57,3 +57,8 @@ export async function getProblemInfo({ userId }: { userId: string }) {
   const res = await apiClient.get(`/problem/info/${userId}`);
   return res.data;
 }
+
+export async function getProblemTierStats() {
+  const res = await apiClient.get("/problem/tier-stats");
+  return res.data;
+}

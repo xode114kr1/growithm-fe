@@ -4,11 +4,14 @@ import ProfileCard from "./components/ProfileCard";
 import PendingItem from "./components/PendingItem";
 import type { GrowithmTierType } from "../../types/problemType";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { useGetProblemInfo, useGetProblemList } from "../../shared/hooks/useProblem";
+import {
+  useGetProblemInfo,
+  useGetProblemList,
+  useGetProblemTierStats,
+} from "../../shared/hooks/useProblem";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { TIER_COLOR } from "../../shared/styles/palette";
-import { getProblemTier } from "../../shared/utils/tier";
 import { useAuthStore } from "../../stores/authStore";
 
 const DashboardContainer = styled.section`
@@ -244,38 +247,20 @@ const DashboardPage = () => {
 
   const user = useAuthStore((s) => s.user);
   const { data: problemInfo } = useGetProblemInfo({ userId: user?._id });
+  const {
+    data: problemTierStats = [
+      { name: "bronze / level 1", value: 0 },
+      { name: "silver / level 2", value: 0 },
+      { name: "gold / level 3", value: 0 },
+      { name: "platinum / level 4", value: 0 },
+      { name: "diamond", value: 0 },
+      { name: "ruby", value: 0 },
+    ],
+  } = useGetProblemTierStats();
 
   const pendingProblems = useMemo(() => {
     if (!problems) return [];
     return problems?.filter((item) => item?.state == "pending");
-  }, [problems]);
-
-  const tierSolvedData: { name: string; value: number }[] = useMemo(() => {
-    if (!problems) return [];
-
-    const counter: Record<GrowithmTierType, number> = {
-      bronze: 0,
-      silver: 0,
-      gold: 0,
-      platinum: 0,
-      diamond: 0,
-      ruby: 0,
-    };
-
-    problems.forEach((problem) => {
-      if (problem.state !== "solved") return;
-
-      const tier = getProblemTier(problem);
-      counter[tier]++;
-    });
-    return [
-      { name: "bronze / level 1", value: counter.bronze },
-      { name: "silver / level 2", value: counter.silver },
-      { name: "gold / level 3", value: counter.gold },
-      { name: "platinum / level 4", value: counter.platinum },
-      { name: "diamond", value: counter.diamond },
-      { name: "ruby", value: counter.ruby },
-    ];
   }, [problems]);
 
   return (
@@ -320,7 +305,7 @@ const DashboardPage = () => {
               <ChartInner>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
-                    data={tierSolvedData}
+                    data={problemTierStats}
                     margin={{ top: 8, right: 8, bottom: 8, left: -10 }}
                   >
                     <XAxis
@@ -334,7 +319,7 @@ const DashboardPage = () => {
                       labelFormatter={(label) => label.toUpperCase()}
                     />
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                      {tierSolvedData.map((entry) => (
+                      {problemTierStats?.map((entry) => (
                         <Cell
                           key={entry.name}
                           fill={TIER_COLOR[entry.name.split(" ")[0] as GrowithmTierType]}
