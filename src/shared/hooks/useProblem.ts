@@ -5,6 +5,7 @@ import {
   getProblemInfo,
   getProblemList,
   getProblemListByUserId,
+  getProblemTierStats,
   saveSolvedProblem,
   shareProblemToStudys,
 } from "../api/problem";
@@ -99,6 +100,7 @@ export function useShareProblemToStudysMutation() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["study"] });
       queryClient.invalidateQueries({ queryKey: ["problem"] });
+      queryClient.invalidateQueries({ queryKey: ["problem-tier-stats"] });
     },
   });
 }
@@ -111,5 +113,15 @@ export function useGetProblemInfo({ userId }: { userId?: string }) {
       return res.data;
     },
     enabled: !!userId,
+  });
+}
+
+export function useGetProblemTierStats() {
+  return useQuery<{ name: string; value: number }[]>({
+    queryKey: ["problem-tier-stats"],
+    queryFn: async () => {
+      const res = await getProblemTierStats();
+      return res.data;
+    },
   });
 }
