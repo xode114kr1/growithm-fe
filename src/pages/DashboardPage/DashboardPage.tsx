@@ -21,6 +21,7 @@ const DashboardContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
   @media (max-width: 1024px) {
     width: 90%;
     padding: 40px 0 48px;
@@ -185,16 +186,76 @@ const ChartInner = styled.div`
   justify-content: center;
 `;
 
-const PendingListContainer = styled.section`
+/** ✅ 여기부터 pending 영역: wrapper(특정 div) + 상단 버튼바 + 리스트 */
+const PendingSection = styled.div`
   grid-area: pending;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const PlatformBar = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const PlatformButtonBase = styled.button`
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  flex: 1;
+  cursor: pointer;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+`;
+
+const BaekjoonButton = styled(PlatformButtonBase)`
+  background: #ffffff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+
+  &:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: #93c5fd;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(59, 130, 246, 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(59, 130, 246, 0.18);
+  }
+`;
+
+const ProgrammersButton = styled(PlatformButtonBase)`
+  background: #111827;
+  color: #f9fafb;
+  border: 1px solid #1f2937;
+
+  &:hover {
+    background: #1f2937;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(17, 24, 39, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(17, 24, 39, 0.25);
+  }
+`;
+
+const PendingListContainer = styled.section`
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
   border: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  /* max-height: 460px; */
-
+  flex: 1;
   @media (max-width: 1280px) {
     max-height: 380px;
   }
@@ -247,6 +308,7 @@ const DashboardPage = () => {
 
   const user = useAuthStore((s) => s.user);
   const { data: problemInfo } = useGetProblemInfo({ userId: user?._id });
+
   const {
     data: problemTierStats = [
       { name: "bronze / level 1", value: 0 },
@@ -260,7 +322,7 @@ const DashboardPage = () => {
 
   const pendingProblems = useMemo(() => {
     if (!problems) return [];
-    return problems?.filter((item) => item?.state == "pending");
+    return problems.filter((item) => item?.state === "pending");
   }, [problems]);
 
   return (
@@ -280,11 +342,13 @@ const DashboardPage = () => {
               <StatValue>{problemInfo?.allProblemCount}</StatValue>
               <StatSubText>성공한 문제</StatSubText>
             </StatCard>
+
             <StatCard onClick={() => navigate("/problem", { state: { initalIsToday: true } })}>
               <StatLabel>Today</StatLabel>
               <StatValue>{problemInfo?.todayProblemCount}</StatValue>
               <StatSubText>오늘 해결한 문제</StatSubText>
             </StatCard>
+
             <StatCard onClick={() => navigate("/problem", { state: { initialState: "pending" } })}>
               <StatLabel>Pending</StatLabel>
               <StatValue>{problemInfo?.pendingProblemCount}</StatValue>
@@ -302,6 +366,7 @@ const DashboardPage = () => {
                 <ChartTitle>티어별 풀이 분포</ChartTitle>
                 <ChartSubtitle>최근 풀이를 기준으로 한 티어 분포</ChartSubtitle>
               </ChartHeader>
+
               <ChartInner>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -319,7 +384,7 @@ const DashboardPage = () => {
                       labelFormatter={(label) => label.toUpperCase()}
                     />
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                      {problemTierStats?.map((entry) => (
+                      {problemTierStats.map((entry) => (
                         <Cell
                           key={entry.name}
                           fill={TIER_COLOR[entry.name.split(" ")[0] as GrowithmTierType]}
@@ -332,19 +397,37 @@ const DashboardPage = () => {
             </ChartBox>
           </DashboardInfoContainer>
 
-          <PendingListContainer>
-            <PendingListTitle>
-              보류 문제
-              <PendingListTitleBadge>{problemInfo?.pendingProblemCount}개</PendingListTitleBadge>
-            </PendingListTitle>
-            <PendingListBox>
-              {pendingProblems && pendingProblems.length > 0 ? (
-                pendingProblems.map((item) => <PendingItem pendingProblem={item} key={item._id} />)
-              ) : (
-                <EmptyPending>보류 중인 문제가 없습니다. 새 문제를 추가해보세요 ✏️</EmptyPending>
-              )}
-            </PendingListBox>
-          </PendingListContainer>
+          <PendingSection>
+            <PlatformBar>
+              <BaekjoonButton onClick={() => window.open("https://www.acmicpc.net", "_blank")}>
+                백준으로 이동
+              </BaekjoonButton>
+              <ProgrammersButton
+                onClick={() =>
+                  window.open("https://school.programmers.co.kr/learn/challenges", "_blank")
+                }
+              >
+                프로그래머스로 이동
+              </ProgrammersButton>
+            </PlatformBar>
+
+            <PendingListContainer>
+              <PendingListTitle>
+                보류 문제
+                <PendingListTitleBadge>{problemInfo?.pendingProblemCount}개</PendingListTitleBadge>
+              </PendingListTitle>
+
+              <PendingListBox>
+                {pendingProblems.length > 0 ? (
+                  pendingProblems.map((item) => (
+                    <PendingItem pendingProblem={item} key={item._id} />
+                  ))
+                ) : (
+                  <EmptyPending>보류 중인 문제가 없습니다. 새 문제를 추가해보세요 ✏️</EmptyPending>
+                )}
+              </PendingListBox>
+            </PendingListContainer>
+          </PendingSection>
         </UserInfoContainer>
       </DashboardContainer>
     </Wapper>
