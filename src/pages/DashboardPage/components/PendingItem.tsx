@@ -1,19 +1,11 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import type { Problem, BeakjoonTierType } from "../../../types/problemType";
+import type { Problem, BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
+import { TIER_COLOR } from "../../../shared/styles/palette";
 
 interface PendingItemContainerProps {
-  tier: BeakjoonTierType;
+  tier: BeakjoonTierType | ProgrammersTierType;
 }
-
-const TIER_COLOR: Record<BeakjoonTierType, string> = {
-  bronze: "#CC8846",
-  silver: "#C0C0C0",
-  gold: "#FFD700",
-  platinum: "#A0FFF0",
-  diamond: "#DDEBFF",
-  ruby: "#FF4F7A",
-};
 
 const PendingItemContainer = styled.div<PendingItemContainerProps>`
   display: flex;
@@ -75,7 +67,14 @@ interface PendingItemProps {
 
 const PendingItem = ({ pendingProblem }: PendingItemProps) => {
   const navigate = useNavigate();
-  const growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
+
+  let growithmTier: BeakjoonTierType | ProgrammersTierType;
+
+  if (pendingProblem?.platform === "programmers") {
+    growithmTier = pendingProblem?.tier as ProgrammersTierType;
+  } else {
+    growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
+  }
 
   return (
     <PendingItemContainer
