@@ -226,7 +226,8 @@ const MenualPage = () => {
           <PageTitle>서비스 연결 가이드</PageTitle>
           <PageDescription>
             아래 순서를 따라 진행하면, 백준 풀이 기록이 GitHub Repo와 이 서비스에 자동으로
-            연동됩니다. 1) GitHub Repo 생성 → 2) 백준 허브 설치 → 3) Repo 정보 등록
+            연동됩니다. <br />
+            1) GitHub Repo 생성 → 2) 백준 허브 설치 → 3) Repo 정보 등록
           </PageDescription>
         </header>
 
