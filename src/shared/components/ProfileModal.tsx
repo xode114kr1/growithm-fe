@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import type { User } from "../../types/userType";
 import { calculateTier } from "../utils/tier";
-import type { BeakjoonTierType } from "../../types/problemType";
+import type { BaekjoonTierType } from "../../types/problemType";
 import { TIER_GRADIENT } from "../styles/palette";
 import { useGetProblemInfo } from "../hooks/useProblem";
 
@@ -117,7 +117,7 @@ const Label = styled.div`
 `;
 
 interface TierContainerProps {
-  tier: BeakjoonTierType;
+  tier: BaekjoonTierType;
 }
 
 const TierContainer = styled.div<TierContainerProps>`

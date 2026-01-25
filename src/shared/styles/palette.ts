@@ -1,10 +1,10 @@
 import type {
-  BeakjoonTierType,
+  BaekjoonTierType,
   GrowithmTierType,
   ProgrammersTierType,
 } from "../../types/problemType";
 
-export const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> = {
+export const TIER_COLOR: Record<BaekjoonTierType | ProgrammersTierType, string> = {
   bronze: "#CC8846",
   silver: "#C0C0C0",
   gold: "#FFD700",
@@ -18,7 +18,7 @@ export const TIER_COLOR: Record<BeakjoonTierType | ProgrammersTierType, string> 
   "level 4": "#A0FFF0",
 };
 
-export const TIER_TINT: Record<BeakjoonTierType | ProgrammersTierType, string> = {
+export const TIER_TINT: Record<BaekjoonTierType | ProgrammersTierType, string> = {
   bronze: "#FFF3E8",
   silver: "#F3F4F6",
   gold: "#FFFAE6",
@@ -50,7 +50,7 @@ export const TIER_PROGRESS_COLOR: Record<GrowithmTierType, string> = {
   ruby: "#FF3760",
 };
 
-export const TIER_GRADIENT: Record<BeakjoonTierType, string> = {
+export const TIER_GRADIENT: Record<BaekjoonTierType, string> = {
   bronze: "linear-gradient(135deg, #CC8846, #9E6430)",
   silver: "linear-gradient(135deg, #D9D9D9, #A6A6A6)",
   gold: "linear-gradient(135deg, #FFE56E, #D9B300)",

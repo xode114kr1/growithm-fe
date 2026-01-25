@@ -180,8 +180,18 @@ const StudyProblemPage = () => {
   const [tier, setTier] = useState<string>("");
   const [titleKeyword, setTitleKeyword] = useState<string>("");
   const [user, setUser] = useState<string>("");
-  const platformCategory = ["beakjoon", "programmers"];
-  const tierCategory = study?.problems?.map((item) => item?.tier);
+
+  const platformCategory = ["baekjoon", "programmers"];
+  const baekjoonTier = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"];
+  const programmersTier = ["level 1", "level 2", "level 3", "level 4"];
+
+  const tierCategory =
+    platform === ""
+      ? [...baekjoonTier, ...programmersTier]
+      : platform === "baekjoon"
+        ? baekjoonTier
+        : programmersTier;
+
   const userCategory = study?.members?.map((item) => item?.name);
 
   const filteredProblems = useMemo(() => {
@@ -189,7 +199,7 @@ const StudyProblemPage = () => {
 
     return list.filter((p) => {
       const passPlatform = !platform || p?.platform === platform;
-      const passTier = !tier || p?.tier === tier;
+      const passTier = !tier || p?.tier.includes(tier);
       const passTitle = !titleKeyword || p?.title.includes(titleKeyword);
       const passUser = !user || p?.userId?.name === user;
 

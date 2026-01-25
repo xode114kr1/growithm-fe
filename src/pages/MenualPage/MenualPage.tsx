@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Wapper from "../../shared/styles/Wapper";
 import createRepoImg from "../../assets/create_repo_img.png";
-import beakjoonHubImg from "../../assets/beakjoon_hub_img.png";
+import baekjoonHubImg from "../../assets/baekjoon_hub_img.png";
 import { useChainingWebhook } from "../../shared/hooks/useGithub";
 import { useNavigate } from "react-router-dom";
 
@@ -292,7 +292,7 @@ const MenualPage = () => {
 
           <StepRight>
             <ImageFrame>
-              <img src={beakjoonHubImg} alt="백준 허브 확장프로그램 설치/연동 예시" />
+              <img src={baekjoonHubImg} alt="백준 허브 확장프로그램 설치/연동 예시" />
             </ImageFrame>
           </StepRight>
         </StepCard>

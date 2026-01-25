@@ -12,7 +12,7 @@ export async function getProblemList({
   startDate,
   endDate,
 }: getProblemListParams) {
-  const res = await apiClient.get("/problem", {
+  const res = await apiClient.get("/problems/me", {
     params: { title, platform, tier, state, page, size, startDate, endDate },
   });
   return res.data;
@@ -29,22 +29,22 @@ interface shareProblemToStudysProps {
 }
 
 export async function editSolvedProblem({ problemId, memo }: createSolvedProps) {
-  const res = await apiClient.patch(`/problem/edit/${problemId}`, { memo });
+  const res = await apiClient.patch(`/problems/${problemId}/edit`, { memo });
   return res.data;
 }
 
 export async function saveSolvedProblem({ problemId, memo }: createSolvedProps) {
-  const res = await apiClient.patch(`/problem/solved/${problemId}`, { memo });
+  const res = await apiClient.patch(`/problems/${problemId}/write`, { memo });
   return res.data;
 }
 
 export async function getProblemListByUserId({ userId }: { userId: string }) {
-  const res = await apiClient.get(`/problem/list/${userId}`);
+  const res = await apiClient.get(`/problems/users/${userId}`);
   return res.data;
 }
 
 export async function getProblemById(problemId: string): Promise<ResponseData<Problem>> {
-  const res = await apiClient.get(`/problem/${problemId}`);
+  const res = await apiClient.get(`/problems/${problemId}`);
   return res.data;
 }
 
@@ -54,11 +54,11 @@ export async function shareProblemToStudys({ problemId, studyIds }: shareProblem
 }
 
 export async function getProblemInfo({ userId }: { userId: string }) {
-  const res = await apiClient.get(`/problem/info/${userId}`);
+  const res = await apiClient.get(`/users/${userId}/problem-info`);
   return res.data;
 }
 
 export async function getProblemTierStats() {
-  const res = await apiClient.get("/problem/tier-stats");
+  const res = await apiClient.get("/problems/me/tier-stats");
   return res.data;
 }

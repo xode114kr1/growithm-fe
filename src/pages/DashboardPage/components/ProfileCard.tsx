@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useAuthStore } from "../../../stores/authStore";
 import { calculateTier } from "../../../shared/utils/tier";
-import type { BeakjoonTierType } from "../../../types/problemType";
+import type { BaekjoonTierType } from "../../../types/problemType";
 import { TIER_GRADIENT } from "../../../shared/styles/palette";
 import TierProgressHover, { ProgressCard } from "./TierProgressHover";
 
@@ -10,7 +10,7 @@ interface ProfileProps {
 }
 
 interface TierContainerProps {
-  tier: BeakjoonTierType;
+  tier: BaekjoonTierType;
 }
 
 const ProfileCardContainer = styled.div`
