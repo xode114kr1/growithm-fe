@@ -7,7 +7,7 @@ interface createStudyProps {
 }
 
 export async function getStudyList() {
-  const res = await apiClient.get("/study");
+  const res = await apiClient.get("/studies/me");
   return res.data;
 }
 
@@ -17,18 +17,18 @@ interface getStudyByIdProps {
 
 export async function getStudyById({ studyId }: getStudyByIdProps) {
   if (!studyId) return;
-  const res = await apiClient.get(`/study/${studyId}`);
+  const res = await apiClient.get(`/studies/${studyId}`);
   return res.data;
 }
 
 export async function createStudy({ title, explanation, members }: createStudyProps) {
-  const res = await apiClient.post("/study", { title, explanation, members });
+  const res = await apiClient.post("/studies", { title, explanation, members });
   console.log(res.data);
   return res.data;
 }
 
 export async function deleteStudy({ studyId }: { studyId: string }) {
-  const res = await apiClient.delete(`/study/${studyId}`);
+  const res = await apiClient.delete(`/studies/${studyId}`);
   return res.data;
 }
 
@@ -38,11 +38,22 @@ interface getStudyUserScoreByIdProps {
 
 export async function getStudyUserScoreById({ studyId }: getStudyUserScoreByIdProps) {
   if (!studyId) return;
-  const res = await apiClient.get(`/study/user-score/${studyId}`);
+  const res = await apiClient.get(`/studies/${studyId}/user-score`);
   return res.data;
 }
 
 export async function leaveStudy({ studyId }: { studyId: string }) {
-  const res = await apiClient.delete(`/study/${studyId}/leave`);
+  const res = await apiClient.delete(`/studies/${studyId}/members/me`);
+  return res.data;
+}
+
+export async function deleteStudyMemberById({
+  studyId,
+  deleteUserId,
+}: {
+  studyId: string;
+  deleteUserId: string;
+}) {
+  const res = await apiClient.delete(`/studies/${studyId}/members/${deleteUserId}`);
   return res.data;
 }

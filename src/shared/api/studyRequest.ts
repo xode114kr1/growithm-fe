@@ -15,7 +15,7 @@ export async function sendStudyRequest({
   studyId: string;
   inviteUserName: string;
 }) {
-  const res = await apiClient.post(`/study/${studyId}/send`, { inviteUserName });
+  const res = await apiClient.post(`/studies/${studyId}/send`, { inviteUserName });
   return res.data;
 }
 
