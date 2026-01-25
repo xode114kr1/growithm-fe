@@ -329,15 +329,15 @@ const ProblemListPage = () => {
     totalPages: 1,
   };
 
-  const platformCategory = ["beakjoon", "programmers"];
-  const beakjoonTier = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"];
+  const platformCategory = ["baekjoon", "programmers"];
+  const baekjoonTier = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"];
   const programmersTier = ["level 1", "level 2", "level 3", "level 4"];
 
   const tierCategory =
     platform === ""
-      ? [...beakjoonTier, ...programmersTier]
-      : platform === "beakjoon"
-        ? beakjoonTier
+      ? [...baekjoonTier, ...programmersTier]
+      : platform === "baekjoon"
+        ? baekjoonTier
         : programmersTier;
 
   const problemCount = data?.total ?? 0;

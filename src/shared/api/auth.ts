@@ -14,7 +14,7 @@ export const GITHUB_AUTH_URL =
 export async function login(code: string): Promise<{ data: User }> {
   if (!code) throw new Error("인가 코드가 없습니다.");
   const res = await apiClient.post<{ data: User; accessToken: string }>(
-    "/auth/github/callback",
+    "/auth/github",
     { code },
     { withCredentials: true }
   );
@@ -24,12 +24,12 @@ export async function login(code: string): Promise<{ data: User }> {
 }
 
 export async function logout() {
-  const res = await apiClient.post("/user/logout");
+  const res = await apiClient.post("/auth/logout");
   sessionStorage.removeItem("accessToken");
   return res.data;
 }
 
 export async function fetchMe(): Promise<{ data: User }> {
-  const res = await apiClient.get("/auth/me");
+  const res = await apiClient.get("/auth/refresh");
   return res.data;
 }

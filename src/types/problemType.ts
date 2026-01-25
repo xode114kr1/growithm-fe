@@ -1,8 +1,8 @@
 import type { User } from "./userType";
 
 export type ProblemState = "all" | "pending" | "solved";
-export type BeakjoonTierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
-export type GrowithmTierType = BeakjoonTierType;
+export type BaekjoonTierType = "bronze" | "silver" | "gold" | "platinum" | "diamond" | "ruby";
+export type GrowithmTierType = BaekjoonTierType;
 export type ProgrammersTierType = "level 1" | "level 2" | "level 3" | "level 4";
 
 export interface getProblemListParams {

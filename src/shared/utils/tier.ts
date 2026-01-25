@@ -67,7 +67,7 @@ export const TIER_RULES: {
 // 문제 티어
 
 export function getProblemTier(problem: Problem): GrowithmTierType {
-  if (problem?.platform == "beakjoon") {
+  if (problem?.platform == "baekjoon") {
     return problem.tier.split(" ")[0].toLowerCase() as GrowithmTierType;
   } else if (problem?.platform == "programmers") {
     if (problem.tier == "level 1") return "bronze";

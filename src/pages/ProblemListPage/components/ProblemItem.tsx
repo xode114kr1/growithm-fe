@@ -1,16 +1,16 @@
 import styled from "styled-components";
-import type { Problem, BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
+import type { Problem, BaekjoonTierType, ProgrammersTierType } from "../../../types/problemType";
 import { useNavigate } from "react-router-dom";
 import { TIER_COLOR, TIER_TINT } from "../../../shared/styles/palette";
 import { inWithinDaysFromToday } from "../../../shared/utils/dateUtils";
 import { TbCircleLetterP } from "react-icons/tb";
 
 interface ProblemItemContainerProps {
-  tier: BeakjoonTierType | ProgrammersTierType;
+  tier: BaekjoonTierType | ProgrammersTierType;
 }
 
 interface TierInfoProps {
-  tier: BeakjoonTierType | ProgrammersTierType;
+  tier: BaekjoonTierType | ProgrammersTierType;
 }
 
 interface WriteButtonProps {
@@ -178,12 +178,12 @@ const ProblemItem = ({ problem }: ProblemItemProps) => {
 
   const isInWithinDate = inWithinDaysFromToday(problem?.timestamp, 3);
 
-  let growithmTier: BeakjoonTierType | ProgrammersTierType;
+  let growithmTier: BaekjoonTierType | ProgrammersTierType;
 
   if (problem?.platform === "programmers") {
     growithmTier = problem?.tier as ProgrammersTierType;
   } else {
-    growithmTier = problem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
+    growithmTier = problem?.tier.split(" ")[0].toLowerCase() as BaekjoonTierType;
   }
 
   return (

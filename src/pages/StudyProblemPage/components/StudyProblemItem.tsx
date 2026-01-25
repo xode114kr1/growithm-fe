@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { BeakjoonTierType, Problem, ProgrammersTierType } from "../../../types/problemType";
+import type { BaekjoonTierType, Problem, ProgrammersTierType } from "../../../types/problemType";
 import { TIER_COLOR, TIER_TINT } from "../../../shared/styles/palette";
 import { getProblemTier } from "../../../shared/utils/tier";
 import StudyProblemDetailModal from "./StudyProblemDetailModal";
@@ -34,7 +34,7 @@ const StudyProblemItemContainer = styled.div`
 `;
 
 interface AccentProps {
-  tier: BeakjoonTierType | ProgrammersTierType;
+  tier: BaekjoonTierType | ProgrammersTierType;
 }
 
 const Accent = styled.div<AccentProps>`
@@ -99,7 +99,7 @@ const User = styled.span`
 `;
 
 interface TierInfoProps {
-  tier: BeakjoonTierType | ProgrammersTierType;
+  tier: BaekjoonTierType | ProgrammersTierType;
 }
 
 const TierInfo = styled.div<TierInfoProps>`
