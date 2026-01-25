@@ -49,7 +49,7 @@ export async function getProblemById(problemId: string): Promise<ResponseData<Pr
 }
 
 export async function shareProblemToStudys({ problemId, studyIds }: shareProblemToStudysProps) {
-  const res = await apiClient.post("/problem/share", { problemId, studyIds });
+  const res = await apiClient.post(`/problems/${problemId}/share`, { studyIds });
   return res.data;
 }
 
