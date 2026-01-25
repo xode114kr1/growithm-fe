@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import type { Problem, BeakjoonTierType, ProgrammersTierType } from "../../../types/problemType";
+import type { Problem, BaekjoonTierType, ProgrammersTierType } from "../../../types/problemType";
 import { TIER_COLOR } from "../../../shared/styles/palette";
 
 interface PendingItemContainerProps {
-  tier: BeakjoonTierType | ProgrammersTierType;
+  tier: BaekjoonTierType | ProgrammersTierType;
 }
 
 const PendingItemContainer = styled.div<PendingItemContainerProps>`
@@ -68,12 +68,12 @@ interface PendingItemProps {
 const PendingItem = ({ pendingProblem }: PendingItemProps) => {
   const navigate = useNavigate();
 
-  let growithmTier: BeakjoonTierType | ProgrammersTierType;
+  let growithmTier: BaekjoonTierType | ProgrammersTierType;
 
   if (pendingProblem?.platform === "programmers") {
     growithmTier = pendingProblem?.tier as ProgrammersTierType;
   } else {
-    growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as BeakjoonTierType;
+    growithmTier = pendingProblem?.tier.split(" ")[0].toLowerCase() as BaekjoonTierType;
   }
 
   return (

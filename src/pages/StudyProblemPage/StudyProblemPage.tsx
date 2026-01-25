@@ -180,7 +180,7 @@ const StudyProblemPage = () => {
   const [tier, setTier] = useState<string>("");
   const [titleKeyword, setTitleKeyword] = useState<string>("");
   const [user, setUser] = useState<string>("");
-  const platformCategory = ["beakjoon", "programmers"];
+  const platformCategory = ["baekjoon", "programmers"];
   const tierCategory = study?.problems?.map((item) => item?.tier);
   const userCategory = study?.members?.map((item) => item?.name);
 
