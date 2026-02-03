@@ -302,7 +302,7 @@ const EmptyPending = styled.div`
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { data } = useGetProblemList({});
+  const { data } = useGetProblemList({ state: "pending" });
 
   const { data: problems } = data ?? { data: [] };
 
