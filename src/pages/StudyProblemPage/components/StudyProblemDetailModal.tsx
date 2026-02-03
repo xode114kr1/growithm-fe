@@ -156,6 +156,12 @@ const ProblemBody = styled.div`
   font-size: 15px;
   color: #374151;
   line-height: 1.6;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 `;
 
 const SectionTitle = styled.h3`
