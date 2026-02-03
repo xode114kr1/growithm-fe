@@ -451,12 +451,15 @@ const StudyOverviewPage = () => {
 
             <ProblemList>
               {problemLength
-                ? study?.problems.slice(-10).map((p) => (
-                    <ProblemRow key={p.title}>
-                      <ProblemTierDot tier={getProblemTier(p)} />
-                      <ProblemTitle>{p.title}</ProblemTitle>
-                    </ProblemRow>
-                  ))
+                ? study?.problems
+                    .slice(-10)
+                    .reverse()
+                    .map((p) => (
+                      <ProblemRow key={p.title}>
+                        <ProblemTierDot tier={getProblemTier(p)} />
+                        <ProblemTitle>{p.title}</ProblemTitle>
+                      </ProblemRow>
+                    ))
                 : null}
             </ProblemList>
           </Card>

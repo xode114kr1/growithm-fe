@@ -252,7 +252,7 @@ const StudyProblemPage = () => {
         </RightFilterArea>
       </FilterContainer>
       <ProblemItemList>
-        {filteredProblems?.map((problem) => (
+        {filteredProblems?.reverse().map((problem) => (
           <StudyProblemItem problem={problem} key={problem._id} />
         ))}
       </ProblemItemList>
