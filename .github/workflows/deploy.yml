@@ -23,6 +23,7 @@ jobs:
 
       - name: Create production env file
         run: |
+          echo "VITE_API_URL=${{ vars.VITE_API_URL }}" >> .env.production
           echo "VITE_GITHUB_CLIENT_ID=${{ vars.VITE_GITHUB_CLIENT_ID }}" >> .env.production
           echo "VITE_GITHUB_REDIRECT_URI=${{ vars.VITE_GITHUB_REDIRECT_URI }}" >> .env.production
           echo "VITE_GITHUB_SCOPE=${{ vars.VITE_GITHUB_SCOPE }}" >> .env.production
