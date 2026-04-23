@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useFetchMe } from "../shared/hooks/useAuth";
 import { useAuthStore } from "../stores/authStore";
 import { useEffect } from "react";
+import SeoManager from "../shared/components/SeoManager";
 
 function App() {
   const { data: user } = useFetchMe();
@@ -15,7 +16,12 @@ function App() {
       setUser(user);
     }
   }, [user, setUser]);
-  return <AppRouter />;
+  return (
+    <>
+      <SeoManager />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;
